@@ -1,0 +1,16 @@
+//
+//  PrefixHeader.pch
+//  ZegoExpressExample-macOS-OC
+//
+//  Created by Patrick Fu on 2019/10/25.
+//  Copyright © 2019 Zego. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import "ModuleCompileDefine.h"
+#import "NSObject+Persistence.h"
+#import "ZegoLog.h"
+
+#endif /* PrefixHeader_pch */

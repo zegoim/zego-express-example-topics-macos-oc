@@ -34,6 +34,8 @@
 		86D96F30238CC5CA004BF81D /* ZGTestTopicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D96F2E238CC5CA004BF81D /* ZGTestTopicManager.m */; };
 		86DC208A23FA71CF00984B16 /* ZegoExpressEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8608C3702362F56300CE367B /* ZegoExpressEngine.framework */; };
 		86DC208B23FA71CF00984B16 /* ZegoExpressEngine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8608C3702362F56300CE367B /* ZegoExpressEngine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		86DC208F23FA85A000984B16 /* QuickStart.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86DC208E23FA85A000984B16 /* QuickStart.storyboard */; };
+		86DC209223FA863300984B16 /* ZGQuickStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DC209123FA863300984B16 /* ZGQuickStartViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -104,6 +106,9 @@
 		86BB70802363364700FF2608 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		86D96F2E238CC5CA004BF81D /* ZGTestTopicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGTestTopicManager.m; sourceTree = "<group>"; };
 		86D96F2F238CC5CA004BF81D /* ZGTestTopicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGTestTopicManager.h; sourceTree = "<group>"; };
+		86DC208E23FA85A000984B16 /* QuickStart.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = QuickStart.storyboard; sourceTree = "<group>"; };
+		86DC209023FA863300984B16 /* ZGQuickStartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGQuickStartViewController.h; sourceTree = "<group>"; };
+		86DC209123FA863300984B16 /* ZGQuickStartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGQuickStartViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,9 +241,20 @@
 		86C7564C238417E10059F9EA /* Topics */ = {
 			isa = PBXGroup;
 			children = (
+				86DC208D23FA851D00984B16 /* QuickStart */,
 				8608C39123631A1C00CE367B /* APITest */,
 			);
 			path = Topics;
+			sourceTree = "<group>";
+		};
+		86DC208D23FA851D00984B16 /* QuickStart */ = {
+			isa = PBXGroup;
+			children = (
+				86DC208E23FA85A000984B16 /* QuickStart.storyboard */,
+				86DC209023FA863300984B16 /* ZGQuickStartViewController.h */,
+				86DC209123FA863300984B16 /* ZGQuickStartViewController.m */,
+			);
+			path = QuickStart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -302,6 +318,7 @@
 				8608C4AD2363316E00CE367B /* Test.storyboard in Resources */,
 				8608C32E2362EEBD00CE367B /* Assets.xcassets in Resources */,
 				8608C4AF2363318E00CE367B /* MainMenu.xib in Resources */,
+				86DC208F23FA85A000984B16 /* QuickStart.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +350,7 @@
 				8608C499236330E600CE367B /* ZegoTTYLogger.m in Sources */,
 				8608C496236330E600CE367B /* ZGURLDefine.m in Sources */,
 				8608C3292362EEBB00CE367B /* AppDelegate.m in Sources */,
+				86DC209223FA863300984B16 /* ZGQuickStartViewController.m in Sources */,
 				8608C497236330E600CE367B /* ZegoLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

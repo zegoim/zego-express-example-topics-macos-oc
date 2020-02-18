@@ -40,14 +40,17 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
     
     NSMutableArray *topicList = [NSMutableArray array];
     
-//#ifdef _Module_Publish
-//    [topicList addObject:_Module_Publish];
-//#endif
-//#ifdef _Module_Play
-//    [topicList addObject:_Module_Play];
-//#endif
+#ifdef _Module_QuickStart
+    [topicList addObject:_Module_QuickStart];
+#endif
 #ifdef _Module_Test
     [topicList addObject:_Module_Test];
+#endif
+#ifdef _Module_Publish
+    [topicList addObject:_Module_Publish];
+#endif
+#ifdef _Module_Play
+    [topicList addObject:_Module_Play];
 #endif
 #ifdef _Module_MediaPlayer
     [topicList addObject:_Module_MediaPlayer];
@@ -103,6 +106,12 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
     [self.currentController.view removeFromSuperview];
     
     NSViewController* vc = nil;
+    
+#ifdef _Module_QuickStart
+    if ([topic isEqualToString:_Module_QuickStart]) {
+        vc = [[NSStoryboard storyboardWithName:@"QuickStart" bundle:nil] instantiateInitialController];
+    }
+#endif
     
 #ifdef _Module_Test
     if ([topic isEqualToString:_Module_Test]) {

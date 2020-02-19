@@ -43,6 +43,9 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 #ifdef _Module_QuickStart
     [topicList addObject:_Module_QuickStart];
 #endif
+#ifdef _Module_VideoTalk
+    [topicList addObject:_Module_VideoTalk];
+#endif
 #ifdef _Module_Test
     [topicList addObject:_Module_Test];
 #endif
@@ -110,6 +113,12 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 #ifdef _Module_QuickStart
     if ([topic isEqualToString:_Module_QuickStart]) {
         vc = [[NSStoryboard storyboardWithName:@"QuickStart" bundle:nil] instantiateInitialController];
+    }
+#endif
+    
+#ifdef _Module_VideoTalk
+    if ([topic isEqualToString:_Module_VideoTalk]) {
+        vc = [[NSStoryboard storyboardWithName:@"VideoTalk" bundle:nil] instantiateInitialController];
     }
 #endif
     

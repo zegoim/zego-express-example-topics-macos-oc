@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="LVr-Wh-x77">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Video Talk View Controller-->
+        <scene sceneID="FWi-sE-fAL">
+            <objects>
+                <viewController id="LVr-Wh-x77" customClass="ZGVideoTalkViewController" sceneMemberID="viewController">
+                    <view key="view" id="KIh-Ot-3k3">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="550"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="lPw-Gd-xpT" customClass="NSFlippedView">
+                                <rect key="frame" x="0.0" y="50" width="400" height="500"/>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="lbc-X4-z0t">
+                                <rect key="frame" x="0.0" y="0.0" width="400" height="50"/>
+                                <subviews>
+                                    <box boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="8tH-wH-4sO">
+                                        <rect key="frame" x="0.0" y="0.0" width="400" height="50"/>
+                                        <view key="contentView" id="uGi-C3-C90">
+                                            <rect key="frame" x="1" y="1" width="398" height="48"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </view>
+                                        <color key="fillColor" name="underPageBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </box>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uzy-AY-RjQ">
+                                        <rect key="frame" x="28" y="16" width="69" height="18"/>
+                                        <buttonCell key="cell" type="check" title="Camera" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="oFL-In-wIc">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="onToggleCameraCheckBox:" target="LVr-Wh-x77" id="daH-tR-q7J"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j2B-wt-mww">
+                                        <rect key="frame" x="153" y="16" width="94" height="18"/>
+                                        <buttonCell key="cell" type="check" title="Microphone" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="zcc-yC-Ztq">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="onToggleMicrophoneCheckBox:" target="LVr-Wh-x77" id="HH6-IN-cRH"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dXn-sr-47p">
+                                        <rect key="frame" x="273" y="16" width="99" height="18"/>
+                                        <buttonCell key="cell" type="check" title="AudioOutput" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="cSG-1K-gUE">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="onToggleAudioOutputCheckBox:" target="LVr-Wh-x77" id="QP9-wN-EhD"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="0lp-gI-776"/>
+                                    <constraint firstItem="8tH-wH-4sO" firstAttribute="top" secondItem="lbc-X4-z0t" secondAttribute="top" id="8Ar-Yn-iZJ"/>
+                                    <constraint firstItem="8tH-wH-4sO" firstAttribute="leading" secondItem="lbc-X4-z0t" secondAttribute="leading" id="8PC-lJ-mCw"/>
+                                    <constraint firstItem="dXn-sr-47p" firstAttribute="centerY" secondItem="lbc-X4-z0t" secondAttribute="centerY" id="O1d-eZ-8Ve"/>
+                                    <constraint firstAttribute="bottom" secondItem="8tH-wH-4sO" secondAttribute="bottom" id="Tni-Tk-BhM"/>
+                                    <constraint firstItem="j2B-wt-mww" firstAttribute="centerX" secondItem="lbc-X4-z0t" secondAttribute="centerX" id="WuG-85-21N"/>
+                                    <constraint firstItem="uzy-AY-RjQ" firstAttribute="centerY" secondItem="lbc-X4-z0t" secondAttribute="centerY" id="gXR-zL-haP"/>
+                                    <constraint firstItem="uzy-AY-RjQ" firstAttribute="leading" secondItem="lbc-X4-z0t" secondAttribute="leading" constant="30" id="kVY-no-EwW"/>
+                                    <constraint firstAttribute="trailing" secondItem="dXn-sr-47p" secondAttribute="trailing" constant="30" id="p3V-Ho-xRh"/>
+                                    <constraint firstAttribute="trailing" secondItem="8tH-wH-4sO" secondAttribute="trailing" id="t6e-hE-9NL"/>
+                                    <constraint firstItem="j2B-wt-mww" firstAttribute="centerY" secondItem="lbc-X4-z0t" secondAttribute="centerY" id="x8M-Gt-tPG"/>
+                                </constraints>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="lbc-X4-z0t" firstAttribute="leading" secondItem="KIh-Ot-3k3" secondAttribute="leading" id="2zo-37-9zL"/>
+                            <constraint firstItem="lbc-X4-z0t" firstAttribute="top" secondItem="lPw-Gd-xpT" secondAttribute="bottom" id="ESR-Kf-bFQ"/>
+                            <constraint firstAttribute="bottom" secondItem="lbc-X4-z0t" secondAttribute="bottom" id="bb5-LV-GuB"/>
+                            <constraint firstAttribute="trailing" secondItem="lbc-X4-z0t" secondAttribute="trailing" id="bfE-uB-feE"/>
+                            <constraint firstItem="lPw-Gd-xpT" firstAttribute="top" secondItem="KIh-Ot-3k3" secondAttribute="top" id="n2d-MP-y7g"/>
+                            <constraint firstAttribute="trailing" secondItem="lPw-Gd-xpT" secondAttribute="trailing" id="sbZ-sy-LPz"/>
+                            <constraint firstItem="lPw-Gd-xpT" firstAttribute="leading" secondItem="KIh-Ot-3k3" secondAttribute="leading" id="xRq-Ai-Vba"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="audioOutputCheckBox" destination="dXn-sr-47p" id="fxW-Rs-T4p"/>
+                        <outlet property="cameraCheckBox" destination="uzy-AY-RjQ" id="9bj-aD-wHw"/>
+                        <outlet property="containerView" destination="lPw-Gd-xpT" id="aOM-UQ-i5D"/>
+                        <outlet property="microphoneCheckBox" destination="j2B-wt-mww" id="hOz-s3-q9Z"/>
+                    </connections>
+                </viewController>
+                <customObject id="7Xs-Qf-skd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-20" y="307"/>
+        </scene>
+    </scenes>
+</document>

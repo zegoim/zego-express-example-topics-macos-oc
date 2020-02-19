@@ -1,6 +1,6 @@
 //
 //  ZGAppGlobalConfig.m
-//  ZegoExpressExample
+//  ZegoExpressExample-macOS-OC
 //
 //  Created by jeffreypeng on 2019/8/6.
 //  Copyright © 2019 Zego. All rights reserved.
@@ -28,9 +28,14 @@
         obj.appSign = appSign;
     }
     
-    id env = dic[NSStringFromSelector(@selector(environment))];
-    if ([self checkIsNSStringOrNSNumber:env]) {
-        obj.environment = [env integerValue];
+    id isTestEnv = dic[NSStringFromSelector(@selector(isTestEnv))];
+    if ([self checkIsNSStringOrNSNumber:isTestEnv]) {
+        obj.isTestEnv = [isTestEnv boolValue];
+    }
+    
+    id scenario = dic[NSStringFromSelector(@selector(scenario))];
+    if ([self checkIsNSStringOrNSNumber:scenario]) {
+        obj.scenario = [scenario integerValue];
     }
     
     return obj;
@@ -41,7 +46,8 @@
     
     dic[NSStringFromSelector(@selector(appID))] = @(self.appID);
     dic[NSStringFromSelector(@selector(appSign))] = self.appSign ? self.appSign : @"";
-    dic[NSStringFromSelector(@selector(environment))] = @(self.environment);
+    dic[NSStringFromSelector(@selector(isTestEnv))] = @(self.isTestEnv);
+    dic[NSStringFromSelector(@selector(scenario))] = @(self.scenario);
     
     return [dic copy];
 }

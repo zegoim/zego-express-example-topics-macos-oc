@@ -23,19 +23,18 @@
 @property (weak) IBOutlet NSView *remotePlayView;
 
 // CreateEngine
-@property (nonatomic, assign) BOOL isTestEnv;
+@property (assign) BOOL isTestEnv;
 @property (weak) IBOutlet NSTextField *appIDLabel;
 @property (weak) IBOutlet NSTextField *appSignLabel;
 @property (weak) IBOutlet NSTextField *isTestEnvLabel;
 @property (weak) IBOutlet NSButton *createEngineButton;
 
 // LoginRoom
-@property (nonatomic, copy) NSString *roomID;
-@property (nonatomic, copy) NSString *userID;
+@property (copy) NSString *roomID;
+@property (copy) NSString *userID;
 @property (weak) IBOutlet NSTextField *roomIDLabel;
 @property (weak) IBOutlet NSTextField *userIDLabel;
 @property (weak) IBOutlet NSButton *loginRoomButton;
-
 
 // PublishStream
 @property (weak) IBOutlet NSTextField *publishStreamIDTextField;
@@ -48,6 +47,8 @@
 @end
 
 @implementation ZGQuickStartViewController
+
+#pragma mark - Setup
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -218,6 +219,7 @@
 
 #pragma mark - Helper Methods
 
+/// Append Log to Top View
 - (void)appendLog:(NSString *)tipText {
     if (!tipText || tipText.length == 0) {
         return;

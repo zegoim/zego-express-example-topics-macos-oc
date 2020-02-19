@@ -23,7 +23,7 @@ NSString* const ZGTestTopicKey_BeautifyFeature = @"kBeautifyFeature";
 
 @interface ZGTestMainViewController () <ZGTestDataSource>
 
-@property (nonatomic, strong) ZGTestTopicManager *manager;
+@property (strong) ZGTestTopicManager *manager;
 
 @property (weak) IBOutlet NSView *publishView;
 @property (weak) IBOutlet NSView *playView;
@@ -90,7 +90,7 @@ NSString* const ZGTestTopicKey_BeautifyFeature = @"kBeautifyFeature";
     self.logTextView.backgroundColor = [NSColor colorWithWhite:0.0 alpha:0.2];
     self.logTextView.textColor = [NSColor whiteColor];
     
-    ZGAppGlobalConfig *appConfig = [[ZGAppGlobalConfigManager sharedInstance] globalConfig];
+    ZGAppGlobalConfig *appConfig = [[ZGAppGlobalConfigManager sharedManager] globalConfig];
     
     self.appIDTextField.stringValue = [NSString stringWithFormat:@"%d", appConfig.appID];
     self.appSignTextField.stringValue = appConfig.appSign;

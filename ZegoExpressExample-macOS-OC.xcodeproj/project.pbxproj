@@ -31,11 +31,15 @@
 		8608C4AD2363316E00CE367B /* Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8608C4AC2363316E00CE367B /* Test.storyboard */; };
 		8608C4AF2363318E00CE367B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8608C4AE2363318E00CE367B /* MainMenu.xib */; };
 		8608C4B2236331D500CE367B /* ZGTopicsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608C4B1236331D500CE367B /* ZGTopicsTableViewController.m */; };
+		86B6BECC23FCE389008DFDE3 /* NSFlippedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B6BECB23FCE389008DFDE3 /* NSFlippedView.m */; };
 		86D96F30238CC5CA004BF81D /* ZGTestTopicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D96F2E238CC5CA004BF81D /* ZGTestTopicManager.m */; };
 		86DC208A23FA71CF00984B16 /* ZegoExpressEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8608C3702362F56300CE367B /* ZegoExpressEngine.framework */; };
 		86DC208B23FA71CF00984B16 /* ZegoExpressEngine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8608C3702362F56300CE367B /* ZegoExpressEngine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		86DC208F23FA85A000984B16 /* QuickStart.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86DC208E23FA85A000984B16 /* QuickStart.storyboard */; };
 		86DC209223FA863300984B16 /* ZGQuickStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DC209123FA863300984B16 /* ZGQuickStartViewController.m */; };
+		86DC20BB23FBCFEB00984B16 /* VideoTalk.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86DC20BA23FBCFEB00984B16 /* VideoTalk.storyboard */; };
+		86DC20BE23FBD00900984B16 /* ZGVideoTalkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DC20BD23FBD00900984B16 /* ZGVideoTalkViewController.m */; };
+		86DC20C123FBD12600984B16 /* ZGVideoTalkViewObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DC20C023FBD12600984B16 /* ZGVideoTalkViewObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -103,12 +107,19 @@
 		8608C4AE2363318E00CE367B /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		8608C4B0236331D500CE367B /* ZGTopicsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGTopicsTableViewController.h; sourceTree = "<group>"; };
 		8608C4B1236331D500CE367B /* ZGTopicsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGTopicsTableViewController.m; sourceTree = "<group>"; };
+		86B6BECA23FCE389008DFDE3 /* NSFlippedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSFlippedView.h; sourceTree = "<group>"; };
+		86B6BECB23FCE389008DFDE3 /* NSFlippedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSFlippedView.m; sourceTree = "<group>"; };
 		86BB70802363364700FF2608 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		86D96F2E238CC5CA004BF81D /* ZGTestTopicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGTestTopicManager.m; sourceTree = "<group>"; };
 		86D96F2F238CC5CA004BF81D /* ZGTestTopicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGTestTopicManager.h; sourceTree = "<group>"; };
 		86DC208E23FA85A000984B16 /* QuickStart.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = QuickStart.storyboard; sourceTree = "<group>"; };
 		86DC209023FA863300984B16 /* ZGQuickStartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGQuickStartViewController.h; sourceTree = "<group>"; };
 		86DC209123FA863300984B16 /* ZGQuickStartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGQuickStartViewController.m; sourceTree = "<group>"; };
+		86DC20BA23FBCFEB00984B16 /* VideoTalk.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = VideoTalk.storyboard; sourceTree = "<group>"; };
+		86DC20BC23FBD00900984B16 /* ZGVideoTalkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGVideoTalkViewController.h; sourceTree = "<group>"; };
+		86DC20BD23FBD00900984B16 /* ZGVideoTalkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGVideoTalkViewController.m; sourceTree = "<group>"; };
+		86DC20BF23FBD12600984B16 /* ZGVideoTalkViewObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGVideoTalkViewObject.h; sourceTree = "<group>"; };
+		86DC20C023FBD12600984B16 /* ZGVideoTalkViewObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGVideoTalkViewObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +211,8 @@
 				8608C471236330E600CE367B /* ZGUserDefaults.m */,
 				8608C473236330E600CE367B /* ZGUserIDHelper.h */,
 				8608C48F236330E600CE367B /* ZGUserIDHelper.m */,
+				86B6BECA23FCE389008DFDE3 /* NSFlippedView.h */,
+				86B6BECB23FCE389008DFDE3 /* NSFlippedView.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -241,6 +254,7 @@
 		86C7564C238417E10059F9EA /* Topics */ = {
 			isa = PBXGroup;
 			children = (
+				86DC20B923FBCFAE00984B16 /* VideoTalk */,
 				86DC208D23FA851D00984B16 /* QuickStart */,
 				8608C39123631A1C00CE367B /* APITest */,
 			);
@@ -255,6 +269,18 @@
 				86DC209123FA863300984B16 /* ZGQuickStartViewController.m */,
 			);
 			path = QuickStart;
+			sourceTree = "<group>";
+		};
+		86DC20B923FBCFAE00984B16 /* VideoTalk */ = {
+			isa = PBXGroup;
+			children = (
+				86DC20BA23FBCFEB00984B16 /* VideoTalk.storyboard */,
+				86DC20BC23FBD00900984B16 /* ZGVideoTalkViewController.h */,
+				86DC20BD23FBD00900984B16 /* ZGVideoTalkViewController.m */,
+				86DC20BF23FBD12600984B16 /* ZGVideoTalkViewObject.h */,
+				86DC20C023FBD12600984B16 /* ZGVideoTalkViewObject.m */,
+			);
+			path = VideoTalk;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -319,6 +345,7 @@
 				8608C32E2362EEBD00CE367B /* Assets.xcassets in Resources */,
 				8608C4AF2363318E00CE367B /* MainMenu.xib in Resources */,
 				86DC208F23FA85A000984B16 /* QuickStart.storyboard in Resources */,
+				86DC20BB23FBCFEB00984B16 /* VideoTalk.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,17 +357,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				8608C4B2236331D500CE367B /* ZGTopicsTableViewController.m in Sources */,
+				86DC20BE23FBD00900984B16 /* ZGVideoTalkViewController.m in Sources */,
 				8608C495236330E600CE367B /* ZGJsonHelper.m in Sources */,
 				8608C49B236330E600CE367B /* ZegoDefaultLogFormatter.m in Sources */,
 				8608C4A0236330E600CE367B /* ZGUserIDHelper.m in Sources */,
 				8608C494236330E600CE367B /* ZGKeyCenter.m in Sources */,
 				8608C498236330E600CE367B /* ZegoDiskLogFormatter.m in Sources */,
 				8608C493236330E600CE367B /* ZGUserDefaults.m in Sources */,
+				86DC20C123FBD12600984B16 /* ZGVideoTalkViewObject.m in Sources */,
 				8608C3342362EEBD00CE367B /* main.m in Sources */,
 				8608C49D236330E600CE367B /* ZegoDiskLogger.m in Sources */,
 				8608C4A1236330E600CE367B /* ZGAppGlobalConfigManager.m in Sources */,
 				86D96F30238CC5CA004BF81D /* ZGTestTopicManager.m in Sources */,
 				8608C49C236330E600CE367B /* ZegoLogMessage.m in Sources */,
+				86B6BECC23FCE389008DFDE3 /* NSFlippedView.m in Sources */,
 				8608C492236330E600CE367B /* NSObject+Persistence.m in Sources */,
 				8608C4A2236330E600CE367B /* ZGHashTableHelper.m in Sources */,
 				8608C49E236330E600CE367B /* ZegoTTYLogFormatter.m in Sources */,

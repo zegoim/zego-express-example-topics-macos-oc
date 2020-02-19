@@ -14,9 +14,9 @@
 
 @interface ZGTestTopicManager () <ZegoEventHandler>
 
-@property (nonatomic, strong) ZegoExpressEngine *engine;
+@property (strong) ZegoExpressEngine *engine;
 
-@property (nonatomic, weak) id<ZGTestDataSource> dataSource;
+@property (weak) id<ZGTestDataSource> dataSource;
 
 @end
 

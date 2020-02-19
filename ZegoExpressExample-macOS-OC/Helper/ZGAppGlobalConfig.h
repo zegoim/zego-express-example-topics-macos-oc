@@ -1,26 +1,15 @@
 //
 //  ZGAppGlobalConfig.h
-//  ZegoExpressExample
+//  ZegoExpressExample-macOS-OC
 //
 //  Created by jeffreypeng on 2019/8/6.
 //  Copyright © 2019 Zego. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <ZegoExpressEngine/ZegoExpressEngine.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-
-/**
- App Environment
-
- - ZGAppEnvironmentTest: 测试
- - ZGAppEnvironmentOfficial: 正式
- */
-typedef NS_ENUM(NSUInteger, ZGAppEnvironment) {
-    ZGAppEnvironmentTest = 0,
-    ZGAppEnvironmentOfficial = 1
-};
 
 /**
  Global Config Model
@@ -28,28 +17,22 @@ typedef NS_ENUM(NSUInteger, ZGAppEnvironment) {
  */
 @interface ZGAppGlobalConfig : NSObject
 
-// App ID
+/// App ID
 @property (nonatomic, assign) unsigned int appID;
 
-// App Sign
+/// App Sign
 @property (nonatomic, copy) NSString *appSign;
 
-// Environment
-@property (nonatomic, assign) ZGAppEnvironment environment;
+/// Environment
+@property (nonatomic, assign) BOOL isTestEnv;
 
-/**
- 从字典转化为当前类型实例。
- 
- @param dic 字典
- @return 当前类型实例
- */
+/// Scenraio
+@property (nonatomic, assign) ZegoScenario scenario;
+
+/// Convert from a dictionary to a current type instance
 + (instancetype)fromDictionary:(NSDictionary *)dic;
 
-/**
- 转换成 dictionary。
-
- @return dictionary
- */
+/// Convert to dictionary
 - (NSDictionary *)toDictionary;
 
 @end

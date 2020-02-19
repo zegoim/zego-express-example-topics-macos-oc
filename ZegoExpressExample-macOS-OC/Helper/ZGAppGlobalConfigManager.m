@@ -1,6 +1,6 @@
 //
 //  ZGAppGlobalConfigManager.m
-//  ZegoExpressExample
+//  ZegoExpressExample-macOS-OC
 //
 //  Created by jeffreypeng on 2019/8/6.
 //  Copyright © 2019 Zego. All rights reserved.
@@ -12,7 +12,7 @@
 #import "ZGHashTableHelper.h"
 #import "ZGKeyCenter.h"
 
-// 保存全局设置的 key
+// Save the global settings key
 NSString* const ZGAppGlobalConfigKey = @"kZGAppGlobalConfig";
 
 @interface ZGAppGlobalConfigManager ()
@@ -33,7 +33,7 @@ static ZGAppGlobalConfigManager *instance = nil;
 
 #pragma mark - public methods
 
-+ (instancetype)sharedInstance {
++ (instancetype)sharedManager {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[super allocWithZone:NULL] init];
@@ -42,11 +42,11 @@ static ZGAppGlobalConfigManager *instance = nil;
 }
 
 + (id)allocWithZone:(struct _NSZone *)zone {
-    return [ZGAppGlobalConfigManager sharedInstance];
+    return [ZGAppGlobalConfigManager sharedManager];
 }
 
 - (id)copyWithZone:(struct _NSZone *)zone {
-    return [ZGAppGlobalConfigManager sharedInstance];
+    return [ZGAppGlobalConfigManager sharedManager];
 }
 
 - (instancetype)init {
@@ -62,13 +62,14 @@ static ZGAppGlobalConfigManager *instance = nil;
     ZGAppGlobalConfig *conf = [[ZGAppGlobalConfig alloc] init];
     conf.appID = ZGKeyCenter.appID;
     conf.appSign = ZGKeyCenter.appSign;
-    conf.environment = ZGAppEnvironmentTest;
+    conf.isTestEnv = YES;
+    conf.scenario = ZegoScenarioGeneral;
     return conf;
 }
 
 - (void)setGlobalConfig:(ZGAppGlobalConfig *)confObj {
     dispatch_async(_configOptQueue, ^{
-        // confObj 为 nil 时，删除设置
+        // Delete settings when confObj is nil
         if (!confObj) {
             [self.zgUserDefaults removeObjectForKey:ZGAppGlobalConfigKey];
             [self.zgUserDefaults synchronize];
@@ -102,7 +103,7 @@ static ZGAppGlobalConfigManager *instance = nil;
             confObj = [ZGAppGlobalConfig fromDictionary:confDic];
         }
         
-        // 不存在或获取失败，则返回默认配置
+        // Return to default configuration if it does not exist or fails to get
         if (!confObj) {
             confObj = [[self class] defaultGlobalConfig];
         }

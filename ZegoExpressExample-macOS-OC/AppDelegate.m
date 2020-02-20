@@ -43,14 +43,11 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 #ifdef _Module_QuickStart
     [topicList addObject:_Module_QuickStart];
 #endif
-#ifdef _Module_VideoTalk
-    [topicList addObject:_Module_VideoTalk];
-#endif
-#ifdef _Module_Test
-    [topicList addObject:_Module_Test];
-#endif
 #ifdef _Module_Publish
     [topicList addObject:_Module_Publish];
+#endif
+#ifdef _Module_VideoTalk
+    [topicList addObject:_Module_VideoTalk];
 #endif
 #ifdef _Module_Play
     [topicList addObject:_Module_Play];
@@ -76,6 +73,10 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 #ifdef _Module_ExternalVideoFilter
     [topicList addObject:_Module_ExternalVideoFilter];
 #endif
+#ifdef _Module_Test
+    [topicList addObject:_Module_Test];
+#endif
+
     self.topicList = topicList;
     
     self.topicsController.delegate = self;
@@ -113,6 +114,12 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 #ifdef _Module_QuickStart
     if ([topic isEqualToString:_Module_QuickStart]) {
         vc = [[NSStoryboard storyboardWithName:@"QuickStart" bundle:nil] instantiateInitialController];
+    }
+#endif
+    
+#ifdef _Module_Publish
+    if ([topic isEqualToString:_Module_Publish]) {
+        vc = [[NSStoryboard storyboardWithName:@"PublishStream" bundle:nil] instantiateInitialController];
     }
 #endif
     

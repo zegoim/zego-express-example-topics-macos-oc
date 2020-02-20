@@ -32,6 +32,8 @@
 		8608C4AF2363318E00CE367B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8608C4AE2363318E00CE367B /* MainMenu.xib */; };
 		8608C4B2236331D500CE367B /* ZGTopicsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608C4B1236331D500CE367B /* ZGTopicsTableViewController.m */; };
 		86B6BECC23FCE389008DFDE3 /* NSFlippedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B6BECB23FCE389008DFDE3 /* NSFlippedView.m */; };
+		86B6BECF23FCE9B5008DFDE3 /* PublishStream.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86B6BECE23FCE9B5008DFDE3 /* PublishStream.storyboard */; };
+		86B6BED223FCE9F9008DFDE3 /* ZGPublishTopicPublishStreamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B6BED123FCE9F9008DFDE3 /* ZGPublishTopicPublishStreamViewController.m */; };
 		86D96F30238CC5CA004BF81D /* ZGTestTopicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D96F2E238CC5CA004BF81D /* ZGTestTopicManager.m */; };
 		86DC208A23FA71CF00984B16 /* ZegoExpressEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8608C3702362F56300CE367B /* ZegoExpressEngine.framework */; };
 		86DC208B23FA71CF00984B16 /* ZegoExpressEngine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8608C3702362F56300CE367B /* ZegoExpressEngine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -109,6 +111,9 @@
 		8608C4B1236331D500CE367B /* ZGTopicsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGTopicsTableViewController.m; sourceTree = "<group>"; };
 		86B6BECA23FCE389008DFDE3 /* NSFlippedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSFlippedView.h; sourceTree = "<group>"; };
 		86B6BECB23FCE389008DFDE3 /* NSFlippedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSFlippedView.m; sourceTree = "<group>"; };
+		86B6BECE23FCE9B5008DFDE3 /* PublishStream.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PublishStream.storyboard; sourceTree = "<group>"; };
+		86B6BED023FCE9F9008DFDE3 /* ZGPublishTopicPublishStreamViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGPublishTopicPublishStreamViewController.h; sourceTree = "<group>"; };
+		86B6BED123FCE9F9008DFDE3 /* ZGPublishTopicPublishStreamViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGPublishTopicPublishStreamViewController.m; sourceTree = "<group>"; };
 		86BB70802363364700FF2608 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		86D96F2E238CC5CA004BF81D /* ZGTestTopicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGTestTopicManager.m; sourceTree = "<group>"; };
 		86D96F2F238CC5CA004BF81D /* ZGTestTopicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGTestTopicManager.h; sourceTree = "<group>"; };
@@ -251,11 +256,22 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		86B6BECD23FCE988008DFDE3 /* PublishStream */ = {
+			isa = PBXGroup;
+			children = (
+				86B6BECE23FCE9B5008DFDE3 /* PublishStream.storyboard */,
+				86B6BED023FCE9F9008DFDE3 /* ZGPublishTopicPublishStreamViewController.h */,
+				86B6BED123FCE9F9008DFDE3 /* ZGPublishTopicPublishStreamViewController.m */,
+			);
+			path = PublishStream;
+			sourceTree = "<group>";
+		};
 		86C7564C238417E10059F9EA /* Topics */ = {
 			isa = PBXGroup;
 			children = (
-				86DC20B923FBCFAE00984B16 /* VideoTalk */,
 				86DC208D23FA851D00984B16 /* QuickStart */,
+				86B6BECD23FCE988008DFDE3 /* PublishStream */,
+				86DC20B923FBCFAE00984B16 /* VideoTalk */,
 				8608C39123631A1C00CE367B /* APITest */,
 			);
 			path = Topics;
@@ -341,6 +357,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86B6BECF23FCE9B5008DFDE3 /* PublishStream.storyboard in Resources */,
 				8608C4AD2363316E00CE367B /* Test.storyboard in Resources */,
 				8608C32E2362EEBD00CE367B /* Assets.xcassets in Resources */,
 				8608C4AF2363318E00CE367B /* MainMenu.xib in Resources */,
@@ -367,6 +384,7 @@
 				86DC20C123FBD12600984B16 /* ZGVideoTalkViewObject.m in Sources */,
 				8608C3342362EEBD00CE367B /* main.m in Sources */,
 				8608C49D236330E600CE367B /* ZegoDiskLogger.m in Sources */,
+				86B6BED223FCE9F9008DFDE3 /* ZGPublishTopicPublishStreamViewController.m in Sources */,
 				8608C4A1236330E600CE367B /* ZGAppGlobalConfigManager.m in Sources */,
 				86D96F30238CC5CA004BF81D /* ZGTestTopicManager.m in Sources */,
 				8608C49C236330E600CE367B /* ZegoLogMessage.m in Sources */,

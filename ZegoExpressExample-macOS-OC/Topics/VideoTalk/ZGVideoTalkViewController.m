@@ -120,11 +120,12 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
     [self.engine startPublishing:_localStreamID];
 }
 
-// It is recommended to logout room when stopping the video call.
-// And you can destroy the engine when there is no need to call.
 - (void)exitRoom {
+    // It is recommended to logout room when stopping the video call.
     ZGLogInfo(@" 🚪 Logout room, roomID: %@", _roomID);
     [self.engine logoutRoom:_roomID];
+    
+    // And you can destroy the engine when there is no need to call.
     ZGLogInfo(@" 🏳️ Destroy ZegoExpressEngine");
     [ZegoExpressEngine destroyEngine];
 }

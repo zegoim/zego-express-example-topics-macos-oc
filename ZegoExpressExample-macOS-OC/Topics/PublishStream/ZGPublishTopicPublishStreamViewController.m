@@ -69,12 +69,12 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 - (void)setupUI {
     self.title = @"Publish Stream";
     
-    self.publishResolutionLabel.stringValue = @"";
+    self.publishResolutionLabel.stringValue = @"Resolution: ";
     self.publishResolutionLabel.backgroundColor = [NSColor colorWithWhite:0.0 alpha:0.4];
     self.publishResolutionLabel.drawsBackground = YES;
     self.publishResolutionLabel.textColor = [NSColor whiteColor];
     
-    self.publishQualityLabel.stringValue = @"";
+    self.publishQualityLabel.stringValue = @"Quality: ";
     self.publishQualityLabel.backgroundColor = [NSColor colorWithWhite:0.0 alpha:0.4];
     self.publishQualityLabel.drawsBackground = YES;
     self.publishQualityLabel.textColor = [NSColor whiteColor];
@@ -151,8 +151,8 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     [self appendLog:@" 🚪 Logout room"];
     [self.engine logoutRoom:self.roomID];
     
-    self.publishResolutionLabel.stringValue = @"";
-    self.publishQualityLabel.stringValue = @"";
+    self.publishResolutionLabel.stringValue = @"Resolution: ";
+    self.publishQualityLabel.stringValue = @"Quality: ";
 }
 
 #pragma mark - Exit
@@ -441,7 +441,5 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     self.logView.string = newText;
     [self.logView scrollToEndOfDocument:nil];
 }
-
-
 
 @end

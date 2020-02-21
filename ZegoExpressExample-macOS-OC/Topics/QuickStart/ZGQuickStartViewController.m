@@ -225,6 +225,7 @@
         return;
     }
     
+    ZGLogInfo(@"%@", tipText);
     NSString *oldText = self.logView.string;
     NSString *newLine = oldText.length == 0 ? @"" : @"\n";
     NSString *newText = [NSString stringWithFormat:@"%@%@%@", oldText, newLine, tipText];

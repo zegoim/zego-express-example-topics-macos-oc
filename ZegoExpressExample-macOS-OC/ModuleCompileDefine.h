@@ -3,7 +3,7 @@
 
 #define _Module_QuickStart @"QuickStart 快速开始"
 #define _Module_Publish @"PublishStream 推流"
-//#define _Module_Play @"PlayStream 拉流"
+#define _Module_Play @"PlayStream 拉流"
 #define _Module_VideoTalk @"VideoTalk 视频通话"
 //#define _Module_JoinLive @"JoinLive 直播连麦"
 //#define _Module_RoomMessage @"RoomMessage 房间消息"

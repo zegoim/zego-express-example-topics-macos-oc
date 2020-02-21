@@ -11,9 +11,53 @@
             <objects>
                 <viewController id="LVr-Wh-x77" customClass="ZGVideoTalkViewController" sceneMemberID="viewController">
                     <view key="view" id="KIh-Ot-3k3">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="550"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="580"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="6dJ-pH-0MM">
+                                <rect key="frame" x="0.0" y="550" width="400" height="30"/>
+                                <subviews>
+                                    <box boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="1TS-qa-EAX">
+                                        <rect key="frame" x="0.0" y="0.0" width="400" height="30"/>
+                                        <view key="contentView" id="pJt-NM-LrV">
+                                            <rect key="frame" x="1" y="1" width="398" height="28"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="G0Z-kA-mhJ">
+                                                    <rect key="frame" x="8" y="6" width="59" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="RoomID: " id="YMl-7i-dm3">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jvE-CY-LaG">
+                                                    <rect key="frame" x="319" y="6" width="71" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="RoomState" id="J1R-fU-ixy">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="G0Z-kA-mhJ" firstAttribute="leading" secondItem="pJt-NM-LrV" secondAttribute="leading" constant="10" id="5Nk-hA-571"/>
+                                                <constraint firstItem="jvE-CY-LaG" firstAttribute="centerY" secondItem="pJt-NM-LrV" secondAttribute="centerY" id="gow-C5-108"/>
+                                                <constraint firstItem="G0Z-kA-mhJ" firstAttribute="centerY" secondItem="pJt-NM-LrV" secondAttribute="centerY" id="uMA-qh-1co"/>
+                                                <constraint firstAttribute="trailing" secondItem="jvE-CY-LaG" secondAttribute="trailing" constant="10" id="xVq-c2-sV0"/>
+                                            </constraints>
+                                        </view>
+                                        <color key="fillColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </box>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="1TS-qa-EAX" secondAttribute="bottom" id="84j-70-hrx"/>
+                                    <constraint firstAttribute="trailing" secondItem="1TS-qa-EAX" secondAttribute="trailing" id="GHa-M1-rRv"/>
+                                    <constraint firstAttribute="height" constant="30" id="VWl-Df-ghk"/>
+                                    <constraint firstItem="1TS-qa-EAX" firstAttribute="top" secondItem="6dJ-pH-0MM" secondAttribute="top" id="Vp3-GQ-kdJ"/>
+                                    <constraint firstItem="1TS-qa-EAX" firstAttribute="leading" secondItem="6dJ-pH-0MM" secondAttribute="leading" id="lM4-PF-Tap"/>
+                                </constraints>
+                            </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="lPw-Gd-xpT" customClass="NSFlippedView">
                                 <rect key="frame" x="0.0" y="50" width="400" height="500"/>
                             </customView>
@@ -26,7 +70,7 @@
                                             <rect key="frame" x="1" y="1" width="398" height="48"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>
-                                        <color key="fillColor" name="underPageBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="fillColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </box>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uzy-AY-RjQ">
                                         <rect key="frame" x="28" y="16" width="69" height="18"/>
@@ -76,10 +120,13 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="lbc-X4-z0t" firstAttribute="leading" secondItem="KIh-Ot-3k3" secondAttribute="leading" id="2zo-37-9zL"/>
+                            <constraint firstAttribute="trailing" secondItem="6dJ-pH-0MM" secondAttribute="trailing" id="3xj-un-T4V"/>
                             <constraint firstItem="lbc-X4-z0t" firstAttribute="top" secondItem="lPw-Gd-xpT" secondAttribute="bottom" id="ESR-Kf-bFQ"/>
+                            <constraint firstItem="lPw-Gd-xpT" firstAttribute="top" secondItem="6dJ-pH-0MM" secondAttribute="bottom" id="IT4-xG-RVO"/>
+                            <constraint firstItem="6dJ-pH-0MM" firstAttribute="top" secondItem="KIh-Ot-3k3" secondAttribute="top" id="NyP-qR-7s6"/>
                             <constraint firstAttribute="bottom" secondItem="lbc-X4-z0t" secondAttribute="bottom" id="bb5-LV-GuB"/>
                             <constraint firstAttribute="trailing" secondItem="lbc-X4-z0t" secondAttribute="trailing" id="bfE-uB-feE"/>
-                            <constraint firstItem="lPw-Gd-xpT" firstAttribute="top" secondItem="KIh-Ot-3k3" secondAttribute="top" id="n2d-MP-y7g"/>
+                            <constraint firstItem="6dJ-pH-0MM" firstAttribute="leading" secondItem="KIh-Ot-3k3" secondAttribute="leading" id="cSG-R2-py6"/>
                             <constraint firstAttribute="trailing" secondItem="lPw-Gd-xpT" secondAttribute="trailing" id="sbZ-sy-LPz"/>
                             <constraint firstItem="lPw-Gd-xpT" firstAttribute="leading" secondItem="KIh-Ot-3k3" secondAttribute="leading" id="xRq-Ai-Vba"/>
                         </constraints>
@@ -89,11 +136,13 @@
                         <outlet property="cameraCheckBox" destination="uzy-AY-RjQ" id="9bj-aD-wHw"/>
                         <outlet property="containerView" destination="lPw-Gd-xpT" id="aOM-UQ-i5D"/>
                         <outlet property="microphoneCheckBox" destination="j2B-wt-mww" id="hOz-s3-q9Z"/>
+                        <outlet property="roomIDLabel" destination="G0Z-kA-mhJ" id="bpL-47-R6Z"/>
+                        <outlet property="roomStateLabel" destination="jvE-CY-LaG" id="RRN-om-nY0"/>
                     </connections>
                 </viewController>
                 <customObject id="7Xs-Qf-skd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20" y="307"/>
+            <point key="canvasLocation" x="-20" y="324"/>
         </scene>
     </scenes>
 </document>

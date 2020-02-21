@@ -1,6 +1,6 @@
 //
 //  ZGTopicsTableViewController.h
-//  ZegoExpressExample
+//  ZegoExpressExample-macOS-OC
 //
 //  Copyright © 2018 Zego. All rights reserved.
 //

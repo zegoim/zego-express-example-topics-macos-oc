@@ -46,11 +46,11 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 #ifdef _Module_Publish
     [topicList addObject:_Module_Publish];
 #endif
-#ifdef _Module_VideoTalk
-    [topicList addObject:_Module_VideoTalk];
-#endif
 #ifdef _Module_Play
     [topicList addObject:_Module_Play];
+#endif
+#ifdef _Module_VideoTalk
+    [topicList addObject:_Module_VideoTalk];
 #endif
 #ifdef _Module_MediaPlayer
     [topicList addObject:_Module_MediaPlayer];
@@ -120,6 +120,12 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 #ifdef _Module_Publish
     if ([topic isEqualToString:_Module_Publish]) {
         vc = [[NSStoryboard storyboardWithName:@"PublishStream" bundle:nil] instantiateInitialController];
+    }
+#endif
+    
+#ifdef _Module_Play
+    if ([topic isEqualToString:_Module_Play]) {
+        vc = [[NSStoryboard storyboardWithName:@"PlayStream" bundle:nil] instantiateInitialController];
     }
 #endif
     

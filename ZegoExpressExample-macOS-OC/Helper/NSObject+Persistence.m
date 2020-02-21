@@ -1,6 +1,6 @@
 //
 //  NSObject+Persistence.m
-//  ZegoExpressExample-macOS
+//  ZegoExpressExample-macOS-OC
 //
 //  Created by Sky on 2019/4/17.
 //  Copyright © 2019 Zego. All rights reserved.

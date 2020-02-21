@@ -203,7 +203,21 @@
                             </scrollView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Isb-DB-aaY">
                                 <rect key="frame" x="20" y="280" width="500" height="250"/>
+                                <subviews>
+                                    <box boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="nGT-vP-czs">
+                                        <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
+                                        <view key="contentView" id="Zf5-kr-PKJ">
+                                            <rect key="frame" x="1" y="1" width="498" height="248"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </view>
+                                        <color key="fillColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </box>
+                                </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="nGT-vP-czs" secondAttribute="trailing" id="6Lf-zV-Ufa"/>
+                                    <constraint firstAttribute="bottom" secondItem="nGT-vP-czs" secondAttribute="bottom" id="bOK-1g-7z4"/>
+                                    <constraint firstItem="nGT-vP-czs" firstAttribute="leading" secondItem="Isb-DB-aaY" secondAttribute="leading" id="n6a-Ji-0lV"/>
+                                    <constraint firstItem="nGT-vP-czs" firstAttribute="top" secondItem="Isb-DB-aaY" secondAttribute="top" id="nms-KU-OF6"/>
                                     <constraint firstAttribute="width" constant="500" id="xXm-2Z-Oyr"/>
                                 </constraints>
                             </customView>

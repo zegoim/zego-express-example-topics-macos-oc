@@ -1,6 +1,6 @@
 //
 //  ZGTopicsTableViewController.m
-//  ZegoExpressExample
+//  ZegoExpressExample-macOS-OC
 //
 //  Copyright © 2018 Zego. All rights reserved.
 //
@@ -12,7 +12,6 @@
 }
 
 - (void)viewDidLoad {
-    NSLog(@"%s", __func__);
 }
 
 - (void)setTopicList:(NSArray<NSString*>*)topics {
@@ -24,8 +23,6 @@
 #pragma mark - NSTableViewDelegate
 
 - (void)tableViewSelectionIsChanging:(NSNotification *)notification {
-    NSLog(@"%s", __func__);
-    
     if ([self.delegate respondsToSelector:@selector(onTopicSelected:)]) {
         NSInteger row = [self tableView].selectedRow;
         if (row != -1) {
@@ -35,7 +32,6 @@
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    NSLog(@"%s", __func__);
     NSTableCellView* cell = [tableView makeViewWithIdentifier:@"TopicCellView" owner:nil];
     [cell.textField setStringValue:_topicList[row]];
     return cell;
@@ -44,7 +40,6 @@
 #pragma mark - NSTableViewDataSource
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    NSLog(@"%s", __func__);
     return _topicList.count;
 }
 

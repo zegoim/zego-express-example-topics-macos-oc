@@ -64,8 +64,8 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 #ifdef _Module_MediaRecord
     [topicList addObject:_Module_MediaRecord];
 #endif
-#ifdef _Module_ExternalVideoCapture
-    [topicList addObject:_Module_ExternalVideoCapture];
+#ifdef _Module_CustomVideoCapture
+    [topicList addObject:_Module_CustomVideoCapture];
 #endif
 #ifdef _Module_ExternalVideoRender
     [topicList addObject:_Module_ExternalVideoRender];
@@ -165,9 +165,9 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
     };
 #endif
     
-#ifdef _Module_ExternalVideoCapture
-    if ([topic isEqualToString:_Module_ExternalVideoCapture]) {
-        NSStoryboard *sb = [NSStoryboard storyboardWithName:@"ZGExternalVideoCapture" bundle:nil];
+#ifdef _Module_CustomVideoCapture
+    if ([topic isEqualToString:_Module_CustomVideoCapture]) {
+        NSStoryboard *sb = [NSStoryboard storyboardWithName:@"CustomVideoCapture" bundle:nil];
         vc = [sb instantiateInitialController];
     };
 #endif

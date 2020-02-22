@@ -289,4 +289,4 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
 
 @end
 
-#endif
+#endif // _Module_VideoTalk

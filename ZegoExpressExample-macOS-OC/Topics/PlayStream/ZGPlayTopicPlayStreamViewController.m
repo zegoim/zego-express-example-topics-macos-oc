@@ -6,6 +6,8 @@
 //  Copyright © 2020 Zego. All rights reserved.
 //
 
+#ifdef _Module_Play
+
 #import "ZGPlayTopicPlayStreamViewController.h"
 #import "ZGAppGlobalConfigManager.h"
 #import "ZGUserIDHelper.h"
@@ -316,3 +318,5 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 }
 
 @end
+
+#endif // _Module_Play

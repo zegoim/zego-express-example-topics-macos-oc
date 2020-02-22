@@ -6,6 +6,8 @@
 //  Copyright © 2020 Zego. All rights reserved.
 //
 
+#ifdef _Module_Publish
+
 #import "ZGPublishTopicPublishStreamViewController.h"
 #import "ZGAppGlobalConfigManager.h"
 #import "ZGUserIDHelper.h"
@@ -443,3 +445,5 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 }
 
 @end
+
+#endif // _Module_Publish

@@ -31,6 +31,10 @@
 		8608C4AD2363316E00CE367B /* Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8608C4AC2363316E00CE367B /* Test.storyboard */; };
 		8608C4AF2363318E00CE367B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8608C4AE2363318E00CE367B /* MainMenu.xib */; };
 		8608C4B2236331D500CE367B /* ZGTopicsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608C4B1236331D500CE367B /* ZGTopicsTableViewController.m */; };
+		862B723E23FE9156009BB5E5 /* CustomVideoCapture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 862B723D23FE9156009BB5E5 /* CustomVideoCapture.storyboard */; };
+		862B724923FE97FE009BB5E5 /* ZGCaptureDeviceCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 862B724523FE97FE009BB5E5 /* ZGCaptureDeviceCamera.m */; };
+		862B724A23FE97FE009BB5E5 /* ZGCaptureDeviceImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 862B724723FE97FE009BB5E5 /* ZGCaptureDeviceImage.m */; };
+		862B724E23FE984B009BB5E5 /* ZGCustomVideoCapturePublishStreamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 862B724D23FE984B009BB5E5 /* ZGCustomVideoCapturePublishStreamViewController.m */; };
 		86B6BECC23FCE389008DFDE3 /* NSFlippedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B6BECB23FCE389008DFDE3 /* NSFlippedView.m */; };
 		86B6BECF23FCE9B5008DFDE3 /* PublishStream.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86B6BECE23FCE9B5008DFDE3 /* PublishStream.storyboard */; };
 		86B6BED223FCE9F9008DFDE3 /* ZGPublishTopicPublishStreamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B6BED123FCE9F9008DFDE3 /* ZGPublishTopicPublishStreamViewController.m */; };
@@ -111,6 +115,14 @@
 		8608C4AE2363318E00CE367B /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		8608C4B0236331D500CE367B /* ZGTopicsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGTopicsTableViewController.h; sourceTree = "<group>"; };
 		8608C4B1236331D500CE367B /* ZGTopicsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGTopicsTableViewController.m; sourceTree = "<group>"; };
+		862B723D23FE9156009BB5E5 /* CustomVideoCapture.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CustomVideoCapture.storyboard; sourceTree = "<group>"; };
+		862B724523FE97FE009BB5E5 /* ZGCaptureDeviceCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGCaptureDeviceCamera.m; sourceTree = "<group>"; };
+		862B724623FE97FE009BB5E5 /* ZGCaptureDeviceCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGCaptureDeviceCamera.h; sourceTree = "<group>"; };
+		862B724723FE97FE009BB5E5 /* ZGCaptureDeviceImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGCaptureDeviceImage.m; sourceTree = "<group>"; };
+		862B724823FE97FE009BB5E5 /* ZGCaptureDeviceImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGCaptureDeviceImage.h; sourceTree = "<group>"; };
+		862B724B23FE9815009BB5E5 /* ZGCaptureDeviceProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGCaptureDeviceProtocol.h; sourceTree = "<group>"; };
+		862B724C23FE984B009BB5E5 /* ZGCustomVideoCapturePublishStreamViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGCustomVideoCapturePublishStreamViewController.h; sourceTree = "<group>"; };
+		862B724D23FE984B009BB5E5 /* ZGCustomVideoCapturePublishStreamViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGCustomVideoCapturePublishStreamViewController.m; sourceTree = "<group>"; };
 		86B6BECA23FCE389008DFDE3 /* NSFlippedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSFlippedView.h; sourceTree = "<group>"; };
 		86B6BECB23FCE389008DFDE3 /* NSFlippedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSFlippedView.m; sourceTree = "<group>"; };
 		86B6BECE23FCE9B5008DFDE3 /* PublishStream.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PublishStream.storyboard; sourceTree = "<group>"; };
@@ -261,6 +273,21 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		862B723C23FE9138009BB5E5 /* CustomVideoCapture */ = {
+			isa = PBXGroup;
+			children = (
+				862B724B23FE9815009BB5E5 /* ZGCaptureDeviceProtocol.h */,
+				862B724623FE97FE009BB5E5 /* ZGCaptureDeviceCamera.h */,
+				862B724523FE97FE009BB5E5 /* ZGCaptureDeviceCamera.m */,
+				862B724823FE97FE009BB5E5 /* ZGCaptureDeviceImage.h */,
+				862B724723FE97FE009BB5E5 /* ZGCaptureDeviceImage.m */,
+				862B723D23FE9156009BB5E5 /* CustomVideoCapture.storyboard */,
+				862B724C23FE984B009BB5E5 /* ZGCustomVideoCapturePublishStreamViewController.h */,
+				862B724D23FE984B009BB5E5 /* ZGCustomVideoCapturePublishStreamViewController.m */,
+			);
+			path = CustomVideoCapture;
+			sourceTree = "<group>";
+		};
 		86B6BECD23FCE988008DFDE3 /* PublishStream */ = {
 			isa = PBXGroup;
 			children = (
@@ -288,6 +315,7 @@
 				86B6BECD23FCE988008DFDE3 /* PublishStream */,
 				86B6BED323FE254A008DFDE3 /* PlayStream */,
 				86DC20B923FBCFAE00984B16 /* VideoTalk */,
+				862B723C23FE9138009BB5E5 /* CustomVideoCapture */,
 				8608C39123631A1C00CE367B /* APITest */,
 			);
 			path = Topics;
@@ -375,6 +403,7 @@
 			files = (
 				86B6BECF23FCE9B5008DFDE3 /* PublishStream.storyboard in Resources */,
 				8608C4AD2363316E00CE367B /* Test.storyboard in Resources */,
+				862B723E23FE9156009BB5E5 /* CustomVideoCapture.storyboard in Resources */,
 				8608C32E2362EEBD00CE367B /* Assets.xcassets in Resources */,
 				8608C4AF2363318E00CE367B /* MainMenu.xib in Resources */,
 				86DC208F23FA85A000984B16 /* QuickStart.storyboard in Resources */,
@@ -395,6 +424,7 @@
 				8608C495236330E600CE367B /* ZGJsonHelper.m in Sources */,
 				8608C49B236330E600CE367B /* ZegoDefaultLogFormatter.m in Sources */,
 				8608C4A0236330E600CE367B /* ZGUserIDHelper.m in Sources */,
+				862B724E23FE984B009BB5E5 /* ZGCustomVideoCapturePublishStreamViewController.m in Sources */,
 				8608C494236330E600CE367B /* ZGKeyCenter.m in Sources */,
 				8608C498236330E600CE367B /* ZegoDiskLogFormatter.m in Sources */,
 				8608C493236330E600CE367B /* ZGUserDefaults.m in Sources */,
@@ -416,8 +446,10 @@
 				8608C499236330E600CE367B /* ZegoTTYLogger.m in Sources */,
 				8608C496236330E600CE367B /* ZGURLDefine.m in Sources */,
 				8608C3292362EEBB00CE367B /* AppDelegate.m in Sources */,
+				862B724923FE97FE009BB5E5 /* ZGCaptureDeviceCamera.m in Sources */,
 				86DC209223FA863300984B16 /* ZGQuickStartViewController.m in Sources */,
 				8608C497236330E600CE367B /* ZegoLog.m in Sources */,
+				862B724A23FE97FE009BB5E5 /* ZGCaptureDeviceImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

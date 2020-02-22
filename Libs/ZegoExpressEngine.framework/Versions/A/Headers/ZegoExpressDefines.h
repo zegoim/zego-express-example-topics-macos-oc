@@ -26,982 +26,982 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ZegoMediaPlayerVideoHandler;
 @protocol ZegoMediaPlayerAudioHandler;
 
-/// 更新流附加信息接口的回调 block
+/// Callback block for updating stream extra information
 typedef void(^ZegoPublisherSetStreamExtraInfoCallback)(int errorCode);
 
-/// 添加/删除转推 CDN 接口的回调 block
+/// Callback block for add/remove CDN URL
 typedef void(^ZegoPublisherUpdateCDNURLCallback)(int errorCode);
 
-/// 开始混流任务接口的回调 block
+/// Callback block for start mixer task
 typedef void(^ZegoMixerStartCallback)(ZegoMixerStartResult *result);
 
-/// 发送房间聊天消息的回调 block
+/// Callback block for sending broadcast messages
 typedef void(^ZegoIMSendBroadcastMessageCallback)(int errorCode);
 
-/// 发送房间自定义信令的回调 block
+/// Callback block for sending custom command
 typedef void(^ZegoIMSendCustomCommandCallback)(int errorCode);
 
-/// 播放器加载资源完成回调
+/// Callback block for media player loads resources
 typedef void(^ZegoMediaPlayerLoadResourceCallback)(int errorCode);
 
-/// 设置指定播放进度回调
+/// Callback block for media player seek to playback progress
 typedef void(^ZegoMediaPlayerSeekToCallback)(int errorCode);
 
 
-/// 使用场景
+/// Application scenario
 typedef NS_ENUM(NSUInteger, ZegoScenario) {
-    /// 通用场景
+    /// General scenario
     ZegoScenarioGeneral = 0,
 };
 
 
-/// 语言
+/// Language
 typedef NS_ENUM(NSUInteger, ZegoLanguage) {
-    /// 英文
+    /// English
     ZegoLanguageEnglish = 0,
-    /// 中文
+    /// Chinese
     ZegoLanguageChinese = 1,
 };
 
 
-/// 房间状态
+/// Room status
 typedef NS_ENUM(NSUInteger, ZegoRoomState) {
-    /// 未连接状态，在登陆房间前和退出房间之后进入该状态。如果登陆房间的过程出现稳态异常，例如 AppID 和 AppSign 不正确，或者有相同用户名在其他地方登陆导致本端被 KickOut，都会进入该状态
+    /// Unconnected state, enter this state before logging in and after exiting the room. If there is a steady state abnormality in the process of logging in to the room, such as AppID and AppSign are incorrect, or if the same user name is logged in elsewhere and the local end is KickOut, it will enter this state.
     ZegoRoomStateDisconnected = 0,
-    /// 正在请求连接状态，登陆房间动作执行成功后会进入此状态。通常通过该状态进行应用界面的展示。如果因为网络质量不佳产生的中断， SDK 会进行内部重试，也会回到正在请求连接状态
+    /// The state that the connection is being requested. It will enter this state after successful execution login room function. The display of the application interface is usually performed using this state. If the connection is interrupted due to poor network quality, the SDK will perform an internal retry and will return to the requesting connection status.
     ZegoRoomStateConnecting = 1,
-    /// 连接成功状态，进入该状态表示登陆房间已经成功，用户可以正常收到房间内的用户和流信息增删的回调通知
+    /// The status that is successfully connected. Entering this status indicates that the login to the room has been successful. The user can receive the callback notification of the user and the stream information in the room.
     ZegoRoomStateConnected = 2,
 };
 
 
-/// 视频渲染模式
+/// Video rendering mode
 typedef NS_ENUM(NSUInteger, ZegoViewMode) {
-    /// 等比缩放，可能有黑边
+    /// The proportional scaling up, there may be black borders
     ZegoViewModeAspectFit = 0,
-    /// 等比缩放填充整个 View ，可能有部分被裁减
+    /// The proportional zoom fills the entire View and may be partially cut
     ZegoViewModeAspectFill = 1,
-    /// 填充整个 View，图像可能被拉伸
+    /// Fill the entire view, the image may be stretched
     ZegoViewModeScaleToFill = 2,
 };
 
 
-/// 预览或拉流端的镜像模式
+/// Mirror mode for previewing or playing the  of the stream
 typedef NS_ENUM(NSUInteger, ZegoVideoMirrorMode) {
-    /// 只有本地预览时才是镜像画面，默认采用此模式
+    /// The mirror image only for previewing locally. This mode is used by default.
     ZegoVideoMirrorModeOnlyPreviewMirror = 0,
-    /// 本地预览和拉流端看到的视频都是镜像画面
+    /// Both the video previewed locally and the far end playing the stream will see mirror image.
     ZegoVideoMirrorModeBothMirror = 1,
-    /// 本地预览和拉流端看到的视频都不是镜像画面
+    /// Both the video previewed locally and the far end playing the stream will not see mirror image.
     ZegoVideoMirrorModeNoMirror = 2,
-    /// 只有拉流端看到的视频才是镜像画面
+    /// The mirror image only for far end playing the stream.
     ZegoVideoMirrorModeOnlyPublishMirror = 3,
 };
 
 
-/// 推流状态
+/// Publish stream status
 typedef NS_ENUM(NSUInteger, ZegoPublisherState) {
-    /// 未推流状态，在推流前处于该状态。如果推流过程出现稳态的异常，例如 AppID 和 AppSign 不正确，或者如果其他用户已经在推送流，推送相同流 ID 的流会失败，都会进入未推流状态
+    /// The state is not published, and it is in this state before publishing the stream. If a steady-state exception occurs in the publish process, such as AppID and AppSign are incorrect, or if other users are already publishing the stream, there will be a failure and enter this state.
     ZegoPublisherStateNoPublish = 0,
-    /// 正在请求推流状态，推流操作执行成功后会进入正在请求推流状态，通常通过该状态进行应用界面的展示。如果因为网络质量不佳产生的中断，SDK 会进行内部重试，也会回到正在请求推流状态
+    /// The state that it is requesting to publish the stream. After the publish stream interface is successfully called, and the application interface is usually displayed using the state. If the connection is interrupted due to poor network quality, the SDK will perform an internal retry and will return to the requesting state.
     ZegoPublisherStatePublishRequesting = 1,
-    /// 正在推流状态，进入该状态表明推流已经成功，用户可以正常通信
+    /// The state that the stream is being published, entering the state indicates that the stream has been successfully published, and the user can communicate normally.
     ZegoPublisherStatePublishing = 2,
 };
 
 
-/// 分辨率设置
+/// Video Resolution
 typedef NS_ENUM(NSUInteger, ZegoResolution) {
-    /// 设置分辨率为 180x320，默认采用 15 fps，码率 300000 bps
+    /// Set the resolution to 180x320, the default is 15 fps, the code rate is 300,000 bps
     ZegoResolution180x320 = 0,
-    /// 设置分辨率为 270x480，默认采用 15 fps，码率 400000 bps
+    /// Set the resolution to 270x480, the default is 15 fps, the code rate is 400,000 bps
     ZegoResolution270x480 = 1,
-    /// 设置分辨率为 360x640，默认采用 15 fps，码率 600000 bps
+    /// Set the resolution to 360x640, the default is 15 fps, the code rate is 600,000 bps
     ZegoResolution360x640 = 2,
-    /// 设置分辨率为 540x960，默认采用 15 fps，码率 1200000 bps
+    /// Set the resolution to 540x960, the default is 15 fps, the code rate is 1200,000 bps
     ZegoResolution540x960 = 3,
-    /// 设置分辨率为 720x1280，默认采用 15 fps，码率 1500000 bps
+    /// Set the resolution to 720x1280, the default is 15 fps, the code rate is 1,500,000 bps
     ZegoResolution720x1280 = 4,
-    /// 设置分辨率为 1080x1920，默认采用 15 fps，码率 3000000 bps
+    /// Set the resolution to 1080x1920, the default is 15 fps, the code rate is 3,000,000 bps
     ZegoResolution1080x1920 = 5,
 };
 
 
-/// 推流端采集首帧事件
+/// Event when first frame captured
 typedef NS_ENUM(NSUInteger, ZegoPublisherFirstFrameEvent) {
-    /// 推流端采集到音频首帧事件
+    /// Event when first audio frame captured
     ZegoPublisherFirstFrameEventAudioCaptured = 0,
-    /// 推流端采集到视频首帧事件
+    /// Event when first video frame captured
     ZegoPublisherFirstFrameEventVideoCaptured = 1,
 };
 
 
-/// 流质量等级
+/// Stream quality level
 typedef NS_ENUM(NSUInteger, ZegoStreamQualityLevel) {
-    /// 质量极好
+    /// Excellent
     ZegoStreamQualityLevelExcellent = 0,
-    /// 质量好
+    /// Good
     ZegoStreamQualityLevelGood = 1,
-    /// 质量正常
+    /// Normal
     ZegoStreamQualityLevelMedium = 2,
-    /// 质量差
+    /// Bad
     ZegoStreamQualityLevelBad = 3,
-    /// 质量异常
+    /// Failed
     ZegoStreamQualityLevelDie = 4,
 };
 
 
-/// 延迟模式
+/// 
 typedef NS_ENUM(NSUInteger, ZegoLatencyMode) {
-    /// 普通延迟模式
+    /// Normal latency mode
     ZegoLatencyModeNormal = 0,
-    /// 低延迟模式，无法用于 RTMP 流 
+    /// Low latency mode, not available for RTMP streaming
     ZegoLatencyModeLow = 1,
-    /// 普通延迟模式，最高码率可达 192 kbps
+    /// Normal delay mode, up to 192 kbps
     ZegoLatencyModeNormal2 = 2,
-    /// 低延迟模式，无法用于 RTMP 流。相对与 ZegoLatencyModeLow 而言，CPU 开销稍低
+    /// Low latency mode, not available for RTMP streams. CPU overhead is slightly lower than ZEGO_LATENCY_MODE_LOW
     ZegoLatencyModeLow2 = 3,
-    /// 低延迟模式，无法用于 RTMP 流。支持 WebRTC 必须使用此模式
+    /// Low latency mode, not available for RTMP streams. Support WebRTC must use this mode
     ZegoLatencyModeLow3 = 4,
-    /// 普通延迟模式
+    /// Normal latency mode
     ZegoLatencyModeNormal3 = 5,
 };
 
 
-/// 声道数量
+/// 
 typedef NS_ENUM(NSUInteger, ZegoAudioChannelType) {
-    /// 单声道
+    /// MONO
     ZegoAudioChannelTypeMono = 0,
-    /// 双声道
+    /// STEREO
     ZegoAudioChannelTypeStereo = 1,
 };
 
 
-/// 回声消除模式
+/// 
 typedef NS_ENUM(NSUInteger, ZegoAECMode) {
-    /// 激进的回声抵消，可能会影响音质稍微明显，但是回声会消除得很干净
+    /// Aggressive echo cancellation may affect the sound quality slightly, but the echo will be very clean
     ZegoAECModeAggressive = 0,
-    /// 适度的回声抵消，就是可能会稍微影响一点点音质，但是残留的回声会更少
+    /// Moderate echo cancellation, which may slightly affect a little bit of sound, but the residual echo will be less
     ZegoAECModeMedium = 1,
-    /// 舒适的回声抵消，就是回声抵消基本不会影响声音的音质，可能有时会残留一点回声，但不会影响正常听音
+    /// Comfortable echo cancellation, that is, echo cancellation does not affect the sound quality of the sound, and sometimes there may be a little echo, but it will not affect the normal listening.
     ZegoAECModeSoft = 2,
 };
 
 
-/// 拉流状态
+/// 
 typedef NS_ENUM(NSUInteger, ZegoPlayerState) {
-    /// 未拉流状态，在拉流前处于该状态。如果拉流过程出现稳态的异常，例如 AppID 和 AppSign 不正确，都会进入未拉流状态
+    /// The state of the flow is not played, and it is in this state before the stream is played. If the steady flow anomaly occurs during the playing process, such as AppID and AppSign are incorrect, it will enter this state.
     ZegoPlayerStateNoPlay = 0,
-    /// 正在请求拉流状态，拉流操作执行成功后会进入正在请求拉流状态，通常通过该状态进行应用界面的展示。如果因为网络质量不佳产生的中断，SDK 会进行内部重试，也会回到正在请求拉流状态
+    /// The state that the stream is being requested for playing. After the stream playing interface is successfully called, it will enter the state, and the application interface is usually displayed using this state. If the connection is interrupted due to poor network quality, the SDK will perform an internal retry and will return to the requesting state.
     ZegoPlayerStatePlayRequesting = 1,
-    /// 正在拉流状态，进入该状态表明拉流已经成功，用户可以正常通信
+    /// The state that the stream is being playing, entering the state indicates that the stream has been successfully played, and the user can communicate normally.
     ZegoPlayerStatePlaying = 2,
 };
 
 
-/// 拉流媒体事件
+/// Media event when playing
 typedef NS_ENUM(NSUInteger, ZegoPlayerMediaEvent) {
-    /// 拉流端出现音频卡顿事件
+    /// Audio stuck event when playing
     ZegoPlayerMediaEventAudioBreakOccur = 0,
-    /// 拉流端音频卡顿事件结束
+    /// Audio stuck event recovery when playing
     ZegoPlayerMediaEventAudioBreakResume = 1,
-    /// 拉流端出现视频卡顿事件
+    /// Video stuck event when playing
     ZegoPlayerMediaEventVideoBreakOccur = 2,
-    /// 拉流端视频卡顿事件结束
+    /// Video stuck event recovery when playing
     ZegoPlayerMediaEventVideoBreakResume = 3,
 };
 
 
-/// 拉流首帧事件
+/// First frame event when playing
 typedef NS_ENUM(NSUInteger, ZegoPlayerFirstFrameEvent) {
-    /// 拉流端拉取到音频首帧事件
+    /// First audio frame is received when playing the stream
     ZegoPlayerFirstFrameEventAudioRcv = 0,
-    /// 拉流端拉取到视频首帧事件
+    /// First video frame is received when playing the stream
     ZegoPlayerFirstFrameEventVideoRcv = 1,
-    /// 拉流端视频首帧渲染完成事件
+    /// First frame is rendered when playing the stream
     ZegoPlayerFirstFrameEventVideoRender = 2,
 };
 
 
-/// 更新类型
+/// Update type
 typedef NS_ENUM(NSUInteger, ZegoUpdateType) {
-    /// 添加
+    /// Add
     ZegoUpdateTypeAdd = 0,
-    /// 删除
+    /// Delete
     ZegoUpdateTypeDelete = 1,
 };
 
 
-/// 转推 CDN 状态
+/// State of CDN relay
 typedef NS_ENUM(NSUInteger, ZegoStreamRelayCDNState) {
-    /// 未转推状态，在转推前处于该状态。如果转推过程出现稳态的异常，例如 转推地址 不正确，都会进入未转推状态
+    /// The state indicates that there is no CDN relay
     ZegoStreamRelayCDNStateStop = 0,
-    /// 正在转推状态，进入该状态表明转推已成功
+    /// Entering this status indicates that the CDN relay has been successful
     ZegoStreamRelayCDNStateStart = 1,
-    /// 正在请求转推状态，转推操作执行成功后会进入正在请求转推状态，通常通过该状态进行应用界面的展示。如果因为网络质量不佳产生的中断，SDK 会进行内部重试，也会回到正在转推状态
+    /// The CDN relay is being requested
     ZegoStreamRelayCDNStateRetry = 2,
 };
 
 
-/// 转发 CDN 状态改变原因
+/// Reason for state of CDN relay changed
 typedef NS_ENUM(NSUInteger, ZegoStreamRelayCDNUpdateReason) {
-    /// 无
+    /// No error
     ZegoStreamRelayCDNUpdateReasonNone = 0,
-    /// 服务器错误
+    /// Server error
     ZegoStreamRelayCDNUpdateReasonServerError = 1,
-    /// 握手失败
+    /// Handshake error
     ZegoStreamRelayCDNUpdateReasonHandshakeFailed = 2,
-    /// 接入点错误
+    /// Access point error
     ZegoStreamRelayCDNUpdateReasonAccessPointError = 3,
-    /// 创建流失败
+    /// Stream create failure
     ZegoStreamRelayCDNUpdateReasonCreateStreamFailed = 4,
-    /// BAD NAME
+    /// Bad name
     ZegoStreamRelayCDNUpdateReasonBadName = 5,
-    /// CDN 服务器主动断开
+    /// CDN server actively disconnected
     ZegoStreamRelayCDNUpdateReasonCDNServerDisconnected = 6,
-    /// 主动断开
+    /// Active disconnect
     ZegoStreamRelayCDNUpdateReasonDisconnected = 7,
 };
 
 
-/// 美颜特性
+/// Beauty feature
 typedef NS_OPTIONS(NSUInteger, ZegoBeautifyFeature) {
-    /// 无美颜
+    /// No beautifying
     ZegoBeautifyFeatureNone = 0,
-    /// 磨皮
+    /// Polish
     ZegoBeautifyFeaturePolish = 1 << 0,
-    /// 锐化
+    /// Sharpen
     ZegoBeautifyFeatureWhiten = 1 << 1,
-    /// 皮肤美白
+    /// Skin whiten
     ZegoBeautifyFeatureSkinWhiten = 1 << 2,
-    /// 全屏美白
+    /// Whiten
     ZegoBeautifyFeatureSharpen = 1 << 3,
 };
 
 
-/// 远端设备状态
+/// Remote device status
 typedef NS_ENUM(NSUInteger, ZegoRemoteDeviceState) {
-    /// 设备开启
+    /// Device on
     ZegoRemoteDeviceStateOpen = 0,
-    /// 设备关闭：一般性设备错误
+    /// General device error
     ZegoRemoteDeviceStateGenericError = 1,
-    /// 设备关闭：无效的设备 ID
+    /// Invalid device ID
     ZegoRemoteDeviceStateInvalidID = 2,
-    /// 设备关闭：无权限
+    /// No permission
     ZegoRemoteDeviceStateNoAuthorization = 3,
-    /// 设备关闭：采集帧率为 0
+    /// Captured frame rate is 0
     ZegoRemoteDeviceStateZeroFPS = 4,
-    /// 设备关闭：设备被占用
+    /// The device is occupied
     ZegoRemoteDeviceStateInUseByOther = 5,
-    /// 设备关闭：设备未插入或被拔出
+    /// The device is not plugged in or unplugged
     ZegoRemoteDeviceStateUnplugged = 6,
-    /// 设备关闭：由于系统原因需要重启后才能进行下一次修改，否则重新打开也不生效
+    /// The system needs to be restarted
     ZegoRemoteDeviceStateRebootRequired = 7,
-    /// 设备关闭：系统媒体服务停止，如 iOS 平台下，当系统检测到当前压力巨大（如播放大量动画），则有可能会将媒体相关服务全部停用
+    /// System media services stop, such as under the iOS platform, when the system detects that the current pressure is huge (such as playing a lot of animation), it is possible to disable all media related services.
     ZegoRemoteDeviceStateSystemMediaServicesLost = 8,
-    /// 设备关闭：禁用采集
+    /// Capturing disabled
     ZegoRemoteDeviceStateDisable = 9,
-    /// 设备关闭：远端设备被静音
+    /// The remote device is muted
     ZegoRemoteDeviceStateMute = 10,
-    /// 设备关闭：设备被中断，如电话事件打断等
+    /// The device is interrupted, such as a phone call interruption, etc.
     ZegoRemoteDeviceStateInterruption = 11,
-    /// 设备关闭：用户 App 退到后台
+    /// User app retreats to the background
     ZegoRemoteDeviceStateInBackground = 12,
-    /// 设备关闭：当前前台同时存在多个 App，如 iPad 应用分屏下，系统会禁止所有应用使用摄像头
+    /// There are multiple apps at the same time in the foreground, such as the iPad app split screen, the system will prohibit all apps from using the camera.
     ZegoRemoteDeviceStateMultiForegroundApp = 13,
-    /// 设备关闭：系统处于高负载压力下，可能导致设备异常
+    /// The system is under high load pressure and may cause abnormal equipment.
     ZegoRemoteDeviceStateBySystemPressure = 14,
 };
 
 
-/// 音频设备类型
+/// 
 typedef NS_ENUM(NSUInteger, ZegoAudioDeviceType) {
-    /// 音频输入设备
+    /// 
     ZegoAudioDeviceTypeInput = 0,
-    /// 音频输出设备
+    /// 
     ZegoAudioDeviceTypeOutput = 1,
 };
 
 
-/// 混流内容类型
+/// Mix stream content type
 typedef NS_ENUM(NSUInteger, ZegoMixerInputContentType) {
-    /// 音频混流内容类型
+    /// Mix stream for audio only
     ZegoMixerInputContentTypeAudio = 0,
-    /// 视频混流内容类型
+    /// Mix stream for both audio and video
     ZegoMixerInputContentTypeVideo = 1,
 };
 
 
-/// 视频采集缩放时机
+/// Capture pipline scale mode
 typedef NS_ENUM(NSUInteger, ZegoCapturePipelineScaleMode) {
-    /// 采集后立即进行缩放，默认
+    /// Zoom immediately after acquisition, default
     ZegoCapturePipelineScaleModePre = 0,
-    /// 编码时进行缩放
+    /// Scaling while encoding
     ZegoCapturePipelineScaleModePost = 1,
 };
 
 
-/// 视频帧格式
+/// Video frame format
 typedef NS_ENUM(NSUInteger, ZegoVideoFrameFormat) {
-    /// 未知格式，将取平台默认值
+    /// Unknown format, will take platform default
     ZegoVideoFrameFormatUnknown = 0,
-    /// I420 (YUV420Planar) 格式
+    /// I420 (YUV420Planar) format
     ZegoVideoFrameFormatI420 = 1,
-    /// NV12 (YUV420SemiPlanar) 格式
+    /// NV12 (YUV420SemiPlanar) format
     ZegoVideoFrameFormatNV12 = 2,
-    /// NV32 (YUV420SemiPlanar) 格式
+    /// NV32 (YUV420SemiPlanar) format
     ZegoVideoFrameFormatNV21 = 3,
-    /// BGRA32 格式
+    /// BGRA32 format
     ZegoVideoFrameFormatBGRA32 = 4,
-    /// RGBA32 格式
+    /// RGBA32 format
     ZegoVideoFrameFormatRGBA32 = 5,
-    /// ARGB32 格式
+    /// ARGB32 format
     ZegoVideoFrameFormatARGB32 = 6,
-    /// ABGR32 格式
+    /// ABGR32 format
     ZegoVideoFrameFormatABGR32 = 7,
-    /// I422 (YUV422Planar) 格式
+    /// I422 (YUV422Planar) format
     ZegoVideoFrameFormatI422 = 8,
 };
 
 
-/// 视频帧数据类型
+/// Video buffer type
 typedef NS_ENUM(NSUInteger, ZegoVideoBufferType) {
-    /// 未知类型
+    /// Raw data type video frame
     ZegoVideoBufferTypeUnknown = 0,
-    /// 裸数据类型视频帧
+    /// Raw data type video frame
     ZegoVideoBufferTypeRawData = 1,
-    /// OpenGL Texture 2D 类型视频帧
+    /// Texture 2D type video frame
     ZegoVideoBufferTypeGLTexture2D = 3,
-    /// CVPixelBuffer 类型视频帧
+    /// CVPixelBuffer type video frame
     ZegoVideoBufferTypeCVPixelBuffer = 4,
 };
 
 
-/// 视频帧格式系列
+/// Video frame format series
 typedef NS_ENUM(NSUInteger, ZegoVideoFrameFormatSeries) {
-    /// RGB 系列
+    /// RGB series
     ZegoVideoFrameFormatSeriesRGB = 0,
-    /// YUV 系列
+    /// YUV series
     ZegoVideoFrameFormatSeriesYUV = 1,
 };
 
 
-/// 视频帧翻转模式
+/// 
 typedef NS_ENUM(NSUInteger, ZegoVideoFlipMode) {
-    /// 不翻转
+    /// No flip
     ZegoVideoFlipModeNone = 0,
-    /// X 轴翻转
+    /// X-axis flip
     ZegoVideoFlipModeX = 1,
 };
 
 
-/// 音频配置类型
+/// Audio Config Preset
 typedef NS_ENUM(NSUInteger, ZegoAudioConfigPreset) {
-    /// 低延迟-基础音质
+    /// low-latency-basic-quality
     ZegoAudioConfigPresetLowLatencyBasicQuality = 0,
-    /// 低延迟-标准音质
+    /// low-latency-standard-quality
     ZegoAudioConfigPresetLowLatencyStandardQuality = 1,
-    /// 低延迟-标准音质-双声道
+    /// low-latency-standard-quality-stereo
     ZegoAudioConfigPresetLowLatencyStandardQualityStereo = 2,
-    /// 低延迟-高音质
+    /// low-latency-high-quality
     ZegoAudioConfigPresetLowLatencyHighQuality = 3,
-    /// 低延迟-高音质-双声道
+    /// low-latency-high-quality-stereo
     ZegoAudioConfigPresetLowLatencyHighQualityStereo = 4,
-    /// 普通延迟-标准音质
+    /// normal-latency-standard-quality
     ZegoAudioConfigPresetNormalLatencyStandardQuality = 5,
-    /// 普通延迟-标准音质-双声道
+    /// normal-latency-standard-quality-stereo
     ZegoAudioConfigPresetNormalLatencyStandardQualityStereo = 6,
-    /// 普通延迟-高音质
+    /// normal-latency-high-quality
     ZegoAudioConfigPresetNormalLatencyHighQuality = 7,
-    /// 普通延迟-高音质-双声道
+    /// normal-latency-high-quality-stereo
     ZegoAudioConfigPresetNormalLatencyHighQualityStereo = 8,
 };
 
 
-/// 播放器状态
+/// Player state
 typedef NS_ENUM(NSUInteger, ZegoMediaPlayerState) {
-    /// 不在播放
+    /// Not playing
     ZegoMediaPlayerStateNoPlay = 0,
-    /// 播放中
+    /// Playing
     ZegoMediaPlayerStatePlaying = 1,
-    /// 暂停播放
+    /// Pausing
     ZegoMediaPlayerStatePausing = 2,
-    /// 播放结束
+    /// End of play
     ZegoMediaPlayerStatePlayEnded = 3,
 };
 
 
-/// 播放器网络事件
+/// Player network event
 typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
-    /// 网络资源播放不畅，开始尝试缓存数据
+    /// Network resources are not playing well, and start trying to cache data
     ZegoMediaPlayerNetworkEventBufferBegin = 0,
-    /// 网络资源可以顺畅播放
+    /// Network resources can be played smoothly
     ZegoMediaPlayerNetworkEventBufferEnded = 1,
 };
 
 
-/// 日志配置
+/// Log config
 @interface ZegoLogConfig : NSObject
 
-/// 日志路径，默认为 [NSCachesDirectory]/ZegoLogs/
+/// The log file path. The default path is [NSCachesDirectory]/ZegoLogs/
 @property (nonatomic, copy) NSString *logPath;
 
-/// 日志文件的大小上限 (Bytes)，默认为 5MB (5 * 1024 * 1024 Bytes)
+/// The maximum log file size (Bytes).  The default maximum size is 5MB (5 * 1024 * 1024 Bytes)
 @property (nonatomic, assign) unsigned long long logSize;
 
 @end
 
 
-/// 自定义视频采集配置
+/// Custom video capture config
 @interface ZegoCustomVideoCaptureConfig : NSObject
 
-/// 自定义视频采集视频帧数据类型
+/// External capture video buffer type
 @property (nonatomic, assign) ZegoVideoBufferType bufferType;
 
 @end
 
 
-/// 自定义视频渲染配置
+/// Custom video render config
 @interface ZegoCustomVideoRenderConfig : NSObject
 
-/// 自定义视频渲染视频帧数据类型
+/// External render video buffer type
 @property (nonatomic, assign) ZegoVideoBufferType bufferType;
 
-/// 自定义视频渲染视频帧数据格式
+/// External render video frame format series
 @property (nonatomic, assign) ZegoVideoFrameFormatSeries frameFormatSeries;
 
-/// 是否在自定义视频渲染的同时，引擎也渲染
+/// Whether enable internal render while custom video render
 @property (nonatomic, assign) BOOL enableEngineRender;
 
 @end
 
 
-/// 引擎进阶配置
+/// Advanced engine configuration
 @interface ZegoEngineConfig : NSObject
 
-/// 日志配置，不设则使用默认配置，日志路径默认为 [NSCachesDirectory]/ZegoLogs/，日志大小上限默认为 5MB
+/// Set the log file path and the maximum log file size (Bytes). The default path is [NSCachesDirectory]/ZegoLogs/, default maximum size is 5MB
 @property (nonatomic, strong, nullable) ZegoLogConfig *logConfig;
 
-/// 自定义视频采集配置，不设则默认不开启自定义视频采集
+/// Custom video capture config, if not set, custom video capture config is not enabled by default
 @property (nonatomic, strong, nullable) ZegoCustomVideoCaptureConfig *customVideoCaptureConfig;
 
-/// 自定义视频渲染配置，不设则默认不开启自定义视频渲染
+/// Custom video render config, if not set, custom video render config is not enabled by default
 @property (nonatomic, strong, nullable) ZegoCustomVideoRenderConfig *customVideoRenderConfig;
 
-/// 隐藏功能开关，不设则默认不使用任何隐藏功能
+/// Advanced config, if not set, advanced config is not enabled by default
 @property (nonatomic, copy, nullable) NSDictionary<NSString *, NSString *> *advancedConfig;
 
 @end
 
 
-/// 房间配置
+/// Advanced room configuration
 @interface ZegoRoomConfig : NSObject
 
-/// 房间最大用户数量，默认无限制
+/// The maximum number of users in the room, the default is unlimited
 @property (nonatomic, assign) unsigned int maxMemberCount;
 
-/// 是否开启用户进出房间回调通知（onRoomUserUpdate:userList:room:），默认关闭
+/// Whether to enable the user in and out of the room callback notification (onRoomUserUpdate:userList:room:), the default is off
 @property (nonatomic, assign) BOOL isUserStatusNotify;
 
-/// 创建默认房间配置
+/// Create a default room configuration
 + (instancetype)defaultConfig;
 
-/// 创建房间配置
+/// Create a room configuration
 - (instancetype)initWithMaxMemberCount:(int)count isUserStatusNotify:(BOOL)notify;
 
 @end
 
 
-/// 视频配置
+/// Video configuration
 @interface ZegoVideoConfig : NSObject
 
-/// 采集分辨率
+/// Captured video resolution
 @property (nonatomic, assign) CGSize captureResolution;
 
-/// 编码分辨率
+/// Encoded video resolution
 @property (nonatomic, assign) CGSize encodeResolution;
 
-/// 码率，单位为 bps
+/// Bit rate in bps
 @property (nonatomic, assign) int bitrate;
 
-/// 帧率
+/// Frame rate in fps
 @property (nonatomic, assign) int fps;
 
-/// 创建默认视频配置(360p, 15fps, 600000bps)
+/// Create a default video configuration (360p, 15fps, 600000bps)
 + (instancetype)defaultConfig;
 
-/// 通过预设枚举值创建视频配置
+/// Create a video configuration with preset enumeration values
 + (instancetype)configWithResolution:(ZegoResolution)resolution;
 
-/// 通过预设枚举值创建视频配置
+/// Create a video configuration with preset enumeration values
 - (instancetype)initWithResolution:(ZegoResolution)resolution;
 
 @end
 
 
-/// 用户对象
+/// User
 @interface ZegoUser : NSObject
 
-/// 用户 ID，最大128字节的字符串
+/// User ID, a string with a maximum length of 128 bytes or less
 @property (nonatomic, copy) NSString *userID;
 
-/// 用户名，最大128字节的字符串
+/// User Name, a string with a maximum length of 128 bytes or less
 @property (nonatomic, copy) NSString *userName;
 
-/// 创建用户对象，userName 与 userID 设为一致
+/// Create a ZegoUser object, userName and userID are set to match
 + (instancetype)userWithUserID:(NSString *)userID;
 
-/// 创建用户对象，userName 与 userID 设为一致
+/// Create a ZegoUser object, userName and userID are set to match
 - (instancetype)initWithUserID:(NSString *)userID;
 
-/// 创建用户对象
+/// Create a ZegoUser object
 + (instancetype)userWithUserID:(NSString *)userID userName:(NSString *)userName;
 
-/// 创建用户对象
+/// Create a ZegoUser object
 - (instancetype)initWithUserID:(NSString *)userID userName:(NSString *)userName;
 
 @end
 
 
-/// 音视频流对象
+/// Stream
 @interface ZegoStream : NSObject
 
-/// 用户对象实例
+/// User object instance
 @property (nonatomic, strong) ZegoUser *user;
 
-/// 流 ID，最大256字节的字符串
+/// Stream ID,a string with a maximum length of no more than 128 bytes
 @property (nonatomic, copy) NSString *streamID;
 
-/// 流附加信息
+/// Stream extra info
 @property (nonatomic, copy) NSString *extraInfo;
 
 @end
 
 
-/// 视图对象
+/// View object
 @interface ZegoCanvas : NSObject
 
-/// View 对象
+/// View
 @property (nonatomic, strong) ZGView *view;
 
-/// 视图模式，默认为 ZegoViewModeAspectFit
+/// View mode, default is ZegoViewModeAspectFit
 @property (nonatomic, assign) ZegoViewMode viewMode;
 
-/// 背景颜色，格式为 0xRRGGBB，默认为黑色即 0x000000
+/// Background color, the format is 0xRRGGBB, default is black, which is 0x000000
 @property (nonatomic, assign) int backgroundColor;
 
-/// 创建视图，viewMode 默认为 ZegoViewModeAspectFit，背景色默认为黑色
+/// Create a ZegoCanvas, default viewMode is ZegoViewModeAspectFit, default background color is black
 + (instancetype)canvasWithView:(ZGView *)view;
 
-/// 创建视图，viewMode 默认为 ZegoViewModeAspectFit，背景色默认为黑色
+/// Create a ZegoCanvas, default viewMode is ZegoViewModeAspectFit, default background color is black
 - (instancetype)initWithView:(ZGView *)view;
 
 @end
 
 
-/// 推流质量对象
+/// Published stream quality information
 @interface ZegoPublishStreamQuality : NSObject
 
-/// 视频采集帧率
+/// Video capture frame rate
 @property (nonatomic, assign) double videoCaptureFPS;
 
-/// 视频编码帧率
+/// Video encoding frame rate
 @property (nonatomic, assign) double videoEncodeFPS;
 
-/// 视频发送帧率
+/// Video transmission frame rate
 @property (nonatomic, assign) double videoSendFPS;
 
-/// 视频码率
+/// Video bit rate
 @property (nonatomic, assign) double videoKBPS;
 
-/// 音频采集帧率
+/// Audio capture frame rate
 @property (nonatomic, assign) double audioCaptureFPS;
 
-/// 音频发送帧率
+/// Audio transmission frame rate
 @property (nonatomic, assign) double audioSendFPS;
 
-/// 音频码率
+/// Audio bit rate
 @property (nonatomic, assign) double audioKBPS;
 
-/// 本端至服务端的延迟，单位为毫秒
+/// Local to server delay, in milliseconds
 @property (nonatomic, assign) int rtt;
 
-/// 丢包率，单位为百分比，0.0 ~ 1.0
+/// Packet loss rate, in percentage, 0.0 ~ 1.0
 @property (nonatomic, assign) double packetLostRate;
 
-/// 推流质量级别
+/// Published stream quality level
 @property (nonatomic, assign) ZegoStreamQualityLevel level;
 
-/// 是否开启硬件编码
+/// Whether to enable hardware encoding
 @property (nonatomic, assign) BOOL isHardwareEncode;
 
 @end
 
 
-/// 转推 CDN 信息
+/// Relay to CDN execution information
 @interface ZegoStreamRelayCDNInfo : NSObject
 
-/// 转推至 CDN 的 URL
+/// URL relayed to CDN
 @property (nonatomic, copy) NSString *URL;
 
-/// 转推状态
+/// Status for relaying
 @property (nonatomic, assign) ZegoStreamRelayCDNState state;
 
-/// 转推状态变更的原因
+/// Reason for relay status change
 @property (nonatomic, assign) ZegoStreamRelayCDNUpdateReason updateReason;
 
-/// 状态发生的时间戳，单位为毫秒
+/// The timestamp when the state changed, in milliseconds
 @property (nonatomic, assign) unsigned long long stateTime;
 
 @end
 
 
-/// 拉流质量对象
+/// Played stream quality information
 @interface ZegoPlayStreamQuality : NSObject
 
-/// 视频接收帧率
+/// Video reception frame rate
 @property (nonatomic, assign) double videoRecvFPS;
 
-/// 视频解码帧率
+/// Video decoding frame rate
 @property (nonatomic, assign) double videoDecodeFPS;
 
-/// 视频渲染帧率
+/// Video rendering frame rate
 @property (nonatomic, assign) double videoRenderFPS;
 
-/// 视频码率
+/// Video bit rate
 @property (nonatomic, assign) double videoKBPS;
 
-/// 音频接收帧率
+/// Audio reception frame rate
 @property (nonatomic, assign) double audioRecvFPS;
 
-/// 音频解码帧率
+/// Audio decoding frame rate
 @property (nonatomic, assign) double audioDecodeFPS;
 
-/// 音频渲染帧率
+/// Audio rendering frame rate
 @property (nonatomic, assign) double audioRenderFPS;
 
-/// 音频码率
+/// Audio bit rate
 @property (nonatomic, assign) double audioKBPS;
 
-/// 服务端至本端的延迟，单位为毫秒
+/// Server to local delay, in milliseconds
 @property (nonatomic, assign) int rtt;
 
-/// 丢包率，单位为百分比，0.0 ~ 1.0
+/// Packet loss rate, in percentage, 0.0 ~ 1.0
 @property (nonatomic, assign) double packetLostRate;
 
-/// 拉流质量等级
+/// Pull flow quality level
 @property (nonatomic, assign) ZegoStreamQualityLevel level;
 
-/// 本端接收到数据后到播放的延迟，单位为毫秒
+/// Delay after the data is received by the local end, in milliseconds
 @property (nonatomic, assign) int delay;
 
-/// 是否开启硬件解码
+/// Whether to enable hardware decoding
 @property (nonatomic, assign) BOOL isHardwareDecode;
 
 @end
 
 
-/// 设备信息对象
+/// Device
 @interface ZegoDeviceInfo : NSObject
 
-/// 设备 ID
+/// Device ID
 @property (nonatomic, copy) NSString *deviceID;
 
-/// 设备名称
+/// Device name
 @property (nonatomic, copy) NSString *deviceName;
 
 @end
 
 
-/// 美颜参数对象
+/// Beauty configuration options
 @interface ZegoBeautifyOption : NSObject
 
-/// 美颜磨皮的采样步长，取值范围[0,1]。默认 0.2
+/// The sample step size of beauty peeling, the value range is [0,1]. Default 0.2
 @property (nonatomic, assign) double polishStep;
 
-/// 美颜美白的亮度参数，取值范围[0,1]，值越大亮度越亮。默认 0.5
+/// Brightness parameter for beauty and whitening, ranging from [0,1]. The larger the value, the brighter the brightness. Default 0.5
 @property (nonatomic, assign) double whitenFactor;
 
-/// 美颜锐化参数，取值范围[0,1]，值越大锐化越强。默认 0.1
+/// Beauty sharpening parameter, value range [0,1], the larger the value, the stronger the sharpening. Default 0.1
 @property (nonatomic, assign) double sharpenFactor;
 
-/// 创建默认美颜参数对象
+/// Create a default beautify option configuration
 + (instancetype)defaultConfig;
 
 @end
 
 
-/// 混流音频配置
+/// Mix stream audio config object
 @interface ZegoMixerAudioConfig : NSObject
 
-/// 音频码率，默认为 48*1000 bit/s，开始混流任务后不能修改
+/// Audio bitrate, default is 48 * 1000 bit/s, cannot be modified after starting a mixer task
 @property (nonatomic, assign) int bitrate;
 
-/// 创建默认混流音频配置，音频码率为 48*1000 bit/s
+/// Create a default mix stream audio configuration, audio bitrate is  48 * 1000 bit/s
 + (instancetype)defaultConfig;
 
 @end
 
 
-/// 混流视频配置
+/// Mix stream video config object
 @interface ZegoMixerVideoConfig : NSObject
 
-/// 视频分辨率
+/// Video resolution
 @property (nonatomic, assign) CGSize resolution;
 
-/// 视频帧率，开始混流任务后不能修改
+/// Video FPS, cannot be modified after starting a mixer task
 @property (nonatomic, assign) int fps;
 
-/// 视频码率
+/// Video bitrate
 @property (nonatomic, assign) int bitrate;
 
-/// 创建默认混流视频配置，ZegoResolution360x640
+/// Create a default mix stream video configuration, ZegoResolution360x640
 + (instancetype)defaultConfig;
 
-/// 通过预设枚举值创建视频配置
+/// Create a video configuration with preset enumeration values
 + (instancetype)configWithResolution:(ZegoResolution)resolution;
 
-/// 通过预设枚举值创建视频配置
+/// Create a video configuration with preset enumeration values
 - (instancetype)initWithResolution:(ZegoResolution)resolution;
 
 @end
 
 
-/// 混流输入
+/// Mix stream input object
 @interface ZegoMixerInput : NSObject
 
-/// 混流内容类型
+/// Mix stream content type
 @property (nonatomic, assign) ZegoMixerInputContentType contentType;
 
-/// 流 ID
+/// Stream ID
 @property (nonatomic, copy) NSString *streamID;
 
-/// 流的布局
+/// Layout of the stream
 @property (nonatomic, assign) CGRect layout;
 
-/// 创建混流输入对象
+/// Create a mix stream input object
 - (instancetype)initWithStreamID:(NSString *)streamID contentType:(ZegoMixerInputContentType)contentType layout:(CGRect)layout;
 
 @end
 
 
-/// 混流输出
+/// Mix stream output object
 @interface ZegoMixerOutput : NSObject
 
-/// 混流输出目标，URL 或者流 ID
+/// Mix stream output target, URL or stream ID
 @property (nonatomic, copy) NSString *target;
 
-/// 创建混流输出对象
+/// Create a mix stream output object
 - (instancetype)initWithTarget:(NSString *)target;
 
 @end
 
 
-/// 水印对象
+/// Watermark object
 @interface ZegoWatermark : NSObject
 
-/// 水印图片 URL
+/// Watermark image URL
 @property (nonatomic, copy) NSString *imageURL;
 
-/// 水印图片的大小方位
+/// Watermark image layout
 @property (nonatomic, assign) CGRect layout;
 
-/// 创建水印对象
+/// Create a watermark object
 - (instancetype)initWithImageURL:(NSString *)imageURL layout:(CGRect)layout;
 
 @end
 
 
-/// 混流任务对象
+/// Mix stream task object
 @interface ZegoMixerTask : NSObject
 
-/// 混流任务ID
+/// Mixer task ID
 @property (nonatomic, copy, readonly) NSString *taskID;
 
-/// 此方法不可用，请使用 `initWithTaskID:`
+/// This method is unavaialble. Please use `initWithTaskID:` instead.
 + (instancetype)new NS_UNAVAILABLE;
 
-/// 此方法不可用，请使用 `initWithTaskID:`
+/// This method is unavaialble. Please use `initWithTaskID:` instead.
 - (instancetype)init NS_UNAVAILABLE;
 
-/// 通过 TaskID 构造一个混流任务对象
+/// Create a mix stream task object with TaskID
 - (instancetype)initWithTaskID:(NSString *)taskID;
 
-/// 设置混流任务对象的音频配置
+/// Set the audio configuration of the mix stream task object
 - (void)setAudioConfig:(ZegoMixerAudioConfig *)audioConfig;
 
-/// 设置混流任务对象的视频配置
+/// Set the video configuration of the mix stream task object
 - (void)setVideoConfig:(ZegoMixerVideoConfig *)videoConfig;
 
-/// 设置混流任务对象的输入流列表
+/// Set the input stream list for the mix stream task object
 - (void)setInputList:(NSArray<ZegoMixerInput *> *)inputList;
 
-/// 设置混流任务对象的输出列表
+/// Set the output list of the mix stream task object
 - (void)setOutputList:(NSArray<ZegoMixerOutput *> *)outputList;
 
-/// 设置混流任务对象的水印
+/// Set the watermark of the mix stream task object
 - (void)setWatermark:(ZegoWatermark *)watermark;
 
-/// 设置混流任务对象的背景图片
+/// Set the background image of the mix stream task object
 - (void)setBackgroundImageURL:(NSString *)backgroundImageURL;
 
 @end
 
 
-/// 混流 CDN 详情
+/// Mix Stream CDN information
 @interface ZegoMixerCDNInfo : NSObject
 
-/// rtmp地址列表
+/// rtmp URL list
 @property (nonatomic, strong) NSArray<NSString *> *rtmpList;
 
-/// flv地址列表
+/// flv URL list
 @property (nonatomic, strong) NSArray<NSString *> *flvList;
 
-/// hls地址列表
+/// hls URL list
 @property (nonatomic, strong) NSArray<NSString *> *hlsList;
 
 @end
 
 
-/// 开始混流的结果
+/// Start mix stream results
 @interface ZegoMixerStartResult : NSObject
 
-/// 错误码
+/// Error code
 @property (nonatomic, assign) int errorCode;
 
 @end
 
 
-/// 收到的消息
+/// Received message
 @interface ZegoMessageInfo : NSObject
 
-/// 消息内容
+/// Message content
 @property (nonatomic, copy) NSString *message;
 
-/// 消息的发送时间
+/// Message send time
 @property (nonatomic, assign) unsigned long long sendTime;
 
-/// 消息的发送者
+/// Message sender
 @property (nonatomic, strong) ZegoUser *fromUser;
 
 @end
 
 
-/// 视频帧的参数对象
+/// Parameter object for video frame
 @interface ZegoVideoFrameParam : NSObject
 
-/// 视频帧的格式
+/// Video frame format
 @property (nonatomic, assign) ZegoVideoFrameFormat format;
 
-/// 每个平面一行字节数（此参数为 int 数组，数组长度为4，RGBA 只需考虑 strides[0]，I420 需考虑 strides[0,1,2]）
+/// Number of bytes per line (this parameter is an int array, the array length is 4,  RGBA only needs to consider strides [0], I420 needs to consider strides [0,1,2])
 @property (nonatomic, assign) int *strides;
 
-/// 视频帧的画面尺寸
+/// Video frame size
 @property (nonatomic, assign) CGSize size;
 
 @end
 
 
-/// 音频帧的参数对象
+/// Parameter object for audio frame
 @interface ZegoAudioFrameParam : NSObject
 
-/// 采样率
+/// Sampling Rate
 @property (nonatomic, assign) int sampleRate;
 
-/// 声道数
+/// Number of channels
 @property (nonatomic, assign) int channels;
 
 @end
 
 
-/// 推流音频配置
+/// Audio configuration
 @interface ZegoAudioConfig : NSObject
 
-/// 码率
+/// Bitrate
 @property (nonatomic, assign) int bitrate;
 
-/// 声道数
+/// Channel count
 @property (nonatomic, assign) int channels;
 
-/// 编码 ID
+/// Codec ID
 @property (nonatomic, assign) int codecID;
 
-/// 创建默认音频配置(ZegoAudioConfigPresetLowLatencyStandardQuality)
+/// Create a default audio configuration (ZegoAudioConfigPresetLowLatencyStandardQuality)
 + (instancetype)defaultConfig;
 
-/// 通过预设枚举值创建音频配置
+/// Create a audio configuration with preset enumeration values
 + (instancetype)configWithPreset:(ZegoAudioConfigPreset)preset;
 
-/// 通过预设枚举值创建音频配置
+/// Create a audio configuration with preset enumeration values
 - (instancetype)initWithPreset:(ZegoAudioConfigPreset)preset;
 
 @end
 
 
-/// 媒体播放器
+/// Media Player
 @interface ZegoMediaPlayer : NSObject
 
-/// 整个文件的播放时长，毫秒
+/// The duration of the entire file, in milliseconds
 @property (nonatomic, assign, readonly) unsigned long long totalDuration;
 
-/// 当前播放进度，毫秒
+/// Current playback progress, milliseconds
 @property (nonatomic, assign, readonly) unsigned long long currentProgress;
 
-/// 当前音量，0 ~ 100
+/// Current volume, 0 ~ 100
 @property (nonatomic, assign, readonly) int volume;
 
-/// 播放器当前的播放状态
+/// Player's current playback status
 @property (nonatomic, assign, readonly) ZegoMediaPlayerState currentState;
 
-/// 此方法不可用，请使用 `-[ZegoExpressEngine(MediaPlayer) createMediaPlayer]`
+/// This method is unavaialble. Please use `-[ZegoExpressEngine(MediaPlayer) createMediaPlayer]` instead.
 + (instancetype)new NS_UNAVAILABLE;
 
-/// 此方法不可用，请使用 `-[ZegoExpressEngine(MediaPlayer) createMediaPlayer]`
+/// This method is unavaialble. Please use `-[ZegoExpressEngine(MediaPlayer) createMediaPlayer]` instead.
 - (instancetype)init NS_UNAVAILABLE;
 
-/// 设置播放器事件通知回调
+/// Set player event callback handler
 - (void)setEventHandler:(nullable id<ZegoMediaPlayerEventHandler>)handler;
 
-/// 设置播放器视频数据回调，希望接收的视频帧数据格式以及数据类型
+/// Set the player video data callback handler, the video frame data format and data type you want to receive
 - (void)setVideoHandler:(nullable id<ZegoMediaPlayerVideoHandler>)handler format:(ZegoVideoFrameFormat)format type:(ZegoVideoBufferType)type;
 
-/// 设置播放器音频数据回调
+/// Set player audio data callback handler
 - (void)setAudioHandler:(nullable id<ZegoMediaPlayerAudioHandler>)handler;
 
-/// 加载资源，可传本地资源的绝对路径或者网络资源的 URL
+/// Load the resource, you can pass the absolute path of the local resource or the URL of the network resource
 - (void)loadResource:(NSString *)path callback:(nullable ZegoMediaPlayerLoadResourceCallback)callback;
 
-/// 开始播放（播放前需要先加载资源）
+/// Start playing (requires loading resources before playing)
 - (void)start;
 
-/// 停止播放
+/// Stop play
 - (void)stop;
 
-/// 暂停播放
+/// Pause playback
 - (void)pause;
 
-/// 恢复播放
+/// Resume playback
 - (void)resume;
 
-/// 设置指定播放进度，毫秒
+/// Sets the specified playback progress in milliseconds
 - (void)seekTo:(unsigned long long)millisecond callback:(nullable ZegoMediaPlayerSeekToCallback)callback;
 
-/// 设置是否重复播放
+/// Set whether to repeat playback
 - (void)enableRepeat:(BOOL)enable;
 
-/// 设置是否将播放器的声音混入正在推的流中
+/// Set whether to mix the player's sound into the stream being publish
 - (void)enableAux:(BOOL)enable;
 
-/// 是否静默本地播放（若开启了混音入流则推的流中仍然有声音）
+/// Whether to play locally silently (if aux is enabled, there will still be sound in the publish stream)
 - (void)muteLocal:(BOOL)mute;
 
-/// 设置播放器视图
+/// Set player view
 - (void)setPlayerCanvas:(nullable ZegoCanvas *)canvas;
 
-/// 设置播放器音量
+/// Set player volume
 - (void)setVolume:(int)volume;
 
-/// 设置播放进度回调间隔
+/// Set playback progress callback interval
 - (void)setProgressInterval:(unsigned long long)millisecond;
 
 @end

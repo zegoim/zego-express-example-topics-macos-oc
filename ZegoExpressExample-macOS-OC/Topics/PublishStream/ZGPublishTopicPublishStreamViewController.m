@@ -71,6 +71,9 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 - (void)setupUI {
     self.title = @"Publish Stream";
     
+    self.startButton.enabled = YES;
+    self.stopButton.enabled = NO;
+    
     self.publishResolutionLabel.stringValue = @"Resolution: ";
     self.publishResolutionLabel.backgroundColor = [NSColor colorWithWhite:0.0 alpha:0.4];
     self.publishResolutionLabel.drawsBackground = YES;
@@ -126,6 +129,12 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 #pragma mark - Start and Stop
 
 - (IBAction)startButtonClick:(NSButton *)sender {
+    self.roomIDTextField.enabled = NO;
+    self.streamIDTextField.enabled = NO;
+    self.hardwareEncoderCheckBox.enabled = NO;
+    self.startButton.enabled = NO;
+    self.stopButton.enabled = YES;
+    
     self.roomID = self.roomIDTextField.stringValue;
     self.streamID = self.streamIDTextField.stringValue;
     
@@ -145,6 +154,12 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 }
 
 - (IBAction)stopButtonClick:(NSButton *)sender {
+    self.roomIDTextField.enabled = YES;
+    self.streamIDTextField.enabled = YES;
+    self.hardwareEncoderCheckBox.enabled = YES;
+    self.startButton.enabled = YES;
+    self.stopButton.enabled = NO;
+    
     // Stop publishing
     [self appendLog:@" 📤 Stop publishing stream"];
     [self.engine stopPublishing];

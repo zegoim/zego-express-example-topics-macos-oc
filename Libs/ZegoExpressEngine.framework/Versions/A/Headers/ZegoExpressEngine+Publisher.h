@@ -11,99 +11,98 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZegoExpressEngine (Publisher)
 
-/// 开始推流
-/// @discussion 可通过此接口让用户将自己本地的音视频流推送到 ZEGO 实时音视频云，同一房间的其他用户通过 streamID 就可以拉取该音视频流进行互通。在开始推流前，需要先加入房间，同房间内其他用户可通过监听 onRoomStreamUpdate:streamList:room: 事件回调来获取该 streamID 新增。在网络质量不佳的情况下，用户推流可能出现中断， SDK 会尝试重新连接，可通过监听 onPublisherStateUpdate:errorCode:stream: 事件来获知当前推流状态以及错误信息。
-/// @param streamID 流 ID，长度不超过256的字符串，需要在整个 AppID 内全局唯一，若出现在同一个 AppID 内，不同的用户各推了一条流且流名相同 ，将会导致后推流的用户推流失败
+/// Start publishing stream
+/// @discussion This interface allows users to publish their local audio and video streams to the ZEGO real-time audio and video cloud. Other users in the same room can use the streamID to pull the audio and video streams for intercommunication.Before you start to push the stream, you need to join the room first. Other users in the same room can get the streamID by monitoring the onRoomStreamUpdate:streamList:room: event callback.In the case of poor network quality, user push may be interrupted, and the SDK will attempt to reconnect. You can learn about the current state and error infomation of the stream published by monitoring the onPublisherStateUpdate:errorCode:stream: event.
+/// @param streamID Stream ID, a string of up to 256 characters, needs to be globally unique within the entire AppID. If in the same AppID, different users push each stream and the stream ID is the same, which will cause the user to push the stream failure.
 - (void)startPublishing:(NSString *)streamID;
 
-/// 停止推流
-/// @discussion 可通过此接口让用户停止发送本地的音视频流，结束通话。如果用户已经启动推流，在推新流（新的streamID）之前，必须要调用此接口停止当前流的推送，否则新流推送会返回失败。
+/// Stop publishing stream
+/// @discussion This interface allows the user to stop sending local audio and video streams and end the call. If the user has initiated publish flow, this interface must be called to stop the publish of the current stream before pushing the new stream (new streamID), otherwise the new stream push will return a failure.
 - (void)stopPublishing;
 
-/// 设置流附加信息
-/// @discussion 可通过此接口设置当前推流的流附加信息，设置结果会通过 ZegoPublisherSetStreamExtraInfoCallback 回调通知。
-/// @param extraInfo 流附加信息，长度不超过1024的字符串。
-/// @param callback 更新流附加信息执行结果通知
+/// Set stream extra information
+/// @discussion User this interface to set the extra info of the stream, the result will be notified via the ZegoPublisherSetStreamExtraInfoCallback.
+/// @param extraInfo Stream extra information, a string of up to 1024 characters.
+/// @param callback Set stream extra information execution result notification
 - (void)setStreamExtraInfo:(NSString *)extraInfo callback:(nullable ZegoPublisherSetStreamExtraInfoCallback)callback;
 
-/// 启动/更新本地预览
-/// @discussion 用户通过调用此接口可以看到自己本地的画面。预览功能不需要先登陆房间或推流。可以通过再次调用该接口来更新本地视图和视图预览模式。可以通过调用 setVideoMirrorMode: 接口来设置预览的镜像模式，默认为开启预览镜像。
-/// @param canvas 启动预览时用于显示画面的视图，视图设置为空则不进行预览。
+/// Start/Update local preview
+/// @discussion The user can see his own local image by calling this interface. The preview function does not require you to log in to the room or push the stream first.Local view and preview modes can be updated by calling this interface again.You can set the mirror mode of the preview by calling the setVideoMirrorMode: interface. The default preview setting is image mirrored. 
+/// @param canvas The view used to display the preview image. If the view is set to empty, no preview will be made.
 - (void)startPreview:(nullable ZegoCanvas *)canvas;
 
-/// 停止本地预览
-/// @discussion 当本地不需要看到预览画面时可调用此接口停止预览。
+/// Stop local preview
+/// @discussion This interface can be called to stop previewing when there is no need to see the preview image locally.
 - (void)stopPreview;
 
-/// 设置视频配置
-/// @discussion 可通过此接口设置视频帧率、码率，视频采集分辨率，视频编码输出分辨率。如果不调用此接口，默认分辨率为 360p，码率为 600 kbps，帧率为 15 fps。需要在推流前设置好相关视频配置，在推流后仅支持编码分辨率和码率的修改。
-/// @param videoConfig 视频配置，SDK 提供常用的分辨率、帧率和码率的组合值，也可自定义分辨率、帧率和码率
+/// Set up video configuration
+/// @discussion This interface can be used to set the video frame rate, bit rate, video capture resolution, and video encoding output resolution. If you do not call this interface, the default resolution is 360p, the bit rate is 600 kbps, and the frame rate is 15 fps. It is necessary to set the relevant video configuration before pushing the stream, and only support the modification of the encoding resolution and the bit rate after publishing the stream.
+/// @param videoConfig Video configuration, the SDK provides a common setting combination of resolution, frame rate and bit rate, they also can be customized.
 - (void)setVideoConfig:(ZegoVideoConfig *)videoConfig;
 
-/// 设置镜像模式
-/// @discussion 可调用此接口来设置本地预览视频以及推送的视频是否开启镜像模式。
-/// @param mirrorMode 预览或推流的镜像模式。
+/// Set mirror mode
+/// @discussion This interface can be called to set whether the local preview video and the published video have mirror mode enabled.
+/// @param mirrorMode Mirror mode for previewing or publishing the stream
 - (void)setVideoMirrorMode:(ZegoVideoMirrorMode)mirrorMode;
 
 #if TARGET_OS_IPHONE
-/// 设置采集视频的朝向
-/// @discussion 此接口可设置视频的朝向方位，相比与手机正立的正向，将采集到的数据按照参数 UIInterfaceOrientation 的枚举值进行旋转，旋转后会自动进行调整，以适配编码后的图像分辨率。
-/// @param orientation 视频的朝向。
+/// Set the orientation of the captured video
+/// @discussion This interface can set the orientation of the video. Compared with the forward direction of the mobile phone, the collected data is rotated according to the value of the parameter UIInterfaceOrientation. After the rotation, it will be automatically adjusted to adapt the encoded image resolution. .
+/// @param orientation Video orientation
 - (void)setAppOrientation:(UIInterfaceOrientation)orientation;
 #endif
 
-/// 设置音频质量配置
-/// @discussion 可通过此接口设置音频编码类型、码率，声道数的组合值。如果不调用此接口，默认为“普通延迟-标准音质”模式。仅支持推流前设置。
-/// @param config 音频质量配置
+/// set audio config
+/// @discussion You can set the combined value of the audio codec, bit rate, and number of channels through this interface. If this interface is not called, the default is "normal_latency_standard_quality" mode. Should be used before publishing.
+/// @param config Audio config
 - (void)setAudioConfig:(ZegoAudioConfig *)config;
 
-/// 停止或恢复发送音频流
-/// @discussion 推流时可调用此接口实现只推视频流不推音频，本地仍会采集和处理音频，但不向网络发送音频数据。可以在推流前设置。如果在本地设置了停止发送音频流，对端可以通过监听 onRemoteMicStateUpdate:stream: 回调收到 ZegoRemoteDeviceStateMute 的状态变更通知。
-/// @param mute 是否停止发送音频流，YES 表示只发送视频流不发送音频流，NO 表示同时发送音频和视频流。默认为 NO。
+/// Stop or resume sending audio streams
+/// @discussion This interface can be called when publishing the stream to push only the video stream without pushing the audio. The SDK still collects and processes the audio, but does not send the audio data to the network. It can be set before publishing.If you stop sending audio streams, the peer can receive  ZegoRemoteDeviceStateMute status change notification by monitoring onRemoteMicStateUpdate:stream: callbacks,
+/// @param mute Whether to stop sending audio streams, YES means that only the video stream is sent without sending the audio stream, and NO means that the audio and video streams are sent simultaneously. The default is NO.
 - (void)mutePublishStreamAudio:(BOOL)mute;
 
-/// 停止或恢复发送视频流
-/// @discussion 推流时可调用此接口实现只推音频流不推视频流，本地摄像头仍能正常工作，能正常采集，预览和处理视频画面，但不向网络发送视频数据。可以在推流前设置。如果在本地设置了停止发送视频流，对端可以通过监听 onRemoteCameraStateUpdate:stream: 回调收到 ZegoRemoteDeviceStateMute 的状态变更通知。
-/// @param mute 是否停止发送视频流，YES 表示只发送音频流不发送视频流，NO 表示同时发送音频和视频流。默认为 NO。
+/// Stop or resume sending a video stream
+/// @discussion When publishing the stream, this interface can be called to push only the audio stream without pushing the video stream. The local camera can still work normally, and can normally capture, preview and process the video picture, but does not send the video data to the network. It can be set before publishing.If you stop sending video streams locally, the peer can receive ZegoRemoteDeviceStateMute status change notification by monitoring onRemoteCameraStateUpdate:stream: callbacks,
+/// @param mute Whether to stop sending video streams, YES means that only the audio stream is sent without sending the video stream, and NO means that the audio and video streams are sent at the same time. The default is NO.
 - (void)mutePublishStreamVideo:(BOOL)mute;
 
-/// 设置推流端采集音量
-/// @discussion 此接口用于设置音频的采集音量，本端用户可控制往远端发送音频流的声音大小。可以在推流前设置。
-/// @param volume 音量百分比，默认值为100
+/// Set the captured volume for publishing stream
+/// @discussion This interface is used to set the audio collection volume. The local user can control the volume of the audio stream sent to the far end. It can be set before publishing.
+/// @param volume Volume percentage, default is 100
 - (void)setCaptureVolume:(int)volume;
 
-/// 增加转推至 CDN 的 URL
-/// @discussion 当需要将音视频流转推到其它指定的 CDN 时需要调用此接口进行设置。
-/// @param targetURL CDN 转推地址，支持的转推地址格式有 rtmp，flv，hls
-/// @param streamID 需要转推的流 ID
-/// @param callback 添加 CDN 转推结果通知
+/// Add URL to relay to CDN
+/// @discussion This interface needs to be called for setting when you need to transfer audio and video streams to other specified CDNs.
+/// @param targetURL Stream ID that needs to be relayed
+/// @param streamID CDN relay address, supported address format rtmp, flv, hls
+/// @param callback The execution result notification of the relay CDN operation, and proceed to the next step according to the execution result.
 - (void)addPublishCDNURL:(NSString *)targetURL stream:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCDNURLCallback)callback;
 
-/// 删除转推至 CDN 的 URL
-/// @discussion 当已经添加了某个 CDN 转推地址，需要停止将流停止转推至该接口时调用此接口。
-/// @param targetURL CDN 转推地址，支持的转推地址格式有 rtmp，flv，hls
-/// @param streamID 需要停止转推的流 ID
-/// @param callback 移除 CDN 转推结果通知
+/// Delete the URL relayed to the CDN
+/// @discussion This interface is called when a CDN relayed address has been added and needs to stop propagating the stream to the CDN.
+/// @param targetURL Stream ID that needs to stop relay
+/// @param streamID CDN relay address, supported address format rtmp, flv, hls
+/// @param callback Remove CDN relay result notifications
 - (void)removePublishCDNURL:(NSString *)targetURL stream:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCDNURLCallback)callback;
 
-/// 设置推流水印
-/// @discussion 推流前设置，水印的布局不能超出推流的视频编码分辨率。
-/// @param watermark 水印布局左上角为坐标系原点，区域不能超过编码分辨率设置的大小
-/// @param isPreviewVisible 是否本地预览能看见水印
+/// set publish watermark
+/// @discussion Set before publishing. The layout of the watermark cannot exceed the video encoding resolution of stream.
+/// @param watermark The upper left corner of the watermark layout is the origin of the coordinate system, and the area cannot exceed the size set by the encoding resolution.
+/// @param isPreviewVisible the watermark is visible on local preview
 - (void)setPublishWatermark:(ZegoWatermark *)watermark isPreviewVisible:(BOOL)isPreviewVisible;
 
-/// 发送媒体增强补充信息
-/// @discussion 此接口可在开发者推流传输音视频流数据同时，发送流媒体增强补充信息来同步一些其他附加信息。一般如同步音乐歌词或视频画面精准布局等场景，可选择使用发送 SEI。当推流方发送 SEI 后，拉流方可通过监听 onPlayerRecvSEI 的回调获取SEI内容。
-/// @param data SEI 内容
+/// Send SEI
+/// @param data SEI data
 - (void)sendSEI:(NSData *)data;
 
-/// 开/关硬件编码
-/// @discussion 推流时是否采用硬件编码的开关，开启硬解编码后会使用 GPU 进行编码，降低 CPU 使用率。在推流前设置才能生效，如果在推流后设置，停推后重新推流可以生效。
-/// @param enable 是否开启硬件编码。YES 表示开启硬件编码，NO 表示关闭硬件编码。
+/// On/off hardware encoding
+/// @discussion Whether to use the hardware encoding function when publishing the stream, the GPU is used to encode the stream and to reduce the CPU usage. The setting can take effect before the stream published. If it is set after the stream published, the stream should be stopped first before it takes effect.
+/// @param enable Whether to enable hardware encoding. True means that the hardware encoding is turned on, and false means that the hardware encoding is turned off.
 - (void)enableHardwareEncoder:(BOOL)enable;
 
-/// 设置采集时机
-/// @param mode 采集时机
+/// set capture pipline scale mode
+/// @param mode capture mode
 - (void)setCapturePipelineScaleMode:(ZegoCapturePipelineScaleMode)mode;
 
 @end

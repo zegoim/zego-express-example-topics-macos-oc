@@ -11,75 +11,75 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZegoExpressEngine (Device)
 
-/// 开/关麦克风
-/// @discussion 此接口用于控制是否使用采集到的音频数据，关闭麦克风即采集到数据后就丢弃，此时仍然会占用麦克风
-/// @param mute 是否开启麦克风，YES 表示关闭麦克风；NO 表示开启麦克风
+/// On/off microphone
+/// @discussion This interface is used to control whether the collected audio data is used. When the microphone is turned off, the data is collected and discarded, and the microphone is still occupied.
+/// @param mute Whether to turn on the microphone, YES means to turn off the microphone; NO means to turn on the microphone
 - (void)muteMicrophone:(BOOL)mute;
 
-/// 开/关音频输出至设备
-/// @discussion 关闭后SDK将不会再传递音频数据给输出设备，以达到静音的效果
-/// @param mute 是否开启音频输出到设备，YES 表示关闭音频输出；NO 表示开启音频输出
+/// Turn on/off audio output to the device
+/// @discussion This interface is used to control whether the SDK needs to throw audio data to the device.
+/// @param mute Whether to enable audio output to the device, YES  means to turn off the audio output; NO means turn on the audio output
 - (void)muteAudioOutput:(BOOL)mute;
 
 #if TARGET_OS_OSX
-/// 选择使用某个音频设备
-/// @discussion 只适用于 macOS
-/// @param deviceID 通过 getAudioDeviceList: 获取的某个设备的 ID
-/// @param deviceType 音频设备类型
+/// Choose to use an audio device
+/// @discussion Only for macOS
+/// @param deviceID ID of a device obtained by getAudioDeviceList
+/// @param deviceType Audio device type
 - (void)useAudioDevice:(NSString *)deviceID type:(ZegoAudioDeviceType)deviceType;
 #endif
 
 #if TARGET_OS_OSX
-/// 获取音频设备列表
-/// @discussion 只适用于 macOS
-/// @param deviceType 音频设备类型
-/// @return 音频设备列表
+/// Get a list of audio devices
+/// @discussion Only for macOS
+/// @param deviceType Audio device type
+/// @return Audo device List
 - (NSArray<ZegoDeviceInfo *> *)getAudioDeviceList:(ZegoAudioDeviceType)deviceType;
 #endif
 
 #if TARGET_OS_IPHONE
-/// 开/关音频采集设备
-/// @discussion 此接口用于控制是否释放音频采集设备，关闭音频采集设备，则 SDK 不会再占用音频设备，当然如果此时正在推流，也没有音频数据。
-/// @param enable 是否使能音频采集设备，YES 表示开启音频采集设备，NO 表示关闭音频采集设备
+/// On/off audio capture device
+/// @discussion This interface is used to control whether to release the audio collection device. When the audio collection device is turned off, the SDK will no longer occupy the audio device. Of course, if the stream is being pushed at this time, there is no audio data.
+/// @param enable Whether to enable the audio capture device, YES means to enable the audio capture device, NO means turn off the audio capture device
 - (void)enableAudioCaptureDevice:(BOOL)enable;
 #endif
 
-/// 开/关摄像头
-/// @discussion 此接口用于控制是否启动摄像头的采集，关闭摄像头后，将不会进行视频采集，此时推流也将没有视频数据
-/// @param enable 是否打开摄像头，NO 表示关闭摄像头；YES 表示开启摄像头
+/// On/off camera
+/// @discussion This interface is used to control whether to start the camera acquisition. After the camera is turned off, video capture will not be performed. At this time, the push stream will also have no video data.
+/// @param enable Whether to turn on the camera, NO means to turn off the camera; YES means to turn on the camera
 - (void)enableCamera:(BOOL)enable;
 
 #if TARGET_OS_IPHONE
-/// 切换前后摄像头
-/// @discussion 此接口用于控制使用前摄像头或者后摄像头
-/// @param enable 是否采用前置摄像头，NO 表示使用后置摄像头；YES 表示使用前置摄像头
+/// Switch front and rear camera
+/// @discussion This interface is used to control the front or rear camera
+/// @param enable Whether to use the front camera. NO means using a rear camera; YES means using a front camera
 - (void)useFrontCamera:(BOOL)enable;
 #endif
 
 #if TARGET_OS_OSX
-/// 选择使用某个视频设备
-/// @discussion 只适用于 macOS
-/// @param deviceID 通过 getVideoDeviceList: 获取的某个设备的 ID
+/// Choose to use a video device
+/// @discussion Only for macOS
+/// @param deviceID ID of a device obtained by getVideoDeviceList
 - (void)useVideoDevice:(NSString *)deviceID;
 #endif
 
 #if TARGET_OS_OSX
-/// 获取视频设备列表
-/// @discussion 只适用于 macOS
-/// @return 视频设备列表
+/// Get a list of video devices
+/// @discussion Only for macOS
+/// @return Video device List
 - (NSArray<ZegoDeviceInfo *> *)getVideoDeviceList;
 #endif
 
-/// 启动声浪监控
+/// Start the sound level monitor
 - (void)startSoundLevelMonitor;
 
-/// 停止声浪监控
+/// Stop the sound level monitor
 - (void)stopSoundLevelMonitor;
 
-/// 启动音频频谱监控
+/// Start the audio spectrum monitor
 - (void)startAudioSpectrumMonitor;
 
-/// 停止音频频谱监控
+/// Stop the audio spectrum monitor
 - (void)stopAudioSpectrumMonitor;
 
 @end

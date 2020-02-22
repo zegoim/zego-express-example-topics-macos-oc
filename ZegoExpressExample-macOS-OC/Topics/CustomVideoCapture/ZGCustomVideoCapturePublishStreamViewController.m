@@ -58,7 +58,12 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
 }
 
 - (void)setupUI {
-    self.title = @"Publish Stream";
+    self.title = @"Custom Video Capture";
+    
+    self.dataFormatPopUpButton.autoenablesItems = NO;
+    
+    self.startButton.enabled = YES;
+    self.stopButton.enabled = NO;
         
     self.roomID = [self savedValueForKey:ZGCustomVideoCapturePublishStreamKeyRoomID] ? : @"";
     self.roomIDTextField.stringValue = self.roomID;
@@ -96,8 +101,12 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
 #pragma mark - Start and Stop
 
 - (IBAction)startButtonClick:(NSButton *)sender {
+    self.roomIDTextField.enabled = NO;
+    self.streamIDTextField.enabled = NO;
     self.captureSourcePopUpButton.enabled = NO;
     self.dataFormatPopUpButton.enabled = NO;
+    self.startButton.enabled = NO;
+    self.stopButton.enabled = YES;
     
     self.captureDevice = nil;
     
@@ -123,8 +132,12 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
 }
 
 - (IBAction)stopButtonClick:(NSButton *)sender {
+    self.roomIDTextField.enabled = YES;
+    self.streamIDTextField.enabled = YES;
     self.captureSourcePopUpButton.enabled = YES;
     self.dataFormatPopUpButton.enabled = YES;
+    self.startButton.enabled = YES;
+    self.stopButton.enabled = NO;
     
     // Stop publishing
     [self appendLog:@" 📤 Stop publishing stream"];
@@ -151,6 +164,14 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
 
 - (IBAction)captureSourcePopUpButtonAction:(NSPopUpButton *)sender {
     self.captureSourceType = sender.indexOfSelectedItem;
+    
+    if (self.captureSourceType == 1) {
+        [[self.dataFormatPopUpButton itemAtIndex:1] setEnabled:NO];
+        [self.dataFormatPopUpButton selectItemAtIndex:0];
+    } else {
+        [[self.dataFormatPopUpButton itemAtIndex:1] setEnabled:YES];
+        [self.dataFormatPopUpButton selectItemAtIndex:0];
+    }
 }
 
 - (IBAction)dataFormatPopUpButtonAction:(NSPopUpButton *)sender {

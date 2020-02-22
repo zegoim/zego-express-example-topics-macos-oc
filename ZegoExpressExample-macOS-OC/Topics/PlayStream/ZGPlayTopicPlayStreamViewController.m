@@ -63,7 +63,10 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 }
 
 - (void)setupUI {
-    self.title = @"Publish Stream";
+    self.title = @"Play Stream";
+    
+    self.startButton.enabled = YES;
+    self.stopButton.enabled = NO;
     
     self.playResolutionLabel.stringValue = @"Resolution: ";
     self.playResolutionLabel.backgroundColor = [NSColor colorWithWhite:0.0 alpha:0.4];
@@ -106,6 +109,12 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 #pragma mark - Start and Stop
 
 - (IBAction)startButtonClick:(NSButton *)sender {
+    self.roomIDTextField.enabled = NO;
+    self.streamIDTextField.enabled = NO;
+    self.hardwareDecoderCheckBox.enabled = NO;
+    self.startButton.enabled = NO;
+    self.stopButton.enabled = YES;
+    
     self.roomID = self.roomIDTextField.stringValue;
     self.streamID = self.streamIDTextField.stringValue;
     
@@ -125,6 +134,12 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 }
 
 - (IBAction)stopButtonClick:(NSButton *)sender {
+    self.roomIDTextField.enabled = YES;
+    self.streamIDTextField.enabled = YES;
+    self.hardwareDecoderCheckBox.enabled = YES;
+    self.startButton.enabled = YES;
+    self.stopButton.enabled = NO;
+    
     // Stop publishing
     [self appendLog:@" 📥 Stop playing stream"];
     [self.engine stopPlayingStream:self.streamID];

@@ -15,183 +15,183 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
-/// 调试错误信息回调
-/// @discussion 调用 SDK 接口出现异常时，会通过该回调提示详细的异常信息，该回调受 setDebugVerbose:language: 接口控制。
-/// @param errorCode 错误码，详情请参考常用错误码文档
-/// @param funcName 接口名
-/// @param info 错误的详细信息
+/// Debug error message callback
+/// @discussion When the APIs are not used correctly, the callback prompts for detailed error information, which is controlled by the setDebugVerbose:language:  interface.
+/// @param errorCode Error code, please refer to the common error code document for details.
+/// @param funcName Function name
+/// @param info Detailed error information
 - (void)onDebugError:(int)errorCode funcName:(NSString *)funcName info:(NSString *)info;
 
 #pragma mark Room Callback
 
-/// 房间状态变化回调
-/// @discussion 当房间的连接状态发生变化时将触发此回调，并告知发生变化的原因。
-/// @param state 变化后的的房间状态
-/// @param errorCode 错误码，详情请参考常用错误码文档
-/// @param roomID 房间 ID
+/// Room status change notification
+/// @discussion This callback is triggered when the connection status of the room changes, and the reason for the change is notified.
+/// @param state Changed room status
+/// @param errorCode Error code, please refer to the common error code document for details.
+/// @param roomID Room ID
 - (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode room:(NSString *)roomID;
 
-/// 房间内用户进出通知回调
-/// @discussion 当有用户进入/退出房间时将触发此回调，并告知当前房间内存在的用户的列表；注意，只有在登录房间时传的 ZegoRoomConfig 中的 isUserStatusNotify 参数为 YES 时才会触发这个回调
-/// @param updateType 更新类型（添加/删除）
-/// @param userList 当前房间内的用户列表
-/// @param roomID 房间 ID
+/// In-room user access notification
+/// @discussion This callback will be triggered when a user enters/exits the room and informs the current list of users in the room; note that the callback is only triggered when the isUserStatusNotify parameter in the ZegoRoomConfig passed loginRoom function is YES.
+/// @param updateType Update type (add/delete)
+/// @param userList List of users in the current room
+/// @param roomID Room ID
 - (void)onRoomUserUpdate:(ZegoUpdateType)updateType userList:(NSArray<ZegoUser *> *)userList room:(NSString *)roomID;
 
-/// 房间内流更新回调
-/// @discussion 用户首次登录房间时会接收到房间内存在的所有流列表；后续当房间内新增/删除流时将触发此回调通知变更的流列表。
-/// @param updateType 更新类型（添加/删除）
-/// @param streamList 更新的流列表
-/// @param roomID 房间 ID
+/// In-room stream update notification
+/// @discussion When the user logs in to the room for the first time, he will receive a list of all the stream ID in the room; the list of flows that will be triggered by this callback notification will be triggered when the stream is added/deleted in the room.
+/// @param updateType Update type (add/delete)
+/// @param streamList Updated stream list
+/// @param roomID Room ID
 - (void)onRoomStreamUpdate:(ZegoUpdateType)updateType streamList:(NSArray<ZegoStream *> *)streamList room:(NSString *)roomID;
 
-/// 房间内流附加信息更新通知
-/// @discussion 当房间内有其他推流的用户更新了流的附加信息时，本端会收到该回调
-/// @param streamList 流附加信息更新的流列表
-/// @param roomID 房间 ID
+/// Stream extra information update notification
+/// @discussion When other users publishing the stream update the extra information of the stream in the room, the local end will receive the callback
+/// @param streamList List of streams that the extra info was updated.
+/// @param roomID Room ID
 - (void)onRoomStreamExtraInfoUpdate:(NSArray<ZegoStream *> *)streamList room:(NSString *)roomID;
 
 #pragma mark Publisher Callback
 
-/// 推流状态回调
-/// @discussion 在推流成功后，可以通过该回调接口获取推流状态变更的通知。
-/// @param state 推流状态
-/// @param errorCode 推流状态变更对应的错误码。请参考常见错误码文档。
-/// @param streamID 推流的流 ID
+/// Publish stream state callback
+/// @discussion After publishing the stream successfully, the notification of the publish stream state change can be obtained through the callback interface.
+/// @param state Publish stream state
+/// @param errorCode The error code corresponding to the publish stream state change. Please refer to the common error code documentation
+/// @param streamID Stream ID
 - (void)onPublisherStateUpdate:(ZegoPublisherState)state errorCode:(int)errorCode stream:(NSString *)streamID;
 
-/// 推流质量回调
-/// @discussion 推流成功后每3秒会收到此回调，通过该回调可以获取推送的音视频流的采集帧率，码率，RTT，丢包率等质量数据，实时监控推送流的健康情况。
-/// @param quality 推流质量，包含了音视频帧率、码率、分辨率，RTT等值
-/// @param streamID 流 ID
+/// Publish stream quality callback
+/// @discussion After the successful publish, the callback will be received every 3 seconds. Through the callback, the collection frame rate, bit rate, RTT, packet loss rate and other quality data of the pushed audio and video stream can be obtained, and the health of the push stream can be monitored in real time.
+/// @param quality Published stream quality, including audio and video frame rate, bit rate, resolution, RTT, etc.
+/// @param streamID Stream ID
 - (void)onPublisherQualityUpdate:(ZegoPublishStreamQuality *)quality stream:(NSString *)streamID;
 
-/// 推流端采集首帧回调
-/// @discussion 调用推流接口成功后，SDK 采集到第一帧数据时会收到此回调，包含了音频/视频的采集首帧通知。
-/// @param event 推流端采集到首帧时触发的事件，包含音频采集首帧和视频采集首帧事件。
+/// Publish the stream to collect the first frame callback
+/// @discussion After the successful publish, the SDK will receive this callback when it captures the first frame of data, including the first frame notification of the audio/video received.
+/// @param event The event triggered when capture the first frame of the stream published includes the audio capture first frame and the video capture first frame event.
 - (void)onPublisherRecvFirstFrameEvent:(ZegoPublisherFirstFrameEvent)event;
 
-/// 采集视频大小变更回调
-/// @discussion 推流成功后，在推流中途如果有改变视频采集分辨率发生变化将会收到此回调。
-/// @param size 视频采集分辨率
+/// Captured video size change callback
+/// @discussion After the successful publish, the callback will be received if there is a change in the video capture resolution in the process of publishing the stream.
+/// @param size Video capture resolution
 - (void)onPublisherVideoSizeChanged:(CGSize)size;
 
-/// 添加/删除转推CDN地址状态回调
-/// @discussion 在 ZEGO 实时音视频云将音视频流转推到 CDN 后，如果 CDN 转推状态发生变化，例如出现转推停止或转推重试，将会收到此回调。
-/// @param infoList 当前 CDN 正在转推的信息列表
-/// @param streamID 流 ID
+/// Add/Remove CDN address status callback
+/// @discussion After the ZEGO real-time audio and video cloud relays the audio and video streams to the CDN, this callback will be received if the CDN relay status changes, such as a stop or a retry.
+/// @param infoList List of information that the current CDN is relaying
+/// @param streamID Stream ID
 - (void)onPublisherRelayCDNStateUpdate:(NSArray<ZegoStreamRelayCDNInfo *> *)infoList stream:(NSString *)streamID;
 
 #pragma mark Player Callback
 
-/// 拉流状态变更回调
-/// @discussion 在拉流成功后，可以通过该回调接口获取拉流状态变更的通知。
-/// @param state 拉流状态
-/// @param errorCode 错误码
-/// @param streamID 流 ID
+/// Play stream state callback
+/// @discussion After calling the startPlayingStream successfully, this callback will be triggered every time the play state chaged, the new state can be obtained through the callback interface.
+/// @param state Current play state
+/// @param errorCode Error code
+/// @param streamID Stream ID
 - (void)onPlayerStateUpdate:(ZegoPlayerState)state errorCode:(int)errorCode stream:(NSString *)streamID;
 
-/// 拉流质量回调
-/// @discussion 拉流成功后每3秒会收到此回调，通过该回调可以获取拉取的音视频流的帧率，码率，RTT，丢包率等质量数据，实时监控拉取流的健康情况。
-/// @param quality 拉流质量
-/// @param streamID 流 ID
+/// Play stream quality callback
+/// @discussion After calling the startPlayingStream successfully, this callback will be triggered every 3 seconds. The collection frame rate, bit rate, RTT, packet loss rate and other quality data  can be obtained, such the health of the push stream can be monitored in real time.
+/// @param quality Quality of the stream
+/// @param streamID Stream ID
 - (void)onPlayerQualityUpdate:(ZegoPlayStreamQuality *)quality stream:(NSString *)streamID;
 
-/// 拉流媒体事件回调
-/// @discussion 当拉流发生音视频卡顿以及恢复等事件发生时会触发此回调。
-/// @param event 拉流媒体事件枚举
-/// @param streamID 流 ID
+/// Play media event callback
+/// @discussion This callback is triggered when an event such as audio and video jamming and recovery occurs in the pull stream.
+/// @param event play media event enumeration
+/// @param streamID Stream ID
 - (void)onPlayerMediaEvent:(ZegoPlayerMediaEvent)event stream:(NSString *)streamID;
 
-/// 拉流首帧回调
-/// @discussion 调用推流接口成功后，当拉取到音频首帧、视频首帧以及视频首帧被渲染都会触发此回调。
-/// @param event 拉流时收到的具体首帧事件
-/// @param streamID 流 ID
+///  First frame event callback
+/// @discussion After calling the startPlayingStream successfully, the callback is triggered when the first frame of the audio or the first frame of the video is received, the first frame of the video are rendered.
+/// @param event Specific first  events received while playing
+/// @param streamID Stream ID
 - (void)onPlayerRecvFirstFrameEvent:(ZegoPlayerFirstFrameEvent)event stream:(NSString *)streamID;
 
-/// 拉流分辨率变更通知
-/// @discussion 拉流成功后，在拉流中途如果有视频分辨率发生变化将会收到此回调，用户可根据流的最终分辨率调整显示。
-/// @param size 视频分辨率
-/// @param streamID 流 ID
+/// Pull stream resolution change callback
+/// @discussion If there is a change in the video resolution of the playing stream, the callback will be triggerd, and the user can adjust the display for that stream dynamiclly.
+/// @param size Video resolution
+/// @param streamID Stream ID
 - (void)onPlayerVideoSizeChanged:(CGSize)size stream:(NSString *)streamID;
 
-/// 收到远端流的 SEI 内容
-/// @discussion 拉流成功后，当远端流调用 "-sendSEI:" 后，本端会收到此回调
-/// @param data SEI 内容
-/// @param streamID 流 ID
+/// Receive  SEI
+/// @discussion If "-sendSEI:" was called on remote, this callback will be triggered.
+/// @param data SEI data
+/// @param streamID stream ID
 - (void)onPlayerRecvSEI:(NSData *)data stream:(NSString *)streamID;
 
 #pragma mark Mixer Callback
 
-/// 混流转推 CDN 状态更新通知
-/// @param infoList 当前 CDN 正在混流的信息列表
-/// @param taskID 混流任务 ID
+/// Mixed stream relay CDN status update notification
+/// @param infoList List of information that the current CDN is being mixed
+/// @param taskID Mix stream task ID
 - (void)onMixerRelayCDNStateUpdate:(NSArray<ZegoStreamRelayCDNInfo *> *)infoList taskID:(NSString *)taskID;
 
 #pragma mark Device Callback
 
 #if TARGET_OS_OSX
-/// 音频设备状态变更事件
-/// @discussion 只适用于 macOS；监测到系统中有音频设备添加或移除时，会触发此回调。通过监听此回调，用户可在必要的时候更新使用特定设备进行声音采集或输出。
-/// @param deviceInfo 音频设备信息
-/// @param updateType 更新类型（添加/删除）
-/// @param deviceType 音频设备类型
+/// Audio device status change
+/// @discussion only for macOS; This callback is triggered when an audio device is added or removed from the system. By listening to this callback, users can update the sound collection or output using a specific device when necessary.
+/// @param deviceInfo Audio device information
+/// @param updateType Update type (add/delete)
+/// @param deviceType Audio device type
 - (void)onAudioDeviceStateChanged:(ZegoDeviceInfo *)deviceInfo updateType:(ZegoUpdateType)updateType deviceType:(ZegoAudioDeviceType)deviceType;
 #endif
 
 #if TARGET_OS_OSX
-/// 视频设备状态变更事件
-/// @discussion 只适用于 macOS；监测到系统中有视频设备添加或移除时，会触发此回调。通过监听此回调，用户可在必要的时候更新使用特定设备进行视频采集。
-/// @param deviceInfo 视频设备信息
-/// @param updateType 更新类型（添加/删除）
+/// Video device status change
+/// @discussion only for macOS; This callback is triggered when a video device is added or removed from the system. By listening to this callback, users can update the video capture using a specific device when necessary.
+/// @param deviceInfo Audio device information
+/// @param updateType Update type (add/delete)
 - (void)onVideoDeviceStateChanged:(ZegoDeviceInfo *)deviceInfo updateType:(ZegoUpdateType)updateType;
 #endif
 
-/// 本地采集音频声浪回调
-/// @param soundLevel 本地采集的声浪值，取值范围为 0.0~100.0
+/// Captured sound level update callback
+/// @param soundLevel Locally captured sound level value, ranging from 0.0 to 100.0
 - (void)onCapturedSoundLevelUpdate:(NSNumber *)soundLevel;
 
-/// 远端音频声浪回调
-/// @param soundLevels 远端的声浪键值对，key 为流 ID，value 为对应的流的声浪值
+/// Remote sound level update callback
+/// @param soundLevels Remote sound level dictionary, key is the streamID, value is the sound level value of the corresponding streamID
 - (void)onRemoteSoundLevelUpdate:(NSDictionary<NSString *, NSNumber *> *)soundLevels;
 
-/// 本地采集音频频谱回调
-/// @param audioSpectrum 本地采集的音频频谱值数组，频谱值范围为 [0-2^30]  
+/// Captured audio spectrum update callback
+/// @param audioSpectrum Locally captured audio spectrum value list. Spectrum value range is [0-2^30]
 - (void)onCapturedAudioSpectrumUpdate:(NSArray<NSNumber *> *)audioSpectrum;
 
-/// 远端拉流音频频谱回调
-/// @param audioSpectrums 远端音频频谱键值对，key 是流 ID，value 为对应的流的音频频谱值数组，频谱值范围为 [0-2^30]  
+/// Remote audio spectrum update callback
+/// @param audioSpectrums Remote audio spectrum hashmap, key is the streamID, value is the audio spectrum list of the corresponding streamID. Spectrum value range is [0-2^30]
 - (void)onRemoteAudioSpectrumUpdate:(NSDictionary<NSString *, NSArray<NSNumber *> *> *)audioSpectrums;
 
-/// 设备异常通知
-/// @discussion 当本地设备读写出现异常时会触发此回调。
-/// @param errorCode 错误码
-/// @param deviceName 设备名称
+/// Device exception notification
+/// @discussion This callback is triggered when an exception occurs when reading or writing the device.
+/// @param errorCode Error code
+/// @param deviceName Device Name
 - (void)onDeviceError:(int)errorCode deviceName:(NSString *)deviceName;
 
-/// 远端摄像头设备状态通知
-/// @discussion 远端摄像头设备状态发生变更时，例如开关摄像头等，通过监听此回调，能够获取远端摄像头相关的事件，可以用于提示用户可能导致视频异常的情况。
-/// @param state 远端摄像头状态
-/// @param streamID 流 ID
+/// Remote camera device status notification
+/// @discussion When the state of the remote camera device changes, such as switching the camera, by monitoring this callback, it is possible to obtain an event related to the far-end camera, which can be used to prompt the user that the video may be abnormal.
+/// @param state Remote camara status
+/// @param streamID Stream ID
 - (void)onRemoteCameraStateUpdate:(ZegoRemoteDeviceState)state stream:(NSString *)streamID;
 
-/// 远端麦克风设备状态通知
-/// @discussion 远端麦克风设备状态发生变更时，例如开关麦克风等，通过监听此回调，能够获取远端麦克风相关的事件，可以用于提示用户可能导致音频异常的情况。
-/// @param state 远端麦克风状态
-/// @param streamID 流 ID
+/// onRemoteMicStateUpdate
+/// @discussion When the state of the remote microphone device is changed, such as switching a microphone, etc., by listening to the callback, it is possible to obtain an event related to the remote microphone, which can be used to prompt the user that the audio may be abnormal.
+/// @param state Remote microphone status
+/// @param streamID Stream ID
 - (void)onRemoteMicStateUpdate:(ZegoRemoteDeviceState)state stream:(NSString *)streamID;
 
 #pragma mark IM Callback
 
-/// 接收房间广播消息通知
-/// @param messageInfoList 收到的消息列表
-/// @param roomID 房间 ID
+/// Receive room broadcast message notification
+/// @param messageInfoList List of messages received
+/// @param roomID Room ID
 - (void)onIMRecvBroadcastMessage:(NSArray<ZegoMessageInfo *> *)messageInfoList roomID:(NSString *)roomID;
 
-/// 接收自定义信令通知
-/// @param command 收到的信令内容
-/// @param fromUser 信令的发送人
-/// @param roomID 房间 ID
+/// Receive room custom command notification
+/// @param command Command content received
+/// @param fromUser Sender of the command
+/// @param roomID Room ID
 - (void)onIMRecvCustomCommand:(NSString *)command fromUser:(ZegoUser *)fromUser roomID:(NSString *)roomID;
 
 @end
@@ -203,20 +203,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
-/// 播放器播放状态回调
-/// @param mediaPlayer 回调的播放器实例
-/// @param state 播放器当前状态
-/// @param errorCode 错误码
+/// Player playback state callback
+/// @param mediaPlayer Callback player instance
+/// @param state Player's current state
+/// @param errorCode Error code
 - (void)mediaPlayer:(ZegoMediaPlayer *)mediaPlayer stateUpdate:(ZegoMediaPlayerState)state errorCode:(int)errorCode;
 
-/// 播放器网络状态事件回调
-/// @param mediaPlayer 回调的播放器实例
-/// @param networkEvent 网络状态事件
+/// Player network status event callback
+/// @param mediaPlayer Callback player instance
+/// @param networkEvent Network state event
 - (void)mediaPlayer:(ZegoMediaPlayer *)mediaPlayer networkEvent:(ZegoMediaPlayerNetworkEvent)networkEvent;
 
-/// 播放器播放进度回调
-/// @param mediaPlayer 回调的播放器实例
-/// @param millisecond 进度，毫秒
+/// Player playback progress callback
+/// @param mediaPlayer Callback player instance
+/// @param millisecond Progress in milliseconds
 - (void)mediaPlayer:(ZegoMediaPlayer *)mediaPlayer playingProgress:(unsigned long long)millisecond;
 
 @end
@@ -226,17 +226,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
-/// 播放器视频帧裸数据回调
-/// @param mediaPlayer 回调的播放器实例
-/// @param data 视频帧的裸数据（例：RGBA 只需考虑 data[0]，I420 需考虑 data[0,1,2]）
-/// @param dataLength 数据的长度（例：RGBA 只需考虑 dataLength[0]，I420 需考虑 dataLength[0,1,2]）
-/// @param param 视频帧参数
+/// Player video frame raw data callback
+/// @param mediaPlayer Callback player instance
+/// @param data Bare data of video frames (eg: RGBA only needs to consider data[0], I420 needs to consider data[0,1,2])
+/// @param dataLength Data length (eg: RGBA only needs to consider dataLength[0], I420 needs to consider dataLength[0,1,2])
+/// @param param Video frame parameters
 - (void)mediaPlayer:(ZegoMediaPlayer *)mediaPlayer videoFrameRawData:(const unsigned char * _Nonnull * _Nonnull)data dataLength:(unsigned int *)dataLength param:(ZegoVideoFrameParam *)param;
 
-/// 播放器视频帧 CVPixelBuffer 数据回调
-/// @param mediaPlayer 回调的播放器实例
-/// @param buffer 封装为 CVPixelBuffer 的视频帧数据
-/// @param param 视频帧参数
+/// Player video frame CVPixelBuffer data callback
+/// @param mediaPlayer Callback player instance
+/// @param buffer Video frame data packaged as CVPixelBuffer
+/// @param param Video frame parameters
 - (void)mediaPlayer:(ZegoMediaPlayer *)mediaPlayer videoFramePixelBuffer:(CVPixelBufferRef)buffer param:(ZegoVideoFrameParam *)param;
 
 @end
@@ -246,11 +246,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
-/// 播放器音频帧数据回调
-/// @param mediaPlayer 回调的播放器实例
-/// @param data 音频帧的裸数据
-/// @param dataLength 数据的长度
-/// @param param 音频帧参数
+/// Player audio frame data callback
+/// @param mediaPlayer Callback player instance
+/// @param data Raw data of audio frames
+/// @param dataLength Data length
+/// @param param Audio frame parameters
 - (void)mediaPlayer:(ZegoMediaPlayer *)mediaPlayer audioFrameData:(const unsigned char *)data dataLength:(unsigned int)dataLength param:(ZegoAudioFrameParam *)param;
 
 @end
@@ -262,10 +262,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
-/// SDK 通知将要开始采集视频帧，收到该回调后向 SDK 发送的视频帧数据才有效
+/// SDK notifies that video frames will be collected, and the video frame data sent to the SDK is only valid after receiving this callback
 - (void)onStart;
 
-/// SDK 通知将要停止采集视频帧
+/// SDK notifies to stop capturing video frames
 - (void)onStop;
 
 @end
@@ -275,30 +275,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
-/// 本地预览视频帧裸数据回调
-/// @param data 视频帧的裸数据（例：RGBA 只需考虑 data[0]，I420 需考虑 data[0,1,2]）
-/// @param dataLength 数据的长度（例：RGBA 只需考虑 dataLength[0]，I420 需考虑 dataLength[0,1,2]）
-/// @param param 视频帧参数
-/// @param flipMode 视频帧翻转模式
+/// Local preview video frame raw data callback
+/// @param data Raw data of video frames (eg: RGBA only needs to consider data[0], I420 needs to consider data[0,1,2])
+/// @param dataLength Data length (eg: RGBA only needs to consider dataLength[0], I420 needs to consider dataLength[0,1,2])
+/// @param param Video frame parameters
+/// @param flipMode Video frame flip mode
 - (void)onCapturedVideoFrameRawData:(unsigned char * _Nonnull * _Nonnull)data dataLength:(unsigned int *)dataLength param:(ZegoVideoFrameParam *)param flipMode:(ZegoVideoFlipMode)flipMode;
 
-/// 远端拉流视频帧裸数据回调，通过 streamID 区分不同的流
-/// @param data 视频帧的裸数据（例：RGBA 只需考虑 data[0]，I420 需考虑 data[0,1,2]）
-/// @param dataLength 数据的长度（例：RGBA 只需考虑 dataLength[0]，I420 需考虑 dataLength[0,1,2]）
-/// @param param 视频帧参数
-/// @param streamID 远端拉流的流 ID
+/// Remote stream custom video render video frame raw data callback, different streams are distinguished by streamID
+/// @param data Raw data of video frames (eg: RGBA only needs to consider data[0], I420 needs to consider data[0,1,2])
+/// @param dataLength Data length (eg: RGBA only needs to consider dataLength[0], I420 needs to consider dataLength[0,1,2])
+/// @param param Video frame parameters
+/// @param streamID Remote stream ID
 - (void)onRemoteVideoFrameRawData:(unsigned char * _Nonnull * _Nonnull)data dataLength:(unsigned int *)dataLength param:(ZegoVideoFrameParam *)param stream:(NSString *)streamID;
 
-/// 本地预览视频帧 CVPixelBuffer 数据回调
-/// @param buffer 封装为 CVPixelBuffer 的视频帧数据
-/// @param param 视频帧参数
-/// @param flipMode 视频帧翻转模式
+/// Local preview video frame CVPixelBuffer data callback
+/// @param buffer Video frame data packaged as CVPixelBuffer
+/// @param param Video frame parameters
+/// @param flipMode Video frame flip mode
 - (void)onCapturedVideoFrameCVPixelBuffer:(CVPixelBufferRef)buffer param:(ZegoVideoFrameParam *)param flipMode:(ZegoVideoFlipMode)flipMode;
 
-/// 远端拉流视频帧 CVPixelBuffer 数据回调，通过 streamID 区分不同的流
-/// @param buffer 封装为 CVPixelBuffer 的视频帧数据
-/// @param param 视频帧参数
-/// @param streamID 远端拉流的流 ID
+/// Remote stream video frame CVPixelBuffer data callback, different streams are distinguished by streamID
+/// @param buffer Video frame data packaged as CVPixelBuffer
+/// @param param Video frame parameters
+/// @param streamID Remote stream ID
 - (void)onRemoteVideoFrameCVPixelBuffer:(CVPixelBufferRef)buffer param:(ZegoVideoFrameParam *)param stream:(NSString *)streamID;
 
 @end

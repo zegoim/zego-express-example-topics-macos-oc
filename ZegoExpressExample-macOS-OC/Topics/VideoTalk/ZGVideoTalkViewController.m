@@ -86,6 +86,8 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
 }
 
 - (void)setupUI {
+    self.title = @"Video Talk";
+    
     self.cameraCheckBox.state = _enableCamera ? NSControlStateValueOn : NSControlStateValueOff;
     self.microphoneCheckBox.state = !_muteMicrophone ? NSControlStateValueOn : NSControlStateValueOff;
     self.audioOutputCheckBox.state = _muteAudioOutput ? NSControlStateValueOn : NSControlStateValueOff;

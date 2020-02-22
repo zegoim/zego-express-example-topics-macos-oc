@@ -11,13 +11,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZegoExpressEngine (Mixer)
 
-/// 开始混流任务
-/// @param task 混流任务对象
-/// @param callback 开始混流任务结果通知
+/// Start mix stream task
+/// @param task Mix stream task object
+/// @param callback Start mix stream task result callback notification
 - (void)startMixerTask:(ZegoMixerTask *)task callback:(nullable ZegoMixerStartCallback)callback;
 
-/// 停止混流任务
-/// @param taskID 混流任务 ID
+/// Stop mix stream task
+/// @param taskID Mix stream task ID
 - (void)stopMixerTask:(NSString *)taskID;
 
 @end

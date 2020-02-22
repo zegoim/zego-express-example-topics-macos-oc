@@ -11,27 +11,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZegoExpressEngine (CustomVideoIO)
 
-/// 设置自定义视频渲染回调
-/// @param handler 自定义视频渲染回调对象
+/// Set the custom video render handler
+/// @param handler Custom video render handler
 - (void)setCustomVideoRenderHandler:(nullable id<ZegoCustomVideoRenderHandler>)handler;
 
-/// 设置自定义视频采集回调
-/// @param handler 自定义视频采集回调对象
+/// Set the custom video capture handler
+/// @param handler Custom video capture handler
 - (void)setCustomVideoCaptureHandler:(nullable id<ZegoCustomVideoCaptureHandler>)handler;
 
-/// 向 SDK 发送自定义采集的视频帧 CVPixelBuffer 数据
-/// @param buffer 要向 SDK 发送的视频帧数据
-/// @param timeStamp 该视频帧的时间戳
+/// Send CVPixelBuffer video frame data to SDK
+/// @param buffer Video frame data to send to the SDK
+/// @param timeStamp Timestamp of this video frame
 - (void)sendCustomVideoCapturePixelBuffer:(CVPixelBufferRef)buffer timeStamp:(CMTime)timeStamp;
 
-/// 向 SDK 发送自定义采集的视频帧 Texture 数据
-/// @param textureID 纹理 ID
-/// @param size 视频帧的画面宽高
-/// @param timeStamp 该视频帧的时间戳
+/// Send texture video frame data to SDK
+/// @param textureID texture ID
+/// @param size Video frame width and height
+/// @param timeStamp Timestamp of this video frame
 - (void)sendCustomVideoCaptureTextureData:(GLuint)textureID size:(CGSize)size timeStamp:(CMTime)timeStamp;
 
-/// 设置自定义视频采集画面缩放填充模式
-/// @param mode 画面填充缩放模式
+/// Set custom video capture screen fill mode
+/// @param mode Video fill mode
 - (void)setCustomVideoCaptureFillMode:(ZegoViewMode)mode;
 
 @end

@@ -126,7 +126,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     
     // Login room
     [self appendLog:[NSString stringWithFormat:@" 🚪 Start login room, roomID: %@", self.roomID]];
-    [self.engine loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName] config:nil];
+    [self.engine loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName]];
     
     // Start publishing
     [self appendLog:@" 📥 Strat playing stream"];
@@ -156,13 +156,21 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 #pragma mark - Exit
 
 - (void)viewDidDisappear {
-    // It is recommended to logout room when stopping the video call.
-    [self appendLog:[NSString stringWithFormat:@" 🚪 Logout room, roomID: %@", self.roomID]];
-    [self.engine logoutRoom:self.roomID];
+    // Stop playing before exiting
+    if (self.playerState != ZegoPlayerStateNoPlay) {
+        [self appendLog:@" 📥 Stop playing stream"];
+        [self.engine stopPlayingStream:self.streamID];
+    }
     
-    // And you can destroy the engine when there is no need to call.
+    // Logout room before exiting
+    if (self.roomState != ZegoRoomStateDisconnected) {
+        [self appendLog:@" 🚪 Logout room"];
+        [self.engine logoutRoom:self.roomID];
+    }
+    
+    // Can destroy the engine when you don't need audio and video calls
     [self appendLog:@" 🏳️ Destroy ZegoExpressEngine"];
-    [ZegoExpressEngine destroyEngine];
+    [ZegoExpressEngine destroyEngine:nil];
 }
 
 #pragma mark - Actions
@@ -190,7 +198,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     }
     
     [self appendLog:[NSString stringWithFormat:@" 🔊 Stream volume changed to: %d", sender.intValue]];
-    [self.engine setPlayVolume:sender.intValue stream:self.streamID];
+    [self.engine setPlayVolume:sender.intValue streamID:self.streamID];
 }
 
 - (IBAction)viewModePopUpButtonAction:(NSPopUpButton *)sender {
@@ -219,7 +227,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 
 #pragma mark - ZegoEventHandler Room Event
 
-- (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode room:(NSString *)roomID {
+- (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData roomID:(NSString *)roomID {
     if (errorCode != 0) {
         [self appendLog:[NSString stringWithFormat:@" 🚩 ❌ 🚪 Room state error, errorCode: %d", errorCode]];
     } else {
@@ -234,27 +242,27 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     self.roomState = state;
 }
 
-- (void)onRoomStreamUpdate:(ZegoUpdateType)updateType streamList:(NSArray<ZegoStream *> *)streamList room:(NSString *)roomID {
+- (void)onRoomStreamUpdate:(ZegoUpdateType)updateType streamList:(NSArray<ZegoStream *> *)streamList roomID:(NSString *)roomID {
     for (ZegoStream *stream in streamList) {
         if ([stream.streamID isEqualToString:self.streamID]) {
             self.playStreamExtraInfoLabel.stringValue = [NSString stringWithFormat:@"Stream Extra Info: %@", stream.extraInfo];
-            ZGLogInfo(@" 🚩 💬 Stream Extra Info First Recv: %@, StreamID: %@", stream.extraInfo, stream.streamID);
+            [self appendLog:[NSString stringWithFormat:@" 🚩 💬 Stream Extra Info First Recv: %@, StreamID: %@", stream.extraInfo, stream.streamID]];
         }
     }
 }
 
-- (void)onRoomStreamExtraInfoUpdate:(NSArray<ZegoStream *> *)streamList room:(NSString *)roomID {
+- (void)onRoomStreamExtraInfoUpdate:(NSArray<ZegoStream *> *)streamList roomID:(NSString *)roomID {
     for (ZegoStream *stream in streamList) {
         if ([stream.streamID isEqualToString:self.streamID]) {
             self.playStreamExtraInfoLabel.stringValue = [NSString stringWithFormat:@"Stream Extra Info: %@", stream.extraInfo];
-            ZGLogInfo(@" 🚩 💬 Stream Extra Info Update: %@, StreamID: %@", stream.extraInfo, stream.streamID);
+            [self appendLog:[NSString stringWithFormat:@" 🚩 💬 Stream Extra Info Update: %@, StreamID: %@", stream.extraInfo, stream.streamID]];
         }
     }
 }
 
 #pragma mark - ZegoEventHandler Publish Event
 
-- (void)onPlayerStateUpdate:(ZegoPlayerState)state errorCode:(int)errorCode stream:(NSString *)streamID {
+- (void)onPlayerStateUpdate:(ZegoPlayerState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData streamID:(NSString *)streamID {
     if (![streamID isEqualToString:self.streamID]) {
         return;
     }
@@ -273,7 +281,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     self.playerState = state;
 }
 
-- (void)onPlayerQualityUpdate:(ZegoPlayStreamQuality *)quality stream:(NSString *)streamID {
+- (void)onPlayerQualityUpdate:(ZegoPlayStreamQuality *)quality streamID:(NSString *)streamID {
     if (![streamID isEqualToString:self.streamID]) {
         return;
     }
@@ -307,7 +315,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     self.playQualityLabel.stringValue = [text copy];
 }
 
-- (void)onPlayerVideoSizeChanged:(CGSize)size stream:(NSString *)streamID {
+- (void)onPlayerVideoSizeChanged:(CGSize)size streamID:(NSString *)streamID {
     if (![streamID isEqualToString:self.streamID]) {
         return;
     }

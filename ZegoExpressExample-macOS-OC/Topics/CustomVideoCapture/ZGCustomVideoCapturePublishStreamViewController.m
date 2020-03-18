@@ -78,7 +78,7 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
     captureConfig.bufferType = ZegoVideoBufferTypeCVPixelBuffer;
     
     ZegoEngineConfig *engineConfig = [[ZegoEngineConfig alloc] init];
-    [engineConfig setCustomVideoCaptureConfig:captureConfig];
+    engineConfig.customVideoCaptureMainConfig = captureConfig;
     
     // Set engine config, must be called before create engine
     [ZegoExpressEngine setEngineConfig:engineConfig];
@@ -92,9 +92,7 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
     // Set custom video capture handler
     [[ZegoExpressEngine sharedEngine] setCustomVideoCaptureHandler:self];
     
-    ZegoVideoConfig *videoConfig = [ZegoVideoConfig configWithResolution:ZegoResolution1080x1920];
-    videoConfig.captureResolution = CGSizeMake(1920, 1080);
-    videoConfig.encodeResolution = CGSizeMake(1920, 1080);
+    ZegoVideoConfig *videoConfig = [ZegoVideoConfig configWithPreset:ZegoVideoConfigPreset1080P];
     [[ZegoExpressEngine sharedEngine] setVideoConfig:videoConfig];
 }
 
@@ -121,10 +119,10 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
     
     // Login room
     [self appendLog:[NSString stringWithFormat:@" 🚪 Start login room, roomID: %@", self.roomID]];
-    [self.engine loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName] config:nil];
+    [self.engine loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName]];
     
     // When custom video capture is enabled, developers need to render the preview by themselves
-    //    [self.engine startPreview:self.previewCanvas];
+//    [self.engine startPreview:self.previewCanvas];
     
     // Start publishing
     [self appendLog:[NSString stringWithFormat:@" 📤 Start publishing stream, streamID: %@", self.streamID]];
@@ -150,14 +148,21 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
 
 #pragma mark - Exit
 
-- (void)viewDidDisappear {
-    // It is recommended to logout room when stopping the video call.
-    [self appendLog:[NSString stringWithFormat:@" 🚪 Logout room, roomID: %@", self.roomID]];
-    [self.engine logoutRoom:self.roomID];
+- (void)dealloc {
+    ZGLogInfo(@" 🏳️ Destroy ZegoExpressEngine");
+    [ZegoExpressEngine destroyEngine:^{
+        // This callback is only used to notify the completion of the release of internal resources of the engine.
+        // Developers cannot release resources related to the engine within this callback.
+        //
+        // In general, developers do not need to listen to this callback.
+        ZGLogInfo(@" 🚩 🏳️ Destroy ZegoExpressEngine complete");
+    }];
     
-    // And you can destroy the engine when there is no need to call.
-    [self appendLog:@" 🏳️ Destroy ZegoExpressEngine"];
-    [ZegoExpressEngine destroyEngine];
+    // After destroying the engine, you will not receive the `-onStop:` callback, you need to stop the custom video caputre manually.
+    [self.captureDevice stopCapture];
+    
+    // In order not to affect other example topics, restore the default engine configuration.
+    [ZegoExpressEngine setEngineConfig:[[ZegoEngineConfig alloc] init]];
 }
 
 #pragma mark - Actions
@@ -198,16 +203,14 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
 #pragma mark - ZegoCustomVideoCaptureHandler
 
 // Note: This callback is not in the main thread. If you have UI operations, please switch to the main thread yourself.
-- (void)onStart {
-    ZGLogInfo(@" 🚩 🟢 ZegoCustomVideoCaptureHandler onStart");
-//    [self appendLog:@" 🚩 🟢 ZegoCustomVideoCaptureHandler onStart"];
+- (void)onStart:(ZegoPublishChannel)channel {
+    [self appendLog:[NSString stringWithFormat:@" 🚩 🟢 ZegoCustomVideoCaptureHandler onStart, channel: %d", (int)channel]];
     [self.captureDevice startCapture];
 }
 
 // Note: This callback is not in the main thread. If you have UI operations, please switch to the main thread yourself.
-- (void)onStop {
-    ZGLogInfo(@" 🚩 🔴 ZegoCustomVideoCaptureHandler onStop");
-//    [self appendLog:@" 🚩 🔴 ZegoCustomVideoCaptureHandler onStop"];
+- (void)onStop:(ZegoPublishChannel)channel {
+    [self appendLog:[NSString stringWithFormat:@" 🚩 🔴 ZegoCustomVideoCaptureHandler onStop, channel: %d", (int)channel]];
     [self.captureDevice stopCapture];
 }
 

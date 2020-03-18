@@ -25,7 +25,6 @@
 // CreateEngine
 @property (assign) BOOL isTestEnv;
 @property (weak) IBOutlet NSTextField *appIDLabel;
-@property (weak) IBOutlet NSTextField *appSignLabel;
 @property (weak) IBOutlet NSTextField *isTestEnvLabel;
 @property (weak) IBOutlet NSButton *createEngineButton;
 
@@ -57,6 +56,9 @@
     self.roomID = @"QuickStartRoom-1";
     self.userID = [ZGUserIDHelper userID];
     
+    // Print SDK version
+    [self appendLog:[NSString stringWithFormat:@" 🌞 SDK Version: %@", [ZegoExpressEngine getVersion]]];
+    
     [self setupUI];
 }
 
@@ -64,7 +66,6 @@
     self.title = @"Quick Start";
     
     self.appIDLabel.stringValue = [NSString stringWithFormat:@"AppID: %u", [ZGKeyCenter appID]];
-    self.appSignLabel.stringValue = [NSString stringWithFormat:@"AppSign: %@", [ZGKeyCenter appSign]];
     
     self.roomIDLabel.stringValue = [NSString stringWithFormat:@"RoomID: %@", self.roomID];
     self.userIDLabel.stringValue = [NSString stringWithFormat:@"UserID: %@", self.userID];
@@ -147,30 +148,32 @@
     [self.startPublishingButton setTitle:@"StartPublishing"];
     [self.startPlayingButton setTitle:@"StartPlaying"];
     
-    // Logout room before exiting
-    [[ZegoExpressEngine sharedEngine] logoutRoom:self.roomID];
-    
+    // Logout room will automatically stop publishing/playing stream.
+//    [[ZegoExpressEngine sharedEngine] logoutRoom:self.roomID];
+        
     // Can destroy the engine when you don't need audio and video calls
-    [ZegoExpressEngine destroyEngine];
+    //
+    // Destroy engine will automatically logout room and stop publishing/playing stream.
+    [ZegoExpressEngine destroyEngine:nil];
     
     // Print log
     [self appendLog:@" 🏳️ Destroy ZegoExpressEngine"];
 }
 
-- (void)viewDidDisappear {
-    // Logout room before exiting
-    [[ZegoExpressEngine sharedEngine] logoutRoom:self.roomID];
-    
+- (void)dealloc {
+    // Logout room will automatically stop publishing/playing stream.
+//    [[ZegoExpressEngine sharedEngine] logoutRoom:self.roomID];
+            
     // Can destroy the engine when you don't need audio and video calls
-    [ZegoExpressEngine destroyEngine];
-    
-    [super viewDidDisappear];
+    //
+    // Destroy engine will automatically logout room and stop publishing/playing stream.
+    [ZegoExpressEngine destroyEngine:nil];
 }
 
 #pragma mark - ZegoEventHandler Delegate
 
 /// Room status change notification
-- (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode room:(NSString *)roomID {
+- (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData roomID:(NSString *)roomID {
     if (state == ZegoRoomStateConnected && errorCode == 0) {
         [self appendLog:@" 🚩 🚪 Login room success"];
         
@@ -186,7 +189,7 @@
 }
 
 /// Publish stream state callback
-- (void)onPublisherStateUpdate:(ZegoPublisherState)state errorCode:(int)errorCode stream:(NSString *)streamID {
+- (void)onPublisherStateUpdate:(ZegoPublisherState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData streamID:(NSString *)streamID {
     if (state == ZegoPublisherStatePublishing && errorCode == 0) {
         [self appendLog:@" 🚩 📤 Publishing stream success"];
         
@@ -202,7 +205,7 @@
 }
 
 /// Play stream state callback
-- (void)onPlayerStateUpdate:(ZegoPlayerState)state errorCode:(int)errorCode stream:(NSString *)streamID {
+- (void)onPlayerStateUpdate:(ZegoPlayerState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData streamID:(NSString *)streamID {
     if (state == ZegoPlayerStatePlaying && errorCode == 0) {
         [self appendLog:@" 🚩 📥 Playing stream success"];
         

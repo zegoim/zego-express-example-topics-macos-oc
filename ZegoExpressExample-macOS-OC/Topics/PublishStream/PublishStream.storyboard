@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="uMH-r9-YP2">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="uMH-r9-YP2">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -284,8 +284,11 @@
                                                                 <rect key="frame" x="0.0" y="100" width="250" height="50"/>
                                                                 <subviews>
                                                                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sH7-UZ-dWs">
-                                                                        <rect key="frame" x="93" y="12" width="150" height="25"/>
-                                                                        <popUpButtonCell key="cell" type="push" title="1920x1080" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="81s-lZ-mvd" id="czr-tf-xNA">
+                                                                        <rect key="frame" x="113" y="12" width="130" height="25"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="125" id="hrQ-eE-mEY"/>
+                                                                        </constraints>
+                                                                        <popUpButtonCell key="cell" type="push" title="1920x1080" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="81s-lZ-mvd" id="czr-tf-xNA">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                             <menu key="menu" id="itj-V4-ncv">
@@ -304,9 +307,9 @@
                                                                         </connections>
                                                                     </popUpButton>
                                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YtM-BD-KXY">
-                                                                        <rect key="frame" x="8" y="17" width="84" height="16"/>
+                                                                        <rect key="frame" x="8" y="17" width="104" height="16"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="width" constant="80" id="fiA-nu-1Yg"/>
+                                                                            <constraint firstAttribute="width" constant="100" id="fiA-nu-1Yg"/>
                                                                         </constraints>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Resolution" id="acI-nC-pNw">
                                                                             <font key="font" metaFont="system"/>
@@ -327,18 +330,21 @@
                                                                 <rect key="frame" x="0.0" y="50" width="250" height="50"/>
                                                                 <subviews>
                                                                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YHM-gM-Jov">
-                                                                        <rect key="frame" x="93" y="12" width="150" height="25"/>
-                                                                        <popUpButtonCell key="cell" type="push" title="30 fps" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Gl5-sO-dm3" id="qWA-9r-gfq">
+                                                                        <rect key="frame" x="113" y="12" width="130" height="25"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="125" id="AJA-SF-ORI"/>
+                                                                        </constraints>
+                                                                        <popUpButtonCell key="cell" type="push" title="30" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Gl5-sO-dm3" id="qWA-9r-gfq">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                             <menu key="menu" id="0Od-2f-BIG">
                                                                                 <items>
-                                                                                    <menuItem title="5 fps" id="Ygg-Hn-HFH"/>
-                                                                                    <menuItem title="10 fps" id="hCS-np-fFm"/>
-                                                                                    <menuItem title="15 fps" id="3jm-K9-eTH"/>
-                                                                                    <menuItem title="20 fps" id="aTD-Ly-XPf"/>
-                                                                                    <menuItem title="25 fps" id="gdn-RB-Nn6"/>
-                                                                                    <menuItem title="30 fps" state="on" id="Gl5-sO-dm3"/>
+                                                                                    <menuItem title="5" id="Ygg-Hn-HFH"/>
+                                                                                    <menuItem title="10" id="hCS-np-fFm"/>
+                                                                                    <menuItem title="15" id="3jm-K9-eTH"/>
+                                                                                    <menuItem title="20" id="aTD-Ly-XPf"/>
+                                                                                    <menuItem title="25" id="gdn-RB-Nn6"/>
+                                                                                    <menuItem title="30" state="on" id="Gl5-sO-dm3"/>
                                                                                 </items>
                                                                             </menu>
                                                                         </popUpButtonCell>
@@ -347,9 +353,9 @@
                                                                         </connections>
                                                                     </popUpButton>
                                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aaJ-ta-jyV">
-                                                                        <rect key="frame" x="8" y="17" width="84" height="16"/>
+                                                                        <rect key="frame" x="8" y="17" width="104" height="16"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="width" constant="80" id="G4w-sR-8r2"/>
+                                                                            <constraint firstAttribute="width" constant="100" id="G4w-sR-8r2"/>
                                                                         </constraints>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="FPS" id="Ji7-YX-zJr">
                                                                             <font key="font" metaFont="system"/>
@@ -370,18 +376,21 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="250" height="50"/>
                                                                 <subviews>
                                                                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="loJ-N9-H37">
-                                                                        <rect key="frame" x="93" y="12" width="150" height="25"/>
-                                                                        <popUpButtonCell key="cell" type="push" title="3000 kbps" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="CIU-Eh-mig" id="ugY-Vk-p4T">
+                                                                        <rect key="frame" x="113" y="12" width="130" height="25"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="125" id="ITK-IJ-uPm"/>
+                                                                        </constraints>
+                                                                        <popUpButtonCell key="cell" type="push" title="3000" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="CIU-Eh-mig" id="ugY-Vk-p4T">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                             <menu key="menu" id="U3g-H6-A3t">
                                                                                 <items>
-                                                                                    <menuItem title="300 kbps" id="tBK-Vl-tP3"/>
-                                                                                    <menuItem title="400 kbps" id="ZPi-Mz-FQS"/>
-                                                                                    <menuItem title="600 kbps" id="hhd-3Z-Tqm"/>
-                                                                                    <menuItem title="1200 kbps" id="yAE-9R-VTq"/>
-                                                                                    <menuItem title="1500 kbps" id="GRq-bC-gqZ"/>
-                                                                                    <menuItem title="3000 kbps" state="on" id="CIU-Eh-mig"/>
+                                                                                    <menuItem title="300" id="tBK-Vl-tP3"/>
+                                                                                    <menuItem title="400" id="ZPi-Mz-FQS"/>
+                                                                                    <menuItem title="600" id="hhd-3Z-Tqm"/>
+                                                                                    <menuItem title="1200" id="yAE-9R-VTq"/>
+                                                                                    <menuItem title="1500" id="GRq-bC-gqZ"/>
+                                                                                    <menuItem title="3000" state="on" id="CIU-Eh-mig"/>
                                                                                 </items>
                                                                             </menu>
                                                                         </popUpButtonCell>
@@ -390,11 +399,11 @@
                                                                         </connections>
                                                                     </popUpButton>
                                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="awN-au-3EX">
-                                                                        <rect key="frame" x="8" y="17" width="84" height="16"/>
+                                                                        <rect key="frame" x="8" y="17" width="104" height="16"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="width" constant="80" id="D8Z-wb-mpA"/>
+                                                                            <constraint firstAttribute="width" constant="100" id="D8Z-wb-mpA"/>
                                                                         </constraints>
-                                                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Bitrate" id="9TJ-Le-Hqm">
+                                                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Bitrate (kbps)" id="9TJ-Le-Hqm">
                                                                             <font key="font" metaFont="system"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -462,7 +471,10 @@
                                                                 <subviews>
                                                                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ASp-OZ-cfT">
                                                                         <rect key="frame" x="93" y="12" width="150" height="25"/>
-                                                                        <popUpButtonCell key="cell" type="push" title="AspectFit" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ldA-Xa-Pe6" id="MBR-RM-HjT">
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="145" id="jS1-VT-GyE"/>
+                                                                        </constraints>
+                                                                        <popUpButtonCell key="cell" type="push" title="AspectFit" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ldA-Xa-Pe6" id="MBR-RM-HjT">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                             <menu key="menu" id="Ur0-mj-0BW">
@@ -502,7 +514,10 @@
                                                                 <subviews>
                                                                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SZz-4z-Tqf">
                                                                         <rect key="frame" x="93" y="12" width="150" height="25"/>
-                                                                        <popUpButtonCell key="cell" type="push" title="OnlyPreviewMirror" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="xIJ-6k-sHb" id="tOk-at-yqC">
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="145" id="LJZ-MO-SNI"/>
+                                                                        </constraints>
+                                                                        <popUpButtonCell key="cell" type="push" title="OnlyPreviewMirror" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="xIJ-6k-sHb" id="tOk-at-yqC">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                             <menu key="menu" id="wwL-Nd-jhy">
@@ -544,22 +559,19 @@
                                                                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UWV-ax-ddz">
                                                                         <rect key="frame" x="93" y="12" width="150" height="25"/>
                                                                         <constraints>
+                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="145" id="DMb-U8-U5Z"/>
                                                                             <constraint firstAttribute="width" constant="145" id="rnl-hU-Zbr"/>
                                                                         </constraints>
-                                                                        <popUpButtonCell key="cell" type="push" title="LowLatencyStandardQuality" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="2cS-LW-RIF" id="eri-1O-Rwe">
+                                                                        <popUpButtonCell key="cell" type="push" title="BasicQuality" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="lJI-2Z-CID" id="eri-1O-Rwe">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                             <menu key="menu" id="oJg-5V-pDk">
                                                                                 <items>
-                                                                                    <menuItem title="LowLatencyBasicQuality" id="lJI-2Z-CID"/>
-                                                                                    <menuItem title="LowLatencyStandardQuality" state="on" id="2cS-LW-RIF"/>
-                                                                                    <menuItem title="LowLatencyStandardQualityStereo" id="tBN-2C-MF3"/>
-                                                                                    <menuItem title="LowLatencyHighQuality" id="nqw-AC-CFy"/>
-                                                                                    <menuItem title="LowLatencyHighQualityStereo" id="Xq5-OM-xQY"/>
-                                                                                    <menuItem title="NormalLatencyStandardQuality" id="nFy-4Q-tny"/>
-                                                                                    <menuItem title="NormalLatencyStandardQualityStereo" id="pDl-EF-ZXI"/>
-                                                                                    <menuItem title="NormalLatencyHighQuality" id="Y9b-4z-PLG"/>
-                                                                                    <menuItem title="NormalLatencyHighQualityStereo" id="fIm-dJ-DQp"/>
+                                                                                    <menuItem title="BasicQuality" state="on" id="lJI-2Z-CID" userLabel="BasicQuality"/>
+                                                                                    <menuItem title="StandardQuality" id="2cS-LW-RIF"/>
+                                                                                    <menuItem title="StandardQualityStereo" id="tBN-2C-MF3"/>
+                                                                                    <menuItem title="HighQuality" id="nqw-AC-CFy"/>
+                                                                                    <menuItem title="HighQualityStereo" id="Xq5-OM-xQY"/>
                                                                                 </items>
                                                                             </menu>
                                                                         </popUpButtonCell>

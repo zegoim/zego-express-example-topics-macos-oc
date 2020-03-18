@@ -113,10 +113,10 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
 - (void)joinTalkRoom {
     // Login room
     ZGLogInfo(@" 🚪 Login room, roomID: %@", _roomID);
-    [self.engine loginRoom:_roomID user:[ZegoUser userWithUserID:_localUserID] config:nil];
+    [self.engine loginRoom:_roomID user:[ZegoUser userWithUserID:_localUserID]];
     
     // Set the publish video configuration
-    [self.engine setVideoConfig:[ZegoVideoConfig configWithResolution:ZegoResolution720x1280]];
+    [self.engine setVideoConfig:[ZegoVideoConfig configWithPreset:ZegoVideoConfigPreset720P]];
     
     // Get the local user's preview view and start preview
     ZegoCanvas *previewCanvas = [ZegoCanvas canvasWithView:self.localUserViewObject.view];
@@ -136,7 +136,7 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
     
     // And you can destroy the engine when there is no need to call.
     ZGLogInfo(@" 🏳️ Destroy ZegoExpressEngine");
-    [ZegoExpressEngine destroyEngine];
+    [ZegoExpressEngine destroyEngine:nil];
 }
 
 /// Exit room when VC disappear
@@ -238,7 +238,7 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
 
 #pragma mark - ZegoEventHandler
 
-- (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode room:(NSString *)roomID {
+- (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData roomID:(NSString *)roomID {
     if (errorCode != 0) {
         ZGLogError(@" 🚩 ❌ 🚪 Room state error, errorCode: %d", errorCode);
     } else {
@@ -256,7 +256,7 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
 }
 
 /// Refresh the remote streams list
-- (void)onRoomStreamUpdate:(ZegoUpdateType)updateType streamList:(NSArray<ZegoStream *> *)streamList room:(NSString *)roomID {
+- (void)onRoomStreamUpdate:(ZegoUpdateType)updateType streamList:(NSArray<ZegoStream *> *)streamList roomID:(NSString *)roomID {
     ZGLogInfo(@" 🚩 🌊 Room Stream Update Callback: %lu, StreamsCount: %lu, roomID: %@", (unsigned long)updateType, (unsigned long)streamList.count, roomID);
     NSArray<NSString *> *allStreamIDList = [_allUserViewObjectList valueForKeyPath:@"streamID"];
     

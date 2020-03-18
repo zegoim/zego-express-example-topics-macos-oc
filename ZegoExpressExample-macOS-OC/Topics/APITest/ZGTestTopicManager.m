@@ -24,7 +24,7 @@
 
 - (void)dealloc {
     ZGLogInfo(@" 🏳️ Destroy ZegoExpressEngine");
-    [ZegoExpressEngine destroyEngine];
+    [ZegoExpressEngine destroyEngine:nil];
 }
 
 - (void)setZGTestDataSource:(id<ZGTestDataSource>)dataSource {
@@ -40,7 +40,13 @@
 - (void)destroyEngine {
     ZGLogInfo(@" 🏳️ Destroy ZegoExpressEngine");
     [self.dataSource onActionLog:@" 🏳️ Destroy ZegoExpressEngine"];
-    [ZegoExpressEngine destroyEngine];
+    [ZegoExpressEngine destroyEngine:^{
+        // This callback is only used to notify the completion of the release of internal resources of the engine.
+        // Developers cannot release resources related to the engine within this callback.
+        //
+        // In general, developers do not need to listen to this callback.
+        ZGLogInfo(@" 🚩 🏳️ Destroy ZegoExpressEngine complete");
+    }];
 }
 
 - (NSString *)getVersion {
@@ -66,7 +72,7 @@
 #pragma mark Room
 
 - (void)loginRoom:(NSString *)roomID userID:(NSString *)userID userName:(NSString *)userName {
-    [self.engine loginRoom:roomID user:[ZegoUser userWithUserID:userID userName:userName] config:nil];
+    [self.engine loginRoom:roomID user:[ZegoUser userWithUserID:userID userName:userName]];
     ZGLogInfo(@" 🚪 Login room. roomID: %@", roomID);
     [self.dataSource onActionLog:[NSString stringWithFormat:@" 🚪 Login room"]];
 }
@@ -152,8 +158,8 @@
 }
 
 
-- (void)addPublishCDNURL:(NSString *)targetURL stream:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCDNURLCallback)callback {
-    [self.engine addPublishCDNURL:targetURL stream:streamID callback:^(int errorCode) {
+- (void)addPublishCDNURL:(NSString *)targetURL streamID:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCDNURLCallback)callback {
+    [self.engine addPublishCDNURL:targetURL streamID:streamID callback:^(int errorCode) {
         if (callback) {
             callback(errorCode);
         }
@@ -163,8 +169,8 @@
 }
 
 
-- (void)removePublishCDNURL:(NSString *)targetURL stream:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCDNURLCallback)callback {
-    [self.engine removePublishCDNURL:targetURL stream:streamID callback:^(int errorCode) {
+- (void)removePublishCDNURL:(NSString *)targetURL streamID:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCDNURLCallback)callback {
+    [self.engine removePublishCDNURL:targetURL streamID:streamID callback:^(int errorCode) {
         if (callback) {
             callback(errorCode);
         }
@@ -217,20 +223,20 @@
 
 
 - (void)setPlayVolume:(int)volume stream:(NSString *)streamID {
-    [self.engine setPlayVolume:volume stream:streamID];
+    [self.engine setPlayVolume:volume streamID:streamID];
     ZGLogInfo(@" ⛏ Set play volume: %d", volume);
     [self.dataSource onActionLog:[NSString stringWithFormat:@" ⛏ Set play volume: %d", volume]];
 }
 
 
-- (void)mutePlayStreamAudio:(BOOL)mute stream:(NSString *)streamID {
+- (void)mutePlayStreamAudio:(BOOL)mute streamID:(NSString *)streamID {
     ZGLogInfo(@" 🙊 Mute play stream audio: %@", mute ? @"YES" : @"NO");
     [self.dataSource onActionLog:[NSString stringWithFormat:@" 🙊 Mute play stream audio: %@", mute ? @"YES" : @"NO"]];
 }
 
 
-- (void)mutePlayStreamVideo:(BOOL)mute stream:(NSString *)streamID {
-    [self.engine mutePlayStreamVideo:mute stream:streamID];
+- (void)mutePlayStreamVideo:(BOOL)mute streamID:(NSString *)streamID {
+    [self.engine mutePlayStreamVideo:mute streamID:streamID];
     ZGLogInfo(@" 🙈 Mute play stream video: %@", mute ? @"YES" : @"NO");
     [self.dataSource onActionLog:[NSString stringWithFormat:@" 🙈 Mute play stream video: %@", mute ? @"YES" : @"NO"]];
 }
@@ -359,21 +365,23 @@
 
 - (void)startMixerTask:(ZegoMixerTask *)task {
     ZGLogInfo(@" 🧬 Start mixer task");
-    [self.engine startMixerTask:task callback:^(ZegoMixerStartResult * _Nonnull result) {
-        ZGLogInfo(@" 🚩 🧬 Start mixer task result errorCode: %d", result.errorCode);
+    [self.engine startMixerTask:task callback:^(int errorCode, NSDictionary * _Nullable extendedData) {
+        ZGLogInfo(@" 🚩 🧬 Start mixer task result errorCode: %d", errorCode);
     }];
 }
 
-- (void)stopMixerTask:(NSString *)taskID {
+- (void)stopMixerTask:(ZegoMixerTask *)task {
     ZGLogInfo(@" 🧬 Stop mixer task");
-    [self.engine stopMixerTask:taskID];
+    [self.engine stopMixerTask:task callback:^(int errorCode) {
+        ZGLogInfo(@" 🚩 🧬 Stop mixer task result errorCode: %d", errorCode);
+    }];
 }
 
 #pragma mark IM
 
 - (void)sendBroadcastMessage:(NSString *)message roomID:(NSString *)roomID {
-    [self.engine sendBroadcastMessage:message roomID:roomID callback:^(int errorCode) {
-        ZGLogInfo(@" 🚩 ✉️ Send broadcast message result errorCode: %d", errorCode);
+    [self.engine sendBroadcastMessage:message roomID:roomID callback:^(int errorCode, unsigned long long messageID) {
+        ZGLogInfo(@" 🚩 ✉️ Send broadcast message result errorCode: %d, messageID: %llu", errorCode, messageID);
     }];
 }
 
@@ -392,30 +400,30 @@
 
 #pragma mark Room Callback
 
-- (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode room:(NSString *)roomID {
+- (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData roomID:(NSString *)roomID {
     ZGLogInfo(@" 🚩 🚪 Room State Update Callback: %lu, errorCode: %d, roomID: %@", (unsigned long)state, (int)errorCode, roomID);
 }
 
 
-- (void)onRoomUserUpdate:(ZegoUpdateType)updateType userList:(NSArray<ZegoUser *> *)userList room:(NSString *)roomID {
+- (void)onRoomUserUpdate:(ZegoUpdateType)updateType userList:(NSArray<ZegoUser *> *)userList roomID:(NSString *)roomID {
     ZGLogInfo(@" 🚩 🕺 Room User Update Callback: %lu, UsersCount: %lu, roomID: %@", (unsigned long)updateType, (unsigned long)userList.count, roomID);
 }
 
-- (void)onRoomStreamUpdate:(ZegoUpdateType)updateType streamList:(NSArray<ZegoStream *> *)streamList room:(NSString *)roomID {
+- (void)onRoomStreamUpdate:(ZegoUpdateType)updateType streamList:(NSArray<ZegoStream *> *)streamList roomID:(NSString *)roomID {
     ZGLogInfo(@" 🚩 🌊 Room Stream Update Callback: %lu, StreamsCount: %lu, roomID: %@", (unsigned long)updateType, (unsigned long)streamList.count, roomID);
 }
 
-- (void)onRoomStreamExtraInfoUpdate:(NSArray<ZegoStream *> *)streamList room:(NSString *)roomID {
+- (void)onRoomStreamExtraInfoUpdate:(NSArray<ZegoStream *> *)streamList roomID:(NSString *)roomID {
     ZGLogInfo(@" 🚩 🌊 Room Stream Extra Info Update Callback, StreamsCount: %lu, roomID: %@", (unsigned long)streamList.count, roomID);
 }
 
 #pragma mark Publisher Callback
 
-- (void)onPublisherStateUpdate:(ZegoPublisherState)state errorCode:(int)errorCode stream:(NSString *)streamID {
+- (void)onPublisherStateUpdate:(ZegoPublisherState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData streamID:(NSString *)streamID {
     ZGLogInfo(@" 🚩 📤 Publisher State Update Callback: %lu, errorCode: %d, streamID: %@", (unsigned long)state, (int)errorCode, streamID);
 }
 
-- (void)onPublisherQualityUpdate:(ZegoPublishStreamQuality *)quality stream:(NSString *)streamID {
+- (void)onPublisherQualityUpdate:(ZegoPublishStreamQuality *)quality streamID:(NSString *)streamID {
     ZGLogInfo(@" 🚩 📈 Publisher Quality Update Callback: FPS:%f, Bitrate:%f, streamID: %@", quality.videoSendFPS, quality.videoKBPS, streamID);
     
     if ([self.dataSource respondsToSelector:@selector(onPublisherQualityUpdate:)]) {
@@ -423,29 +431,33 @@
     }
 }
 
-- (void)onPublisherRecvFirstFrameEvent:(ZegoPublisherFirstFrameEvent)event {
-    ZGLogInfo(@" 🚩 ✨ Publisher Recv First Frame Event Callback: %lu", (unsigned long)event);
+- (void)onPublisherCapturedAudioFirstFrame {
+    ZGLogInfo(@" 🚩 ✨ Publisher Captured Audio First Frame Callback");
 }
 
-- (void)onPublisherVideoSizeChanged:(CGSize)size {
-    ZGLogInfo(@" 🚩 📐 Publisher Video Size Changed Callback: Width: %f, Height: %f", size.width, size.height);
+- (void)onPublisherCapturedVideoFirstFrame:(ZegoPublishChannel)channel {
+    ZGLogInfo(@" 🚩 ✨ Publisher Captured Audio First Frame Callback, channel: %d", (int)channel);
+}
+
+- (void)onPublisherVideoSizeChanged:(CGSize)size channel:(ZegoPublishChannel)channel {
+    ZGLogInfo(@" 🚩 📐 Publisher Video Size Changed Callback: Width: %f, Height: %f, channel: %d", size.width, size.height, (int)channel);
     
     if ([self.dataSource respondsToSelector:@selector(onPublisherVideoSizeChanged:)]) {
         [self.dataSource onPublisherVideoSizeChanged:size];
     }
 }
 
-- (void)onPublisherRelayCDNStateUpdate:(NSArray<ZegoStreamRelayCDNInfo *> *)infoList stream:(NSString *)streamID {
-    ZGLogInfo(@" 🚩 📡 Publisher Relay CDN State Update Callback: Relaying CDN Count: %lu, streamID: %@", (unsigned long)infoList.count, streamID);
+- (void)onPublisherRelayCDNStateUpdate:(NSArray<ZegoStreamRelayCDNInfo *> *)streamInfoList streamID:(NSString *)streamID {
+    ZGLogInfo(@" 🚩 📡 Publisher Relay CDN State Update Callback: Relaying CDN Count: %lu, streamID: %@", (unsigned long)streamInfoList.count, streamID);
 }
 
 #pragma mark Player Callback
 
-- (void)onPlayerStateUpdate:(ZegoPlayerState)state errorCode:(int)errorCode stream:(NSString *)streamID {
+- (void)onPlayerStateUpdate:(ZegoPlayerState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData streamID:(NSString *)streamID {
     ZGLogInfo(@" 🚩 📥 Player State Update Callback: %lu, errorCode: %d, streamID: %@", (unsigned long)state, (int)errorCode, streamID);
 }
 
-- (void)onPlayerQualityUpdate:(ZegoPlayStreamQuality *)quality stream:(NSString *)streamID {
+- (void)onPlayerQualityUpdate:(ZegoPlayStreamQuality *)quality streamID:(NSString *)streamID {
     ZGLogInfo(@" 🚩 📉 Player Quality Update Callback: FPS:%f, Bitrate:%f, streamID: %@", quality.videoRecvFPS, quality.videoKBPS, streamID);
     
     if ([self.dataSource respondsToSelector:@selector(onPlayerQualityUpdate:)]) {
@@ -453,15 +465,23 @@
     }
 }
 
-- (void)onPlayerMediaEvent:(ZegoPlayerMediaEvent)event stream:(NSString *)streamID {
+- (void)onPlayerMediaEvent:(ZegoPlayerMediaEvent)event streamID:(NSString *)streamID {
     ZGLogInfo(@" 🚩 🎊 Player Media Event Callback: %lu, streamID: %@", (unsigned long)event, streamID);
 }
 
-- (void)onPlayerRecvFirstFrameEvent:(ZegoPlayerFirstFrameEvent)event stream:(NSString *)streamID {
-    ZGLogInfo(@" 🚩 ⚡️ Player Recv First Frame Event Callback: %lu, streamID: %@", (unsigned long)event, streamID);
+- (void)onPlayerRecvAudioFirstFrame:(NSString *)streamID {
+    ZGLogInfo(@" 🚩 ⚡️ Player Recv Audio First Frame Callback, streamID: %@", streamID);
 }
 
-- (void)onPlayerVideoSizeChanged:(CGSize)size stream:(NSString *)streamID {
+- (void)onPlayerRecvVideoFirstFrame:(NSString *)streamID {
+    ZGLogInfo(@" 🚩 ⚡️ Player Recv Video First Frame Callback, streamID: %@", streamID);
+}
+
+- (void)onPlayerRenderVideoFirstFrame:(NSString *)streamID {
+    ZGLogInfo(@" 🚩 ⚡️ Player Recv Render First Frame Callback, streamID: %@", streamID);
+}
+
+- (void)onPlayerVideoSizeChanged:(CGSize)size streamID:(NSString *)streamID {
     ZGLogInfo(@" 🚩 📏 Player Video Size Changed Callback: Width: %f, Height: %f, streamID: %@", size.width, size.height, streamID);
     
     if ([self.dataSource respondsToSelector:@selector(onPlayerVideoSizeChanged:)]) {
@@ -469,7 +489,7 @@
     }
 }
 
-- (void)onPlayerRecvSEI:(NSData *)data stream:(NSString *)streamID {
+- (void)onPlayerRecvSEI:(NSData *)data streamID:(NSString *)streamID {
     ZGLogInfo(@" 🚩 ✉️ Player Recv SEI: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
 }
 
@@ -479,11 +499,11 @@
     ZGLogInfo(@" 🚩 💻 Device Error Callback: errorCode: %d, DeviceName: %@", errorCode, deviceName);
 }
 
-- (void)onRemoteCameraStateUpdate:(ZegoRemoteDeviceState)state stream:(NSString *)streamID {
+- (void)onRemoteCameraStateUpdate:(ZegoRemoteDeviceState)state streamID:(NSString *)streamID {
     ZGLogInfo(@" 🚩 📷 Remote Camera State Update Callback: state: %lu, DeviceName: %@", (unsigned long)state, streamID);
 }
 
-- (void)onRemoteMicStateUpdate:(ZegoRemoteDeviceState)state stream:(NSString *)streamID {
+- (void)onRemoteMicStateUpdate:(ZegoRemoteDeviceState)state streamID:(NSString *)streamID {
     ZGLogInfo(@" 🚩 🎙 Remote Mic State Update Callback: state: %lu, DeviceName: %@", (unsigned long)state, streamID);
 }
 
@@ -499,11 +519,21 @@
 
 #pragma mark IM Callback
 
-- (void)onIMRecvBroadcastMessage:(NSArray<ZegoMessageInfo *> *)messageInfoList roomID:(NSString *)roomID {
+- (void)onIMRecvBroadcastMessage:(NSArray<ZegoBroadcastMessageInfo *> *)messageList roomID:(NSString *)roomID {
     ZGLogInfo(@" 🚩 📩 IM Recv Broadcast Message Callback: roomID: %@", roomID);
     [self.dataSource onActionLog:[NSString stringWithFormat:@" 📩 Received Broadcast Message"]];
-    for (int idx = 0; idx < messageInfoList.count; idx ++) {
-        ZegoMessageInfo *info = messageInfoList[idx];
+    for (int idx = 0; idx < messageList.count; idx ++) {
+        ZegoBroadcastMessageInfo *info = messageList[idx];
+        ZGLogInfo(@" 🚩 📩 --- %d: message: %@, fromUserID: %@, sendTime: %llu", idx, info.message, info.fromUser.userID, info.sendTime);
+        [self.dataSource onActionLog:[NSString stringWithFormat:@" 📩 [%@] --- from %@, time: %llu", info.message, info.fromUser.userID, info.sendTime]];
+    }
+}
+
+- (void)onIMRecvBarrageMessage:(NSArray<ZegoBarrageMessageInfo *> *)messageList roomID:(NSString *)roomID {
+    ZGLogInfo(@" 🚩 📩 IM Recv Barrage Message Callback: roomID: %@", roomID);
+    [self.dataSource onActionLog:[NSString stringWithFormat:@" 📩 Received Broadcast Message"]];
+    for (int idx = 0; idx < messageList.count; idx ++) {
+        ZegoBarrageMessageInfo *info = messageList[idx];
         ZGLogInfo(@" 🚩 📩 --- %d: message: %@, fromUserID: %@, sendTime: %llu", idx, info.message, info.fromUser.userID, info.sendTime);
         [self.dataSource onActionLog:[NSString stringWithFormat:@" 📩 [%@] --- from %@, time: %llu", info.message, info.fromUser.userID, info.sendTime]];
     }

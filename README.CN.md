@@ -1,14 +1,14 @@
 # Zego Express Example Topics macOS (Objective-C)
 
-Zego Express Example Topics for macOS developer.
+Zego Express macOS (Objective-C) 示例专题 Demo
 
-## Download SDK
+## 下载 SDK
 
-The SDK `ZegoExpressEngine.framework` required to run the Demo project is missing from this Repository, and needs to be downloaded and placed in the `Libs` folder of the Demo project
+此 Repository 中缺少运行 Demo 工程所需的 SDK `ZegoExpressEngine.framework`，需要下载并放入 Demo 工程的 `Libs` 文件夹中
 
 [https://storage.zego.im/downloads/ZegoExpress-macOS.zip](https://storage.zego.im/downloads/ZegoExpress-macOS.zip)
 
-> Please unzip and put the `ZegoExpressEngine.framework` under `Libs`
+> 请解压缩 `ZegoExpressEngine.framework` 并将其放在 `Libs` 目录下
 
 ```tree
 .

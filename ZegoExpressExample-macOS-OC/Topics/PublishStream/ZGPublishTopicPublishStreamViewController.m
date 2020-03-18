@@ -49,6 +49,8 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 @property (assign) ZegoViewMode previewViewMode;
 @property (assign) ZegoVideoMirrorMode videoMirrorMode;
 
+@property (assign) ZegoAudioConfigPreset audioConfigPreset;
+
 @property (copy) NSString *streamExtraInfo;
 
 @property (assign) ZegoRoomState roomState;
@@ -104,19 +106,14 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     [self.engine enableCamera:YES];
     [self.engine enableHardwareEncoder:NO];
     
-    self.videoConfig = [[ZegoVideoConfig alloc] init];
-    self.videoConfig.captureResolution = CGSizeMake(1920, 1080);
-    self.videoConfig.encodeResolution = CGSizeMake(1920, 1080);
+    self.videoConfig = [ZegoVideoConfig configWithPreset:ZegoVideoConfigPreset1080P];
     self.videoConfig.fps = 30;
-    self.videoConfig.bitrate = 3000000;
     [self.engine setVideoConfig:self.videoConfig];
     
     self.previewViewMode = ZegoViewModeAspectFit;
     
     self.videoMirrorMode = ZegoVideoMirrorModeOnlyPreviewMirror;
     [self.engine setVideoMirrorMode:self.videoMirrorMode];
-    
-    [self.engine setAudioConfig:[ZegoAudioConfig configWithPreset:ZegoAudioConfigPresetLowLatencyStandardQuality]];
     
     // Start preview
     self.previewCanvas = [ZegoCanvas canvasWithView:self.previewView];
@@ -146,7 +143,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     
     // Login room
     [self appendLog:[NSString stringWithFormat:@" 🚪 Start login room, roomID: %@", self.roomID]];
-    [self.engine loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName] config:nil];
+    [self.engine loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName]];
     
     // Start publishing
     [self appendLog:[NSString stringWithFormat:@" 📤 Start publishing stream, streamID: %@", self.streamID]];
@@ -175,13 +172,24 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 #pragma mark - Exit
 
 - (void)viewDidDisappear {
-    // It is recommended to logout room when stopping the video call.
-    [self appendLog:[NSString stringWithFormat:@" 🚪 Logout room, roomID: %@", self.roomID]];
-    [self.engine logoutRoom:self.roomID];
+    [self appendLog:@" 🔌 Stop preview"];
+    [self.engine stopPreview];
     
-    // And you can destroy the engine when there is no need to call.
+    // Stop publishing before exiting
+    if (self.publisherState != ZegoPublisherStateNoPublish) {
+        [self appendLog:@" 📤 Stop publishing stream"];
+        [self.engine stopPublishing];
+    }
+    
+    // Logout room before exiting
+    if (self.roomState != ZegoRoomStateDisconnected) {
+        [self appendLog:@" 🚪 Logout room"];
+        [self.engine logoutRoom:self.roomID];
+    }
+    
+    // Can destroy the engine when you don't need audio and video calls
     [self appendLog:@" 🏳️ Destroy ZegoExpressEngine"];
-    [ZegoExpressEngine destroyEngine];
+    [ZegoExpressEngine destroyEngine:nil];
 }
 
 #pragma mark - Actions
@@ -246,59 +254,16 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 }
 
 - (IBAction)fpsPopUpButtonAction:(NSPopUpButton *)sender {
-    int fps = self.videoConfig.fps;
-    switch (sender.indexOfSelectedItem) {
-        case 0:
-            fps = 5;
-            break;
-        case 1:
-            fps = 10;
-            break;
-        case 2:
-            fps = 15;
-            break;
-        case 3:
-            fps = 20;
-            break;
-        case 4:
-            fps = 25;
-            break;
-        case 5:
-            fps = 30;
-            break;
-        default:
-            break;
-    }
+    int fps = sender.itemArray[sender.indexOfSelectedItem].title.intValue;
     self.videoConfig.fps = fps;
     
     [self appendLog:[NSString stringWithFormat:@" 📽 FPS changed to: %d", fps]];
+    
     [self.engine setVideoConfig:self.videoConfig];
 }
 
 - (IBAction)bitratePopUpButtonAction:(NSPopUpButton *)sender {
-    int bitrate = self.videoConfig.bitrate;
-    switch (sender.indexOfSelectedItem) {
-        case 0:
-            bitrate = 300000;
-            break;
-        case 1:
-            bitrate = 400000;
-            break;
-        case 2:
-            bitrate = 600000;
-            break;
-        case 3:
-            bitrate = 1200000;
-            break;
-        case 4:
-            bitrate = 1500000;
-            break;
-        case 5:
-            bitrate = 3000000;
-            break;
-        default:
-            break;
-    }
+    int bitrate = sender.itemArray[sender.indexOfSelectedItem].title.intValue;
     self.videoConfig.bitrate = bitrate;
     
     [self appendLog:[NSString stringWithFormat:@" 🎛 Bitrate changed to: %d", bitrate]];
@@ -306,58 +271,28 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 }
 
 - (IBAction)viewModePopUpButtonAction:(NSPopUpButton *)sender {
-    NSString *previewModeString;
-    switch (sender.indexOfSelectedItem) {
-        case 0:
-            previewModeString = @"AspectFit";
-            self.previewViewMode = ZegoViewModeAspectFit;
-            break;
-        case 1:
-            previewModeString = @"AspectFill";
-            self.previewViewMode = ZegoViewModeAspectFill;
-            break;
-        case 2:
-            previewModeString = @"ScaleToFill";
-            self.previewViewMode = ZegoViewModeScaleToFill;
-            break;
-        default:
-            break;
-    }
+    self.previewViewMode = (ZegoViewMode)sender.indexOfSelectedItem;
     
-    [self appendLog:[NSString stringWithFormat:@" 🖼 View mode changed to: %@", previewModeString]];
+    [self appendLog:[NSString stringWithFormat:@" 🖼 View mode changed to: %@", sender.menu.itemArray[sender.indexOfSelectedItem].title]];
+    
     self.previewCanvas.viewMode = self.previewViewMode;
     [self.engine startPreview:self.previewCanvas];
 }
 
 - (IBAction)mirrorModePopUpButtonAction:(NSPopUpButton *)sender {
-    NSString *mirrorModeString;
-    switch (sender.indexOfSelectedItem) {
-        case 0:
-            mirrorModeString = @"OnlyPreviewMirror";
-            self.videoMirrorMode = ZegoVideoMirrorModeOnlyPreviewMirror;
-            break;
-        case 1:
-            mirrorModeString = @"BothMirror";
-            self.videoMirrorMode = ZegoVideoMirrorModeBothMirror;
-            break;
-        case 2:
-            mirrorModeString = @"NoMirror";
-            self.videoMirrorMode = ZegoVideoMirrorModeNoMirror;
-            break;
-        case 3:
-            mirrorModeString = @"OnlyPublishMirror";
-            self.videoMirrorMode = ZegoVideoMirrorModeOnlyPublishMirror;
-            break;
-        default:
-            break;
-    }
+    self.videoMirrorMode = (ZegoVideoMirrorMode)sender.indexOfSelectedItem;
     
-    [self appendLog:[NSString stringWithFormat:@" 🤳 Mirror mode changed to: %@", mirrorModeString]];
+    [self appendLog:[NSString stringWithFormat:@" 🤳 Mirror mode changed to: %@", sender.menu.itemArray[sender.indexOfSelectedItem].title]];
+    
     [self.engine setVideoMirrorMode:self.videoMirrorMode];
 }
 
 - (IBAction)audioConfigPopUpButtonAction:(NSPopUpButton *)sender {
-    // TODO: AudioConfig
+    self.audioConfigPreset = (ZegoAudioConfigPreset)sender.indexOfSelectedItem;
+    
+    [self appendLog:[NSString stringWithFormat:@" 🔊 Audio config change to: %@", sender.menu.itemArray[sender.indexOfSelectedItem].title]];
+    
+    [self.engine setAudioConfig:[ZegoAudioConfig configWithPreset:self.audioConfigPreset]];
 }
 
 - (IBAction)setStreamExtraInfoButtonClick:(NSButton *)sender {
@@ -373,7 +308,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 
 #pragma mark - ZegoEventHandler Room Event
 
-- (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode room:(NSString *)roomID {
+- (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData roomID:(NSString *)roomID {
     if (errorCode != 0) {
         [self appendLog:[NSString stringWithFormat:@" 🚩 ❌ 🚪 Room state error, errorCode: %d", errorCode]];
     } else {
@@ -393,7 +328,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 
 #pragma mark - ZegoEventHandler Publish Event
 
-- (void)onPublisherStateUpdate:(ZegoPublisherState)state errorCode:(int)errorCode stream:(NSString *)streamID {
+- (void)onPublisherStateUpdate:(ZegoPublisherState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData streamID:(NSString *)streamID {
     if (errorCode != 0) {
         [self appendLog:[NSString stringWithFormat:@" 🚩 ❌ 📤 Publishing stream error of streamID: %@, errorCode:%d", streamID, errorCode]];
     } else {
@@ -408,7 +343,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     self.publisherState = state;
 }
 
-- (void)onPublisherQualityUpdate:(ZegoPublishStreamQuality *)quality stream:(NSString *)streamID {
+- (void)onPublisherQualityUpdate:(ZegoPublishStreamQuality *)quality streamID:(NSString *)streamID {
     NSString *networkQuality = @"";
     switch (quality.level) {
         case 0:
@@ -437,7 +372,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     self.publishQualityLabel.stringValue = [text copy];
 }
 
-- (void)onPublisherVideoSizeChanged:(CGSize)size {
+- (void)onPublisherVideoSizeChanged:(CGSize)size channel:(ZegoPublishChannel)channel {
     self.publishResolutionLabel.stringValue = [NSString stringWithFormat:@"Resolution: %d x %d", (int)size.width, (int)size.height];
 }
 

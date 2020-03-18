@@ -18,7 +18,6 @@
 //#define _Module_ExternalVideoRender @"ExternalVideoRender 视频外部渲染"
 //#define _Module_ExternalVideoFilter @"ExternalVideoFilter 自定义前处理(FaceUnity)"
 //#define _Module_AudioProcessing @"AudioProcessing 变声、混响、立体声"
-#define _Module_Test @"API Test 接口测试"
-
+//#define _Module_Test @"API Test 接口测试"
 
 #endif

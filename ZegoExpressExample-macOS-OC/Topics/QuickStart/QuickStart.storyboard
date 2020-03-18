@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="YEh-32-Jqq">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="YEh-32-Jqq">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -112,19 +113,8 @@
                                                 </view>
                                                 <color key="fillColor" name="underPageBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </box>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5T5-ho-WrW">
-                                                <rect key="frame" x="83" y="28" width="254" height="14"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="250" id="w4A-vB-G7r"/>
-                                                </constraints>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" title="AppSign: " id="j0K-U5-Yoe">
-                                                    <font key="font" metaFont="message" size="11"/>
-                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eSQ-V7-JYQ">
-                                                <rect key="frame" x="83" y="9" width="60" height="14"/>
+                                                <rect key="frame" x="83" y="16" width="60" height="14"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="isTestEnv: " id="ILE-La-NIS">
                                                     <font key="font" metaFont="message" size="11"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -143,7 +133,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WIe-ka-RlX">
-                                                <rect key="frame" x="83" y="47" width="43" height="14"/>
+                                                <rect key="frame" x="83" y="40" width="43" height="14"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" title="AppID: " id="xwN-XW-3kz">
                                                     <font key="font" metaFont="message" size="11"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -167,16 +157,14 @@
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="AAU-a3-uUb" secondAttribute="trailing" id="3Jc-cl-2hG"/>
                                             <constraint firstItem="WIe-ka-RlX" firstAttribute="leading" secondItem="AjG-iA-Y6k" secondAttribute="trailing" constant="10" id="7ZE-7t-XKe"/>
-                                            <constraint firstItem="5T5-ho-WrW" firstAttribute="centerY" secondItem="T7R-Xs-BZH" secondAttribute="centerY" id="7hD-Uk-kUA"/>
                                             <constraint firstItem="9bk-zJ-Eq2" firstAttribute="centerY" secondItem="T7R-Xs-BZH" secondAttribute="centerY" id="Ebb-pn-tVW"/>
                                             <constraint firstItem="eSQ-V7-JYQ" firstAttribute="leading" secondItem="AjG-iA-Y6k" secondAttribute="trailing" constant="10" id="FIL-uT-dFH"/>
-                                            <constraint firstItem="5T5-ho-WrW" firstAttribute="top" secondItem="WIe-ka-RlX" secondAttribute="bottom" constant="5" id="HHi-iK-49E"/>
-                                            <constraint firstItem="eSQ-V7-JYQ" firstAttribute="top" secondItem="5T5-ho-WrW" secondAttribute="bottom" constant="5" id="Jch-Wv-Zfi"/>
-                                            <constraint firstItem="5T5-ho-WrW" firstAttribute="leading" secondItem="AjG-iA-Y6k" secondAttribute="trailing" constant="10" id="RqG-Qw-DxR"/>
                                             <constraint firstItem="AAU-a3-uUb" firstAttribute="leading" secondItem="T7R-Xs-BZH" secondAttribute="leading" id="bO9-3I-Uwl"/>
                                             <constraint firstItem="AjG-iA-Y6k" firstAttribute="centerY" secondItem="T7R-Xs-BZH" secondAttribute="centerY" id="cCs-db-d05"/>
+                                            <constraint firstAttribute="bottom" secondItem="eSQ-V7-JYQ" secondAttribute="bottom" constant="16" id="dec-cJ-uE0"/>
                                             <constraint firstItem="AjG-iA-Y6k" firstAttribute="leading" secondItem="T7R-Xs-BZH" secondAttribute="leading" constant="10" id="i8T-Rx-xeU"/>
                                             <constraint firstAttribute="height" constant="70" id="jIZ-L0-hWK"/>
+                                            <constraint firstItem="WIe-ka-RlX" firstAttribute="top" secondItem="T7R-Xs-BZH" secondAttribute="top" constant="16" id="mBX-cq-zXv"/>
                                             <constraint firstAttribute="trailing" secondItem="9bk-zJ-Eq2" secondAttribute="trailing" constant="20" id="mVa-x8-lWC"/>
                                             <constraint firstItem="AAU-a3-uUb" firstAttribute="top" secondItem="T7R-Xs-BZH" secondAttribute="top" id="sBk-7V-cxV"/>
                                             <constraint firstAttribute="bottom" secondItem="AAU-a3-uUb" secondAttribute="bottom" id="zFN-ZO-rFo"/>
@@ -451,7 +439,6 @@
                     </view>
                     <connections>
                         <outlet property="appIDLabel" destination="WIe-ka-RlX" id="Hhy-gD-g6d"/>
-                        <outlet property="appSignLabel" destination="5T5-ho-WrW" id="i9T-Sb-8lp"/>
                         <outlet property="createEngineButton" destination="9bk-zJ-Eq2" id="KHL-ZM-dO0"/>
                         <outlet property="isTestEnvLabel" destination="eSQ-V7-JYQ" id="hmE-I4-Cmm"/>
                         <outlet property="localPreviewView" destination="Jvn-4d-qUd" id="ZDe-ac-FgS"/>

@@ -38,7 +38,7 @@ typedef void(^ZegoPublisherSetStreamExtraInfoCallback)(int errorCode);
 /// Callback for add/remove CDN URL
 ///
 /// @param errorCode Error code, please refer to the common error code document [https://doc-zh.zego.im/zh/308.html] for details
-typedef void(^ZegoPublisherUpdateCDNURLCallback)(int errorCode);
+typedef void(^ZegoPublisherUpdateCdnUrlCallback)(int errorCode);
 
 /// Results of starting a mixer task
 ///
@@ -79,7 +79,7 @@ typedef void(^ZegoMediaPlayerLoadResourceCallback)(int errorCode);
 typedef void(^ZegoMediaPlayerSeekToCallback)(int errorCode);
 
 
-/// Application cenario
+/// Application scenario
 typedef NS_ENUM(NSUInteger, ZegoScenario) {
     /// General scenario
     ZegoScenarioGeneral = 0,
@@ -154,19 +154,19 @@ typedef NS_ENUM(NSUInteger, ZegoPublisherState) {
 };
 
 
-/// Video Resolution
+/// Video configuration resolution and bitrate preset enumeration. The preset resolutions are adapted for mobile and desktop. On mobile, height is longer than width, and desktop is the opposite. For example, 1080p is actually 1080(w) x 1920(h) on mobile and 1920(w) x 1080(h) on desktop.
 typedef NS_ENUM(NSUInteger, ZegoVideoConfigPreset) {
-    /// Set the resolution to 180x320, the default is 15 fps, the code rate is 300 kbps
+    /// Set the resolution to 320x180, the default is 15 fps, the code rate is 300 kbps
     ZegoVideoConfigPreset180P = 0,
-    /// Set the resolution to 270x480, the default is 15 fps, the code rate is 400 kbps
+    /// Set the resolution to 480x270, the default is 15 fps, the code rate is 400 kbps
     ZegoVideoConfigPreset270P = 1,
-    /// Set the resolution to 360x640, the default is 15 fps, the code rate is 600 kbps
+    /// Set the resolution to 640x360, the default is 15 fps, the code rate is 600 kbps
     ZegoVideoConfigPreset360P = 2,
-    /// Set the resolution to 540x960, the default is 15 fps, the code rate is 1200 kbps
+    /// Set the resolution to 960x540, the default is 15 fps, the code rate is 1200 kbps
     ZegoVideoConfigPreset540P = 3,
-    /// Set the resolution to 720x1280, the default is 15 fps, the code rate is 1500 kbps
+    /// Set the resolution to 1280x720, the default is 15 fps, the code rate is 1500 kbps
     ZegoVideoConfigPreset720P = 4,
-    /// Set the resolution to 1080x1920, the default is 15 fps, the code rate is 3000 kbps
+    /// Set the resolution to 1920x1080, the default is 15 fps, the code rate is 3000 kbps
     ZegoVideoConfigPreset1080P = 5
 };
 
@@ -246,8 +246,8 @@ typedef NS_ENUM(NSUInteger, ZegoAudioCodecID) {
 typedef NS_ENUM(NSUInteger, ZegoVideoCodecID) {
     /// default
     ZegoVideoCodecIDDefault = 0,
-    /// Multiple Layer
-    ZegoVideoCodecIDMultiLayer = 1,
+    /// SVC
+    ZegoVideoCodecIDSVC = 1,
     /// VP8
     ZegoVideoCodecIDVP8 = 2
 };
@@ -275,16 +275,16 @@ typedef NS_ENUM(NSUInteger, ZegoAECMode) {
 };
 
 
-/// Traffic control property
+/// Traffic control property (bitmask enumeration)
 typedef NS_OPTIONS(NSUInteger, ZegoTrafficControlProperty) {
     /// Basic
-    ZegoTrafficControlBasic = 0,
+    ZegoTrafficControlPropertyBasic = 0,
     /// Adaptive FPS
-    ZegoTrafficControlAdaptiveFPS = 1,
+    ZegoTrafficControlPropertyAdaptiveFPS = 1,
     /// Adaptive resolution
-    ZegoTrafficControlAdaptiveResolution = 1 << 1,
+    ZegoTrafficControlPropertyAdaptiveResolution = 1 << 1,
     /// Adaptive Audio bitrate
-    ZegoTrafficControlAdaptiveAudioBitrate = 1 << 2
+    ZegoTrafficControlPropertyAdaptiveAudioBitrate = 1 << 2
 };
 
 
@@ -374,7 +374,7 @@ typedef NS_ENUM(NSUInteger, ZegoStreamRelayCDNUpdateReason) {
 };
 
 
-/// Beauty feature
+/// Beauty feature (bitmask enumeration)
 typedef NS_OPTIONS(NSUInteger, ZegoBeautifyFeature) {
     /// No beautifying
     ZegoBeautifyFeatureNone = 0,
@@ -442,7 +442,7 @@ typedef NS_ENUM(NSUInteger, ZegoMixerInputContentType) {
 };
 
 
-/// Capture pipline scale mode
+/// Capture pipeline scale mode
 typedef NS_ENUM(NSUInteger, ZegoCapturePipelineScaleMode) {
     /// Zoom immediately after acquisition, default
     ZegoCapturePipelineScaleModePre = 0,
@@ -558,7 +558,9 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 
 /// Custom video capture configuration
 ///
+/// Custom video capture, that is, the developer is responsible for collecting video data and sending the collected video data to SDK for video data encoding and publishing to the ZEGO audio and video cloud.This feature is generally used by developers who use third-party beauty features or record game screen living.
 /// When you need to use the custom video capture function, you need to set an instance of this class as a parameter to the corresponding parameter of the [ZegoEngineConfig] instance.
+/// Because when using custom video capture, SDK will no longer start the camera to capture video data. You need to collect video data from video sources by yourself.
 @interface ZegoCustomVideoCaptureConfig : NSObject
 
 /// Custom video capture video frame data type
@@ -578,7 +580,7 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 /// Custom video rendering video frame data format
 @property (nonatomic, assign) ZegoVideoFrameFormatSeries frameFormatSeries;
 
-/// Whether the engine also renders while customizing video rendering
+/// Whether the engine also renders while customizing video rendering. The default value is [false]
 @property (nonatomic, assign) BOOL enableEngineRender;
 
 @end
@@ -586,7 +588,7 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 
 /// Advanced engine configuration
 ///
-/// When you need to use the advanced functions of ZegoExpressEngine, such as custom video capture, custom video rendering and other advanced functions, you need to set the instance corresponding to the advanced function configuration to the corresponding field of this type of instance to achieve the purpose of enabling the corresponding advanced functions of ZegoExpressEngine.
+/// When you need to use the advanced functions of SDK, such as custom video capture, custom video rendering and other advanced functions, you need to set the instance corresponding to the advanced function configuration to the corresponding field of this type of instance to achieve the purpose of enabling the corresponding advanced functions of ZegoExpressEngine.
 /// The configuration of the corresponding advanced functions needs to be set before [createEngine], and it is invalid to set after [createEngine].
 @interface ZegoEngineConfig : NSObject
 
@@ -602,7 +604,7 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 /// Custom video render config, if not set, custom video render config is not enabled by default
 @property (nonatomic, strong, nullable) ZegoCustomVideoRenderConfig *customVideoRenderConfig;
 
-/// Advanced config, if not set, advanced config is not enabled by default
+/// Other special function switches, if not set, no other special functions are used by default. The special functions referred to here do not include the functions listed in the other parameter fields of the custom video capture function and custom video rendering described above.
 @property (nonatomic, copy, nullable) NSDictionary<NSString *, NSString *> *advancedConfig;
 
 @end
@@ -687,10 +689,10 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 /// Note that the userID must be unique under the same appID, otherwise mutual kicks out will occur.
 @interface ZegoUser : NSObject
 
-/// User ID, a string with a maximum length of 128 bytes or less
+/// User ID, a string with a maximum length of 64 bytes or less. Only support numbers, English characters and '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '=', '-', '`', ';', '’', ',', '.', '<', '>', '/', '\'.
 @property (nonatomic, copy) NSString *userID;
 
-/// User Name, a string with a maximum length of 128 bytes or less
+/// User Name, a string with a maximum length of 256 bytes or less
 @property (nonatomic, copy) NSString *userName;
 
 /// Create a ZegoUser object
@@ -725,7 +727,7 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 /// User object instance
 @property (nonatomic, strong) ZegoUser *user;
 
-/// Stream ID,a string with a maximum length of no more than 128 bytes
+/// Stream ID, a string of up to 256 characters. You cannot include URL keywords, otherwise publishing stream and playing stream will fails. Only support numbers, English characters and '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '=', '-', '`', ';', '’', ',', '.', '<', '>', '/', '\'.
 @property (nonatomic, copy) NSString *streamID;
 
 /// Stream extra info
@@ -766,22 +768,22 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 /// Audio and video parameters and network quality, etc.
 @interface ZegoPublishStreamQuality : NSObject
 
-/// Video capture frame rate
+/// Video capture frame rate. The unit of frame rate is f/s
 @property (nonatomic, assign) double videoCaptureFPS;
 
-/// Video encoding frame rate
+/// Video encoding frame rate. The unit of frame rate is f/s
 @property (nonatomic, assign) double videoEncodeFPS;
 
-/// Video transmission frame rate
+/// Video transmission frame rate. The unit of frame rate is f/s
 @property (nonatomic, assign) double videoSendFPS;
 
 /// Video bit rate in kbps
 @property (nonatomic, assign) double videoKBPS;
 
-/// Audio capture frame rate
+/// Audio capture frame rate. The unit of frame rate is f/s
 @property (nonatomic, assign) double audioCaptureFPS;
 
-/// Audio transmission frame rate
+/// Audio transmission frame rate. The unit of frame rate is f/s
 @property (nonatomic, assign) double audioSendFPS;
 
 /// Audio bit rate in kbps
@@ -808,7 +810,7 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 @interface ZegoCDNConfig : NSObject
 
 /// CDN URL
-@property (nonatomic, copy) NSString *URL;
+@property (nonatomic, copy) NSString *url;
 
 /// Auth param of URL
 @property (nonatomic, copy) NSString *authParam;
@@ -822,7 +824,7 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 @interface ZegoStreamRelayCDNInfo : NSObject
 
 /// URL of publishing stream to CDN
-@property (nonatomic, copy) NSString *URL;
+@property (nonatomic, copy) NSString *url;
 
 /// State of relaying to CDN
 @property (nonatomic, assign) ZegoStreamRelayCDNState state;
@@ -842,10 +844,10 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 @interface ZegoPlayerConfig : NSObject
 
 /// The CDN configuration for playing stream. If set, the stream is play according to the URL instead of the streamID. After that, the streamID is only used as the ID of SDK internal callback.
-@property (nonatomic, strong, nullable) ZegoCDNConfig *CDNConfig;
+@property (nonatomic, strong, nullable) ZegoCDNConfig *cdnConfig;
 
 /// Set the video layer for playing the stream
-/// @discussion This API only works when the remote publisher set the video codecID as MultiLayer
+/// @discussion This API only works when the remote publisher set the video codecID as SVC
 @property (nonatomic, assign) ZegoPlayerVideoLayer videoLayer;
 
 @end
@@ -856,25 +858,25 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 /// Audio and video parameters and network quality, etc.
 @interface ZegoPlayStreamQuality : NSObject
 
-/// Video reception frame rate
+/// Video reception frame rate. The unit of frame rate is f/s
 @property (nonatomic, assign) double videoRecvFPS;
 
-/// Video decoding frame rate
+/// Video decoding frame rate. The unit of frame rate is f/s
 @property (nonatomic, assign) double videoDecodeFPS;
 
-/// Video rendering frame rate
+/// Video rendering frame rate. The unit of frame rate is f/s
 @property (nonatomic, assign) double videoRenderFPS;
 
 /// Video bit rate in kbps
 @property (nonatomic, assign) double videoKBPS;
 
-/// Audio reception frame rate
+/// Audio reception frame rate. The unit of frame rate is f/s
 @property (nonatomic, assign) double audioRecvFPS;
 
-/// Audio decoding frame rate
+/// Audio decoding frame rate. The unit of frame rate is f/s
 @property (nonatomic, assign) double audioDecodeFPS;
 
-/// Audio rendering frame rate
+/// Audio rendering frame rate. The unit of frame rate is f/s
 @property (nonatomic, assign) double audioRenderFPS;
 
 /// Audio bit rate in kbps
@@ -988,7 +990,7 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 /// Configure the mix stream input stream ID, type, and the layout
 @interface ZegoMixerInput : NSObject
 
-/// Stream ID
+/// Stream ID, a string of up to 256 characters. You cannot include URL keywords, otherwise publishing stream and playing stream will fails. Only support numbers, English characters and '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '=', '-', '`', ';', '’', ',', '.', '<', '>', '/', '\'.
 @property (nonatomic, copy) NSString *streamID;
 
 /// Mix stream content type
@@ -1020,6 +1022,12 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 
 /// Mix stream output target, URL or stream ID
 @property (nonatomic, copy) NSString *target;
+
+/// Mix stream audio config
+@property (nonatomic, strong, nullable) ZegoMixerAudioConfig *audioConfig;
+
+/// Mix stream audio config
+@property (nonatomic, strong, nullable) ZegoMixerVideoConfig *videoConfig;
 
 /// Create a mix stream output object
 ///
@@ -1054,7 +1062,7 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 /// This class describes the detailed configuration information of this mixed task.
 @interface ZegoMixerTask : NSObject
 
-/// Mix stream task ID
+/// Mix stream task ID, a string of up to 256 characters. You cannot include URL keywords, otherwise publishing stream and playing stream will fails. Only support numbers, English characters and '~', '!', '@', '$', '%', '^', '&', '*', '(', ')', '_', '+', '=', '-', '`', ';', '’', ',', '.', '<', '>', '/', '\'.
 @property (nonatomic, copy, readonly) NSString *taskID;
 
 /// This method is unavaialble
@@ -1071,14 +1079,6 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 ///
 /// @return ZegoMixerTask instance
 - (instancetype)initWithTaskID:(NSString *)taskID;
-
-/// Set the audio configuration of the mix stream task object
-///
-- (void)setAudioConfig:(ZegoMixerAudioConfig *)audioConfig;
-
-/// Set the video configuration of the mix stream task object
-///
-- (void)setVideoConfig:(ZegoMixerVideoConfig *)videoConfig;
 
 /// Set the input stream list for the mix stream task object
 ///
@@ -1210,19 +1210,19 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 
 /// Zego MediaPlayer
 ///
-/// Yon can use ZegoMediaPlayer to play media resource files on the local or remote server, and can mix the sound of the media resource files that are played into the push stream to achieve the effect of background music.
+/// Yon can use ZegoMediaPlayer to play media resource files on the local or remote server, and can mix the sound of the media resource files that are played into the publish stream to achieve the effect of background music.
 @interface ZegoMediaPlayer : NSObject
 
 /// Total duration of media resources
-/// @discussion Unit is millisecond
 @property (nonatomic, assign, readonly) unsigned long long totalDuration;
 
 /// Current playback progress of the media resource
-/// @discussion Unit is millisecond
+/// @discussion You should load resource before getting this variable, otherwise the value is 0
+/// @discussion The unit is millisecond
 @property (nonatomic, assign, readonly) unsigned long long currentProgress;
 
 /// Current volume
-/// @discussion The range is 0 ~ 100
+/// @discussion The range is 0 ~ 100. The default value is 50
 @property (nonatomic, assign, readonly) int volume;
 
 /// Player's current playback status
@@ -1287,18 +1287,18 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 
 /// Whether to repeat playback
 ///
-/// @param enable repeat playback flag
+/// @param enable repeat playback flag. The default is NO.
 - (void)enableRepeat:(BOOL)enable;
 
-/// Whether to mix the player's sound into the stream being pushed
+/// Whether to mix the player's sound into the stream being published
 ///
-/// @param enable Aux audio flag
+/// @param enable Aux audio flag. The default is NO.
 - (void)enableAux:(BOOL)enable;
 
 /// Whether to play locally silently
 ///
-/// If [enableAux] switch is turned on, there is still sound in the pushing stream
-/// @param mute Mute loacal audio flag
+/// If [enableAux] switch is turned on, there is still sound in the publishing stream. The default is NO.
+/// @param mute Mute loacal audio flag, The default is NO.
 - (void)muteLocal:(BOOL)mute;
 
 /// Set the view of the player playing video
@@ -1308,12 +1308,13 @@ typedef NS_ENUM(NSUInteger, ZegoMediaPlayerNetworkEvent) {
 
 /// Set player volume
 ///
-/// @param volume The range is 0 ~ 100
+/// @param volume The range is 0 ~ 100. The default is 50.
 - (void)setVolume:(int)volume;
 
 /// Set playback progress callback interval
 ///
-/// This interface can control the callback frequency of [mediaPlayer:playingProgress:]
+/// This interface can control the callback frequency of [mediaPlayer:playingProgress:]. When the callback interval is set to 0, the callback is stopped. The default callback interval is 1s
+/// This callback are not returned exactly at the set callback interval, but rather at the frequency at which the audio or video frames are processed to determine whether the callback is needed to call
 /// @param millisecond Interval of playback progress callback in milliseconds
 - (void)setProgressInterval:(unsigned long long)millisecond;
 

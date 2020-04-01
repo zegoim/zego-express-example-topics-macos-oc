@@ -89,6 +89,11 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
     // Insert code here to tear down your application
 }
 
+- (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)application {
+    // Completely close application when click the red `close` button
+    return YES;
+}
+
 - (void)configZegoLog {
     ZegoTTYLogger *ttyLogger = [ZegoTTYLogger new];
     ttyLogger.level = kZegoLogLevelDebug;

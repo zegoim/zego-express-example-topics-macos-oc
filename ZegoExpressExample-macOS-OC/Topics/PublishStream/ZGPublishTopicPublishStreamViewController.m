@@ -29,7 +29,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 @property (weak) IBOutlet NSButton *startButton;
 @property (weak) IBOutlet NSButton *stopButton;
 @property (weak) IBOutlet NSButton *microphoneCheckBox;
-@property (weak) IBOutlet NSButton *audioOutputCheckBox;
+@property (weak) IBOutlet NSButton *speakerCheckBox;
 @property (weak) IBOutlet NSButton *cameraCheckBox;
 @property (weak) IBOutlet NSButton *hardwareEncoderCheckBox;
 @property (weak) IBOutlet NSPopUpButton *resolutionPopUpButton;
@@ -102,7 +102,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     
     // Setup
     [self.engine muteMicrophone:NO];
-    [self.engine muteAudioOutput:NO];
+    [self.engine muteSpeaker:NO];
     [self.engine enableCamera:YES];
     [self.engine enableHardwareEncoder:NO];
     
@@ -147,7 +147,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     
     // Start publishing
     [self appendLog:[NSString stringWithFormat:@" 📤 Start publishing stream, streamID: %@", self.streamID]];
-    [self.engine startPublishing:self.streamID];
+    [self.engine startPublishingStream:self.streamID];
 }
 
 - (IBAction)stopButtonClick:(NSButton *)sender {
@@ -159,7 +159,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     
     // Stop publishing
     [self appendLog:@" 📤 Stop publishing stream"];
-    [self.engine stopPublishing];
+    [self.engine stopPublishingStream];
     
     // Logout room
     [self appendLog:@" 🚪 Logout room"];
@@ -178,7 +178,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     // Stop publishing before exiting
     if (self.publisherState != ZegoPublisherStateNoPublish) {
         [self appendLog:@" 📤 Stop publishing stream"];
-        [self.engine stopPublishing];
+        [self.engine stopPublishingStream];
     }
     
     // Logout room before exiting
@@ -200,10 +200,10 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     [self.engine muteMicrophone:sender.state == NSControlStateValueOn ? NO : YES];
 }
 
-- (IBAction)audioOutputCheckBoxClick:(NSButton *)sender {
-    [self appendLog:[NSString stringWithFormat:@" %@ audio output", sender.state == NSControlStateValueOn ? @" 🔊 Enable" : @" 🔇 Mute"]];
+- (IBAction)speakerCheckBoxClick:(NSButton *)sender {
+    [self appendLog:[NSString stringWithFormat:@" %@ speaker", sender.state == NSControlStateValueOn ? @" 🔊 Enable" : @" 🔇 Mute"]];
     
-    [self.engine muteAudioOutput:sender.state == NSControlStateValueOn ? NO : YES];
+    [self.engine muteSpeaker:sender.state == NSControlStateValueOn ? NO : YES];
 }
 
 - (IBAction)cameraCheckBoxClick:(NSButton *)sender {

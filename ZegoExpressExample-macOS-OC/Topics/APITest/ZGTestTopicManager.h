@@ -61,10 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Publish
 
-- (void)startPublishing:(NSString *)streamID;
+- (void)startPublishingStream:(NSString *)streamID;
 
 
-- (void)stopPublishing;
+- (void)stopPublishingStream;
 
 
 - (void)startPreview:(ZegoCanvas *)canvas;
@@ -91,10 +91,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setCaptureVolume:(int)volume;
 
 
-- (void)addPublishCDNURL:(NSString *)targetURL streamID:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCDNURLCallback)callback;
+- (void)addPublishCdnUrl:(NSString *)targetURL streamID:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCdnUrlCallback)callback;
 
 
-- (void)removePublishCDNURL:(NSString *)targetURL streamID:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCDNURLCallback)callback;
+- (void)removePublishCdnUrl:(NSString *)targetURL streamID:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCdnUrlCallback)callback;
 
 
 - (void)enableHardwareEncoder:(BOOL)enable;
@@ -157,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)muteMicrophone:(BOOL)mute;
 
 
-- (void)muteAudioOutput:(BOOL)mute;
+- (void)muteSpeaker:(BOOL)mute;
 
 
 - (void)enableCamera:(BOOL)enable;

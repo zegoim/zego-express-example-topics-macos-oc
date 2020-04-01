@@ -126,7 +126,7 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
     
     // Start publishing
     [self appendLog:[NSString stringWithFormat:@" 📤 Start publishing stream, streamID: %@", self.streamID]];
-    [self.engine startPublishing:self.streamID];
+    [self.engine startPublishingStream:self.streamID];
 }
 
 - (IBAction)stopButtonClick:(NSButton *)sender {
@@ -139,7 +139,7 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
     
     // Stop publishing
     [self appendLog:@" 📤 Stop publishing stream"];
-    [self.engine stopPublishing];
+    [self.engine stopPublishingStream];
     
     // Logout room
     [self appendLog:@" 🚪 Logout room"];

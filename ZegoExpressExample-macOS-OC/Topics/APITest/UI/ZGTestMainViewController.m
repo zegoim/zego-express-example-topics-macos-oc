@@ -136,13 +136,13 @@ NSString* const ZGTestTopicKey_BeautifyFeature = @"kBeautifyFeature";
     [self.manager stopPreview];
 }
 
-- (IBAction)startPublishingClick:(NSButton *)sender {
-    [self.manager startPublishing:self.publishStreamIDTextField.stringValue];
+- (IBAction)startPublishingStreamClick:(NSButton *)sender {
+    [self.manager startPublishingStream:self.publishStreamIDTextField.stringValue];
     [self saveValue:self.publishStreamIDTextField.stringValue forKey:ZGTestTopicKey_PublishStreamID];
 }
 
-- (IBAction)stopPublishingClick:(NSButton *)sender {
-    [self.manager stopPublishing];
+- (IBAction)stopPublishingStreamClick:(NSButton *)sender {
+    [self.manager stopPublishingStream];
 }
 
 - (IBAction)startPlayingClick:(NSButton *)sender {

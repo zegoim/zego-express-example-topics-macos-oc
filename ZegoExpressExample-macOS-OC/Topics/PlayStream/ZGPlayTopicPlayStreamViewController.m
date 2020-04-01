@@ -33,7 +33,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 @property (weak) IBOutlet NSButton *startButton;
 @property (weak) IBOutlet NSButton *stopButton;
 
-@property (weak) IBOutlet NSButton *audioOutputCheckBox;
+@property (weak) IBOutlet NSButton *speakerCheckBox;
 @property (weak) IBOutlet NSButton *hardwareDecoderCheckBox;
 @property (weak) IBOutlet NSPopUpButton *viewModePopUpButton;
 
@@ -98,7 +98,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     self.engine = [ZegoExpressEngine createEngineWithAppID:(unsigned int)appConfig.appID appSign:appConfig.appSign isTestEnv:appConfig.isTestEnv scenario:appConfig.scenario eventHandler:self];
     
     // Setup
-    [self.engine muteAudioOutput:NO];
+    [self.engine muteSpeaker:NO];
     [self.engine enableHardwareDecoder:NO];
     
     self.playViewMode = ZegoViewModeAspectFit;
@@ -175,10 +175,10 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 
 #pragma mark - Actions
 
-- (IBAction)audioOutputCheckBoxClick:(NSButton *)sender {
-    [self appendLog:[NSString stringWithFormat:@" %@ audio output", sender.state == NSControlStateValueOn ? @" 🔊 Enable" : @" 🔇 Mute"]];
+- (IBAction)speakerCheckBoxClick:(NSButton *)sender {
+    [self appendLog:[NSString stringWithFormat:@" %@ speaker", sender.state == NSControlStateValueOn ? @" 🔊 Enable" : @" 🔇 Mute"]];
     
-    [self.engine muteAudioOutput:sender.state == NSControlStateValueOn ? NO : YES];
+    [self.engine muteSpeaker:sender.state == NSControlStateValueOn ? NO : YES];
 }
 
 - (IBAction)hardwareDecoderCheckBoxClick:(NSButton *)sender {

@@ -37,7 +37,7 @@
                                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZJG-1a-bEf">
                                                         <rect key="frame" x="95" y="5" width="250" height="21"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="0Eq-x0-XV1">
-                                                            <font key="font" metaFont="system"/>
+                                                            <font key="font" metaFont="label" size="13"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
@@ -68,7 +68,7 @@
                                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Bl7-GI-7oV">
                                                         <rect key="frame" x="95" y="5" width="250" height="21"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Ocx-S0-Nbr">
-                                                            <font key="font" metaFont="system"/>
+                                                            <font key="font" metaFont="label" size="13"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
@@ -108,7 +108,7 @@
                                                         </constraints>
                                                         <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oan-vU-ae0">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="system"/>
+                                                            <font key="font" metaFont="label" size="13"/>
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="startButtonClick:" target="uMH-r9-YP2" id="Qc4-9Q-EDa"/>
@@ -130,7 +130,7 @@
                                                         </constraints>
                                                         <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="T5p-V5-711">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="system"/>
+                                                            <font key="font" metaFont="label" size="13"/>
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="stopButtonClick:" target="uMH-r9-YP2" id="fBw-dI-IfF"/>
@@ -256,20 +256,20 @@
                                                                         <rect key="frame" x="18" y="16" width="94" height="18"/>
                                                                         <buttonCell key="cell" type="check" title="Microphone" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kuG-uz-5LV">
                                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                         </buttonCell>
                                                                         <connections>
                                                                             <action selector="microphoneCheckBoxClick:" target="uMH-r9-YP2" id="kB4-kg-INC"/>
                                                                         </connections>
                                                                     </button>
                                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="K12-ui-1JH">
-                                                                        <rect key="frame" x="133" y="16" width="99" height="18"/>
-                                                                        <buttonCell key="cell" type="check" title="AudioOutput" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ehy-oH-4DM">
+                                                                        <rect key="frame" x="160" y="16" width="72" height="18"/>
+                                                                        <buttonCell key="cell" type="check" title="Speaker" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ehy-oH-4DM">
                                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                         </buttonCell>
                                                                         <connections>
-                                                                            <action selector="audioOutputCheckBoxClick:" target="uMH-r9-YP2" id="Sqz-yN-cW8"/>
+                                                                            <action selector="speakerCheckBoxClick:" target="uMH-r9-YP2" id="Sqz-yN-cW8"/>
                                                                         </connections>
                                                                     </button>
                                                                 </subviews>
@@ -290,7 +290,7 @@
                                                                         </constraints>
                                                                         <popUpButtonCell key="cell" type="push" title="1920x1080" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="81s-lZ-mvd" id="czr-tf-xNA">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                             <menu key="menu" id="itj-V4-ncv">
                                                                                 <items>
                                                                                     <menuItem title="320x180" id="feD-R0-umF"/>
@@ -312,7 +312,7 @@
                                                                             <constraint firstAttribute="width" constant="100" id="fiA-nu-1Yg"/>
                                                                         </constraints>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Resolution" id="acI-nC-pNw">
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                         </textFieldCell>
@@ -336,7 +336,7 @@
                                                                         </constraints>
                                                                         <popUpButtonCell key="cell" type="push" title="30" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Gl5-sO-dm3" id="qWA-9r-gfq">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                             <menu key="menu" id="0Od-2f-BIG">
                                                                                 <items>
                                                                                     <menuItem title="5" id="Ygg-Hn-HFH"/>
@@ -358,7 +358,7 @@
                                                                             <constraint firstAttribute="width" constant="100" id="G4w-sR-8r2"/>
                                                                         </constraints>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="FPS" id="Ji7-YX-zJr">
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                         </textFieldCell>
@@ -382,7 +382,7 @@
                                                                         </constraints>
                                                                         <popUpButtonCell key="cell" type="push" title="3000" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="CIU-Eh-mig" id="ugY-Vk-p4T">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                             <menu key="menu" id="U3g-H6-A3t">
                                                                                 <items>
                                                                                     <menuItem title="300" id="tBK-Vl-tP3"/>
@@ -404,7 +404,7 @@
                                                                             <constraint firstAttribute="width" constant="100" id="D8Z-wb-mpA"/>
                                                                         </constraints>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Bitrate (kbps)" id="9TJ-Le-Hqm">
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                         </textFieldCell>
@@ -442,7 +442,7 @@
                                                                         <rect key="frame" x="18" y="16" width="69" height="18"/>
                                                                         <buttonCell key="cell" type="check" title="Camera" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="1R3-1V-9vf">
                                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                         </buttonCell>
                                                                         <connections>
                                                                             <action selector="cameraCheckBoxClick:" target="uMH-r9-YP2" id="U5l-R3-PhZ"/>
@@ -452,7 +452,7 @@
                                                                         <rect key="frame" x="101" y="16" width="131" height="18"/>
                                                                         <buttonCell key="cell" type="check" title="HardwareEncoder" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ohU-tN-Rxu">
                                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                         </buttonCell>
                                                                         <connections>
                                                                             <action selector="hardwareEncoderCheckBoxClick:" target="uMH-r9-YP2" id="RoK-F3-9Ml"/>
@@ -476,7 +476,7 @@
                                                                         </constraints>
                                                                         <popUpButtonCell key="cell" type="push" title="AspectFit" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ldA-Xa-Pe6" id="MBR-RM-HjT">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                             <menu key="menu" id="Ur0-mj-0BW">
                                                                                 <items>
                                                                                     <menuItem title="AspectFit" state="on" id="ldA-Xa-Pe6"/>
@@ -495,7 +495,7 @@
                                                                             <constraint firstAttribute="width" constant="80" id="xEc-3T-Su0"/>
                                                                         </constraints>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="ViewMode" id="cGa-bI-Jn6">
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                         </textFieldCell>
@@ -519,7 +519,7 @@
                                                                         </constraints>
                                                                         <popUpButtonCell key="cell" type="push" title="OnlyPreviewMirror" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="xIJ-6k-sHb" id="tOk-at-yqC">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                             <menu key="menu" id="wwL-Nd-jhy">
                                                                                 <items>
                                                                                     <menuItem title="OnlyPreviewMirror" state="on" id="xIJ-6k-sHb"/>
@@ -539,7 +539,7 @@
                                                                             <constraint firstAttribute="width" constant="80" id="IoR-ai-MEA"/>
                                                                         </constraints>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="MirrorMode" id="QbD-ad-V3E">
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                         </textFieldCell>
@@ -564,7 +564,7 @@
                                                                         </constraints>
                                                                         <popUpButtonCell key="cell" type="push" title="BasicQuality" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="lJI-2Z-CID" id="eri-1O-Rwe">
                                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                             <menu key="menu" id="oJg-5V-pDk">
                                                                                 <items>
                                                                                     <menuItem title="BasicQuality" state="on" id="lJI-2Z-CID" userLabel="BasicQuality"/>
@@ -585,7 +585,7 @@
                                                                             <constraint firstAttribute="width" constant="80" id="mwQ-MY-bkd"/>
                                                                         </constraints>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="AudioConfig" id="ZaM-tY-e53">
-                                                                            <font key="font" metaFont="system"/>
+                                                                            <font key="font" metaFont="label" size="13"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                         </textFieldCell>
@@ -646,7 +646,7 @@
                                                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Ec-Ym-PTy">
                                                                 <rect key="frame" x="150" y="15" width="250" height="21"/>
                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="goL-jI-1su">
-                                                                    <font key="font" metaFont="system"/>
+                                                                    <font key="font" metaFont="label" size="13"/>
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
@@ -658,7 +658,7 @@
                                                                 </constraints>
                                                                 <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="C4e-yQ-vVe">
                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                    <font key="font" metaFont="system"/>
+                                                                    <font key="font" metaFont="label" size="13"/>
                                                                 </buttonCell>
                                                                 <connections>
                                                                     <action selector="setStreamExtraInfoButtonClick:" target="uMH-r9-YP2" id="GT7-cA-gI0"/>
@@ -726,7 +726,6 @@
                     <connections>
                         <outlet property="BitratePopUpButton" destination="loJ-N9-H37" id="Yrs-ME-hmq"/>
                         <outlet property="audioConfigPopUpButton" destination="UWV-ax-ddz" id="tlG-lZ-HCY"/>
-                        <outlet property="audioOutputCheckBox" destination="K12-ui-1JH" id="LZA-ED-XUi"/>
                         <outlet property="cameraCheckBox" destination="NDa-7j-fZT" id="hIn-h3-wGR"/>
                         <outlet property="fpsPopUpButton" destination="YHM-gM-Jov" id="IvN-le-K9l"/>
                         <outlet property="hardwareEncoderCheckBox" destination="w53-gk-b3h" id="g46-xc-fsw"/>
@@ -739,6 +738,7 @@
                         <outlet property="resolutionPopUpButton" destination="sH7-UZ-dWs" id="IJt-AJ-8AL"/>
                         <outlet property="roomIDTextField" destination="ZJG-1a-bEf" id="smb-Sz-7yR"/>
                         <outlet property="setStreamExtraInfoButton" destination="Q0d-5C-12t" id="SaN-NE-HwS"/>
+                        <outlet property="speakerCheckBox" destination="K12-ui-1JH" id="LZA-ED-XUi"/>
                         <outlet property="startButton" destination="suW-ud-22A" id="aYJ-C2-P7a"/>
                         <outlet property="stopButton" destination="6MP-If-Wtm" id="sGk-cK-js5"/>
                         <outlet property="streamExtraInfoTextField" destination="4Ec-Ym-PTy" id="LVj-B4-e7x"/>

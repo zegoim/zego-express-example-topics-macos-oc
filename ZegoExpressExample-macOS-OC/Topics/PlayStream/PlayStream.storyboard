@@ -258,13 +258,13 @@
                                                         <rect key="frame" x="0.0" y="50" width="249" height="50"/>
                                                         <subviews>
                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yId-nt-t8R">
-                                                                <rect key="frame" x="75" y="16" width="99" height="18"/>
-                                                                <buttonCell key="cell" type="check" title="AudioOutput" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Zp2-5j-yRH">
+                                                                <rect key="frame" x="89" y="16" width="72" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Speaker" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Zp2-5j-yRH">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <action selector="audioOutputCheckBoxClick:" target="U1t-vp-4Xj" id="8Ga-Xm-TXb"/>
+                                                                    <action selector="speakerCheckBoxClick:" target="U1t-vp-4Xj" id="8Ga-Xm-TXb"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -434,7 +434,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="audioOutputCheckBox" destination="yId-nt-t8R" id="edV-RH-G5D"/>
                         <outlet property="hardwareDecoderCheckBox" destination="bgs-aq-9en" id="yLb-Wa-IuW"/>
                         <outlet property="logView" destination="Pg8-yL-MOQ" id="zfH-FV-jwJ"/>
                         <outlet property="playQualityLabel" destination="b2V-Za-VA2" id="EoZ-Rl-Mdd"/>
@@ -442,6 +441,7 @@
                         <outlet property="playStreamExtraInfoLabel" destination="dkd-Zw-RoF" id="riE-bD-Rfr"/>
                         <outlet property="playView" destination="0AQ-jw-v13" id="QOc-JZ-QKM"/>
                         <outlet property="roomIDTextField" destination="Ggf-YN-ruC" id="e6s-8f-kdU"/>
+                        <outlet property="speakerCheckBox" destination="yId-nt-t8R" id="edV-RH-G5D"/>
                         <outlet property="startButton" destination="w9t-Hm-nO0" id="7dh-lD-GMS"/>
                         <outlet property="stopButton" destination="C3O-il-aIX" id="q9S-ru-ob0"/>
                         <outlet property="streamIDTextField" destination="EF2-Ed-fG1" id="Ktp-wN-XXc"/>

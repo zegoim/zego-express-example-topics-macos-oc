@@ -11,19 +11,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZegoExpressEngine (Device)
 
-/// On/off microphone
+/// Whether to mute microphone input
 ///
 /// This api is used to control whether the collected audio data is used. When the microphone is turned off, the data is collected and discarded, and the microphone is still occupied.
 /// The microphone is still occupied because closing or opening the microphone on the hardware is a relatively heavy operation, and real users may have frequent operations. For trade-off reasons, this api simply discards the collected data.
-/// If you really want ZegoExpressEngine to give up occupy the microphone, you can call the [enableAudioCaptureDevice] interface.
+/// If you really want SDK to give up occupy the microphone, you can call the [enableAudioCaptureDevice] interface.
+/// Developers who want to control whether to use microphone on the UI should use this interface to avoid unnecessary performance overhead by using the [enableAudioCaptureDevice].
 /// @param mute Whether to turn off the microphone, YES: turn off microphone, NO: turn on microphone. The default is YES.
 - (void)muteMicrophone:(BOOL)mute;
 
-/// Turn on/off audio output to the device
+/// Whether to mute speaker output
 ///
-/// This interface is used to control whether the ZegoExpressEngine needs to throw audio data to the device.
-/// @param mute Whether to disable audio output to the device, YES: disable audio output, NO: enable audio output
-- (void)muteAudioOutput:(BOOL)mute;
+/// After closing, all the SDK sounds will not play, including playing stream, mediaplayer, etc. But the SDK will still occupy the output device.
+/// @param mute Whether to disable audio output to the device, YES: disable audio output, NO: enable audio output. The default value is NO
+- (void)muteSpeaker:(BOOL)mute;
 
 #if TARGET_OS_OSX
 /// Choose to use an audio device
@@ -45,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// On/off audio capture device
 ///
-/// This api is used to control whether to release the audio collection device. When the audio collection device is turned off, the SDK will no longer occupy the audio device. Of course, if the stream is being pushed at this time, there is no audio data.
+/// This api is used to control whether to release the audio collection device. When the audio collection device is turned off, the SDK will no longer occupy the audio device. Of course, if the stream is being published at this time, there is no audio data.
 /// Occupying the audio capture device and giving up Occupying the audio device is a relatively heavy operation, and the [muteMicrophone] interface is generally recommended.
 /// @param enable Whether to enable the audio capture device, YES: disable audio capture device, NO: enable audio capture device
 - (void)enableAudioCaptureDevice:(BOOL)enable;
@@ -60,13 +61,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// On/off camera
 ///
-/// This interface is used to control whether to start the camera acquisition. After the camera is turned off, video capture will not be performed. At this time, the push stream will also have no video data.
+/// This interface is used to control whether to start the camera acquisition. After the camera is turned off, video capture will not be performed. At this time, the publish stream will also have no video data.
 /// @param enable Whether to turn on the camera, YES: turn on camera, NO: turn off camera
 - (void)enableCamera:(BOOL)enable;
 
-/// On/off camera. You can call this api to set params when pushing another streams
+/// On/off camera. You can call this api to set params when publishing another streams
 ///
-/// This interface is used to control whether to start the camera acquisition. After the camera is turned off, video capture will not be performed. At this time, the push stream will also have no video data.
+/// This interface is used to control whether to start the camera acquisition. After the camera is turned off, video capture will not be performed. At this time, the publish stream will also have no video data.
 /// @param enable Whether to turn on the camera, YES: turn on camera, NO: turn off camera
 /// @param channel Publishing stream channel.
 - (void)enableCamera:(BOOL)enable channel:(ZegoPublishChannel)channel;
@@ -75,15 +76,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// Switch front and rear camera
 ///
 /// This interface is used to control the front or rear camera
-/// @param enable Whether to use the front camera, YES: use the front camera, NO: use the the rear camera
+/// @param enable Whether to use the front camera, YES: use the front camera, NO: use the the rear camera. The default value is YES
 - (void)useFrontCamera:(BOOL)enable;
 #endif
 
 #if TARGET_OS_IPHONE
-/// Switch front and rear camera.You can call this api to set params when pushing another streams
+/// Switch front and rear camera.You can call this api to set params when publishing another streams
 ///
 /// This interface is used to control the front or rear camera
-/// @param enable Whether to use the front camera, YES: use the front camera, NO: use the the rear camera
+/// @param enable Whether to use the front camera, YES: use the front camera, NO: use the the rear camera. The default value is YES
 /// @param channel Publishing stream channel.
 - (void)useFrontCamera:(BOOL)enable channel:(ZegoPublishChannel)channel;
 #endif
@@ -97,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 #endif
 
 #if TARGET_OS_OSX
-/// Choose to use a video device. You can call this api to set params when pushing another streams
+/// Choose to use a video device. You can call this api to set params when publishing another streams
 ///
 /// Choose to use a video device. Only for macOS
 /// @param deviceID ID of a device obtained by getVideoDeviceList
@@ -117,6 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// After starting monitoring, you can receive local audio sound level via [onCapturedSoundLevelUpdate] callback, and receive remote audio sound level via [onRemoteSoundLevelUpdate] callback.
 /// Before entering the room, you can call [startPreview] with this api and combine it with [onCapturedSoundLevelUpdate] callback to determine whether the audio device is working properly.
+/// [onCapturedSoundLevelUpdate] and [onRemoteSoundLevelUpdate] callback notification period is 100 ms.
 - (void)startSoundLevelMonitor;
 
 /// Stop the sound level monitor
@@ -127,12 +129,20 @@ NS_ASSUME_NONNULL_BEGIN
 /// Start the audio spectrum monitor
 ///
 /// After starting monitoring, you can receive local audio spectrum via [onCapturedAudioSpectrumUpdate] callback, and receive remote audio spectrum via [onRemoteAudioSpectrumUpdate] callback.
+/// [onCapturedAudioSpectrumUpdate] and [onRemoteAudioSpectrumUpdate] callback notification period is 100 ms.
 - (void)startAudioSpectrumMonitor;
 
 /// Stop the audio spectrum monitor
 ///
 /// After the monitoring is stopped, the callback of the local/remote audio spectrum will be stopped.
 - (void)stopAudioSpectrumMonitor;
+
+/// Turn on/off audio output to the device
+///
+/// This interface is used to control whether the SDK needs to throw audio data to the device.
+/// @deprecated This interface is deprecated, please use [muteSpeaker] instead.
+/// @param mute Whether to disable audio output to the device, YES: disable audio output, NO: enable audio output
+- (void)muteAudioOutput:(BOOL)mute DEPRECATED_ATTRIBUTE;
 
 @end
 

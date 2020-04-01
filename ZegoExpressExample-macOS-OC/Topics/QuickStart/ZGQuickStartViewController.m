@@ -118,7 +118,7 @@
     NSString *publishStreamID = self.publishStreamIDTextField.stringValue;
     
     // If streamID is empty @"", SDK will pop up an UIAlertController if "isTestEnv" is set to YES
-    [[ZegoExpressEngine sharedEngine] startPublishing:publishStreamID];
+    [[ZegoExpressEngine sharedEngine] startPublishingStream:publishStreamID];
     
     // Print log
     [self appendLog:@" 📤 Start publishing stream"];

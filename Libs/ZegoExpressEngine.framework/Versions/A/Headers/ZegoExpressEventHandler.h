@@ -44,9 +44,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param roomID Room ID where the user is logged in, a string of up to 128 bytes in length.
 - (void)onRoomUserUpdate:(ZegoUpdateType)updateType userList:(NSArray<ZegoUser *> *)userList roomID:(NSString *)roomID;
 
-/// Notification of increase or decrease of streams pushed by other users in the same room
+/// Notification of increase or decrease of streams published by other users in the same room
 ///
-/// When a user logs in to a room for the first time, there are other users in the room who are pushing streams, and will receive a stream list of the added type.
+/// When a user logs in to a room for the first time, there are other users in the room who are publishing streams, and will receive a stream list of the added type.
 /// When the user is already in the room, other users in this room will trigger this callback to notify the changed stream list when adding or deleting streams.
 /// Developers can use this callback to determine if there are other users in the same room who have added or stopped streaming, in order to implement active play stream [startPlayingStream] or active stop playing stream [stopPlayingStream], and use simultaneous Changes to Streaming render UI widget;
 /// @param updateType Update type (add/delete)
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Stream extra information update notification
 ///
 /// When a user publishing the stream update the extra information of the stream in the same room, other users in the same room will receive the callback.
-/// The stream extra information is an extra information identifier of the stream ID. Unlike the stream ID, which cannot be modified during the pushing process, the stream extra information can be modified midway through the stream corresponding to the stream ID.
+/// The stream extra information is an extra information identifier of the stream ID. Unlike the stream ID, which cannot be modified during the publishing process, the stream extra information can be modified midway through the stream corresponding to the stream ID.
 /// Developers can synchronize variable content related to stream IDs based on stream additional information.
 /// @param streamList List of streams that the extra info was updated.
 /// @param roomID Room ID where the user is logged in, a string of up to 128 bytes in length.
@@ -69,40 +69,40 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// After publishing the stream successfully, the notification of the publish stream state change can be obtained through the callback interface.
 /// You can roughly judge the user's uplink network status based on whether the state parameter is in [PUBLISH_REQUESTING].
-/// @param state Status of pushing stream
-/// @param errorCode The error code corresponding to the status change of the push stream. Please refer to the common error code documentation [https://doc-zh.zego.im/zh/308.html] for details.
-/// @param extendedData Extended Information. If you use ZEGO's CDN content distribution network, after the stream is successfully pushed, the keys of the content of this parameter are flv_url_list, rtmp_url_list, hls_url_list. These correspond to the publishing stream URLs of the flv, rtmp, and hls protocols. For CDNs that do not use ZEGO, you do not need to pay attention to this parameter.
+/// @param state Status of publishing stream
+/// @param errorCode The error code corresponding to the status change of the publish stream. Please refer to the common error code documentation [https://doc-zh.zego.im/zh/308.html] for details.
+/// @param extendedData Extended Information. If you use ZEGO's CDN content distribution network, after the stream is successfully published, the keys of the content of this parameter are flv_url_list, rtmp_url_list, hls_url_list. These correspond to the publishing stream URLs of the flv, rtmp, and hls protocols. For CDNs that do not use ZEGO, you do not need to pay attention to this parameter.
 /// @param streamID Stream ID
 - (void)onPublisherStateUpdate:(ZegoPublisherState)state errorCode:(int)errorCode extendedData:(nullable NSDictionary *)extendedData streamID:(NSString *)streamID;
 
 /// Publish stream quality callback
 ///
-/// After the successful publish, the callback will be received every 3 seconds. Through the callback, the collection frame rate, bit rate, RTT, packet loss rate and other quality data of the pushed audio and video stream can be obtained, and the health of the push stream can be monitored in real time.
-/// You can monitor the health of the published audio and video streams in real time according to the quality parameters of the callbacl api, in order to show the uplink network status in real time on the device UI interface.
-/// If you does not know how to use the parameters of this callback api, you can only pay attention to the level field of the quality parameter, which is a comprehensive value describing the uplink network calculated by ZegoExpressEngine based on the quality parameters.
+/// After the successful publish, the callback will be received every 3 seconds. Through the callback, the collection frame rate, bit rate, RTT, packet loss rate and other quality data of the published audio and video stream can be obtained, and the health of the publish stream can be monitored in real time.
+/// You can monitor the health of the published audio and video streams in real time according to the quality parameters of the callback api, in order to show the uplink network status in real time on the device UI interface.
+/// If you does not know how to use the parameters of this callback api, you can only pay attention to the level field of the quality parameter, which is a comprehensive value describing the uplink network calculated by SDK based on the quality parameters.
 /// @param quality Published stream quality, including audio and video frame rate, bit rate, resolution, RTT, etc.
 /// @param streamID Stream ID
 - (void)onPublisherQualityUpdate:(ZegoPublishStreamQuality *)quality streamID:(NSString *)streamID;
 
 /// First frame callback notification for local audio captured
 ///
-/// After the startPublishing interface is called successfully, the SDK will receive this callback notification when it collects the first frame of audio data.
-/// In the case of no startPublishing audio and video stream or preview, the first startPublishing audio and video stream or first preview, that is, when the engine of the audio and video module inside ZegoExpressEngine starts, it will collect audio data of the local device and receive this callback.
-/// Developers can use this callback to determine whether ZegoExpressEngine has actually collected audio data. If the callback is not received, the audio capture device is occupied or abnormal.
+/// After the startPublishingStream interface is called successfully, the SDK will receive this callback notification when it collects the first frame of audio data.
+/// In the case of no startPublishingStream audio and video stream or preview, the first startPublishingStream audio and video stream or first preview, that is, when the engine of the audio and video module inside SDK starts, it will collect audio data of the local device and receive this callback.
+/// Developers can use this callback to determine whether SDK has actually collected audio data. If the callback is not received, the audio capture device is occupied or abnormal.
 - (void)onPublisherCapturedAudioFirstFrame;
 
 /// First frame callback notification for local video captured.
 ///
-/// After the startPublishing interface is called successfully, the SDK will receive this callback notification when it collects the first frame of video data.
-/// In the case of no startPublishing video stream or preview, the first startPublishing video stream or first preview, that is, when the engine of the audio and video module inside ZegoExpressEngine starts, it will collect video data of the local device and receive this callback.
-/// Developers can use this callback to determine whether ZegoExpressEngine has actually collected video data. If the callback is not received, the video capture device is occupied or abnormal.
+/// After the startPublishingStream interface is called successfully, the SDK will receive this callback notification when it collects the first frame of video data.
+/// In the case of no startPublishingStream video stream or preview, the first startPublishingStream video stream or first preview, that is, when the engine of the audio and video module inside SDK starts, it will collect video data of the local device and receive this callback.
+/// Developers can use this callback to determine whether SDK has actually collected video data. If the callback is not received, the video capture device is occupied or abnormal.
 /// @param channel Publishing stream channel.If you only publish one audio and video stream, you can ignore this parameter.
 - (void)onPublisherCapturedVideoFirstFrame:(ZegoPublishChannel)channel;
 
 /// Video captured size change callback notification
 ///
 /// After the successful publish, the callback will be received if there is a change in the video capture resolution in the process of publishing the stream.
-/// When the audio and video stream is not pushed or previewed for the first time, the publishing stream or preview first time, that is, the engine of the audio and video module inside the ZegoExpressEngine is started, the video data of the local device will be collected, and the collection resolution will change at this time.
+/// When the audio and video stream is not published or previewed for the first time, the publishing stream or preview first time, that is, the engine of the audio and video module inside the SDK is started, the video data of the local device will be collected, and the collection resolution will change at this time.
 /// You can use this callback to remove the cover of the local preview UI and similar operations.You can also dynamically adjust the scale of the preview view based on the resolution of the callback.
 /// @param size Video capture resolution
 /// @param channel Publishing stream channel.If you only publish one audio and video stream, you can ignore this parameter.
@@ -111,11 +111,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// Add/Remove CDN address status callback
 ///
 /// After the ZEGO real-time audio and video cloud relays the audio and video streams to the CDN, this callback will be received if the CDN relay status changes, such as a stop or a retry.
-/// Developers can use this callback to determine whether the audio and video streams of the retweeted CDN are normal. If they are abnormal, further locate the cause of the abnormal audio and video streams of the retweeted CDN and make corresponding disaster recovery strategies.
+/// Developers can use this callback to determine whether the audio and video streams of the relay CDN are normal. If they are abnormal, further locate the cause of the abnormal audio and video streams of the relay CDN and make corresponding disaster recovery strategies.
 /// If you do not understand the cause of the abnormality, you can contact ZEGO technicians to analyze the specific cause of the abnormality.
-/// @param streamInfoList List of information that the current CDN is relaying
+/// @param infoList List of information that the current CDN is relaying
 /// @param streamID Stream ID
-- (void)onPublisherRelayCDNStateUpdate:(NSArray<ZegoStreamRelayCDNInfo *> *)streamInfoList streamID:(NSString *)streamID;
+- (void)onPublisherRelayCDNStateUpdate:(NSArray<ZegoStreamRelayCDNInfo *> *)infoList streamID:(NSString *)streamID;
 
 #pragma mark Player Callback
 
@@ -131,16 +131,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Play stream quality callback
 ///
-/// After calling the startPlayingStream successfully, this callback will be triggered every 3 seconds. The collection frame rate, bit rate, RTT, packet loss rate and other quality data  can be obtained, such the health of the push stream can be monitored in real time.
-/// You can monitor the health of the pulled audio and video streams in real time according to the quality parameters of the callback api, in order to show the downlink network status on the device UI interface in real time.
-/// If you does not know how to use the various parameters of the callback api, you can only focus on the level field of the quality parameter, which is a comprehensive value describing the downlink network calculated by ZegoExpressEngine based on the quality parameters.
+/// After calling the startPlayingStream successfully, this callback will be triggered every 3 seconds. The collection frame rate, bit rate, RTT, packet loss rate and other quality data  can be obtained, such the health of the publish stream can be monitored in real time.
+/// You can monitor the health of the played audio and video streams in real time according to the quality parameters of the callback api, in order to show the downlink network status on the device UI interface in real time.
+/// If you does not know how to use the various parameters of the callback api, you can only focus on the level field of the quality parameter, which is a comprehensive value describing the downlink network calculated by SDK based on the quality parameters.
 /// @param quality Playing stream quality, including audio and video frame rate, bit rate, resolution, RTT, etc.
 /// @param streamID Stream ID
 - (void)onPlayerQualityUpdate:(ZegoPlayStreamQuality *)quality streamID:(NSString *)streamID;
 
 /// Play media event callback
 ///
-/// This callback is triggered when an event such as audio and video jamming and recovery occurs in the pull stream.
+/// This callback is triggered when an event such as audio and video jamming and recovery occurs in the playing stream.
 /// You can use this callback to make statistics on stutters or to make friendly displays in the UI interface of the app.
 /// @param event Play media event callback
 /// @param streamID Stream ID
@@ -165,12 +165,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param streamID Stream ID
 - (void)onPlayerRenderVideoFirstFrame:(NSString *)streamID;
 
-/// Pull stream resolution change callback
+/// playing stream resolution change callback
 ///
-/// If there is a change in the video resolution of the playing stream, the callback will be triggerd, and the user can adjust the display for that stream dynamiclly.
-/// If the publishing stream end triggers the internal stream flow control of ZegoExpressEngine due to a network problem, the encoding resolution of the streaming end may be dynamically reduced, and this callback will also be received at this time.
+/// If there is a change in the video resolution of the playing stream, the callback will be triggered, and the user can adjust the display for that stream dynamically.
+/// If the publishing stream end triggers the internal stream flow control of SDK due to a network problem, the encoding resolution of the streaming end may be dynamically reduced, and this callback will also be received at this time.
 /// If the stream is only audio data, the callback will not be received.
-/// This callback will be triggered when the pulled audio and video stream is actually rendered to the set UI play canvas. You can use this callback notification to update or switch UI components that actually play the stream.
+/// This callback will be triggered when the played audio and video stream is actually rendered to the set UI play canvas. You can use this callback notification to update or switch UI components that actually play the stream.
 /// @param size The resolution of the video
 /// @param streamID Stream ID
 - (void)onPlayerVideoSizeChanged:(CGSize)size streamID:(NSString *)streamID;
@@ -178,7 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Receive SEI
 ///
 /// If sendSEI was called on remote, this callback will be triggered.
-/// If only the pure audio stream is pulled, the SEI information sent by the streaming end will not be received.
+/// If only the pure audio stream is played, the SEI information sent by the streaming end will not be received.
 /// @param data SEI content
 /// @param streamID Stream ID
 - (void)onPlayerRecvSEI:(NSData *)data streamID:(NSString *)streamID;
@@ -187,14 +187,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Mixed stream relay CDN status update notification
 ///
-/// In the general case of the ZEGO audio and video cloud mixing stream task, the output stream is pushed to the CDN using the rtmp protocol, and changes in the state during the push will be notified from this callback api.
+/// In the general case of the ZEGO audio and video cloud mixing stream task, the output stream is published to the CDN using the rtmp protocol, and changes in the state during the publish will be notified from this callback api.
 /// @param infoList List of information that the current CDN is being mixed
 /// @param taskID Mix stream task ID
 - (void)onMixerRelayCDNStateUpdate:(NSArray<ZegoStreamRelayCDNInfo *> *)infoList taskID:(NSString *)taskID;
 
 /// Callback when the soundLevel of every stream in the mix stream updated
 ///
-/// @param soundLevels Sound level hashmap, key is the soundLevelID of every single stream in this mixser stream, value is the sound level value of that single stream, value ranging from 0.0 to 100.0
+/// You can use this callback to show the effect of the anchors sound level when the audience plays the mixed stream. So audience can notice which anchor is speaking.
+/// @param soundLevels Sound level hash map, key is the soundLevelID of every single stream in this mixer stream, value is the sound level value of that single stream, value ranging from 0.0 to 100.0
 - (void)onMixerSoundLevelUpdate:(NSDictionary<NSNumber *, NSNumber *> *)soundLevels;
 
 #pragma mark Device Callback
@@ -220,22 +221,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Captured sound level update callback
 ///
+/// Callback notification period is 100 ms'
 /// @param soundLevel Locally captured sound level value, ranging from 0.0 to 100.0
 - (void)onCapturedSoundLevelUpdate:(NSNumber *)soundLevel;
 
 /// Remote sound level update callback
 ///
-/// @param soundLevels Remote sound level hashmap, key is the streamID, value is the sound level value of the corresponding streamID, value ranging from 0.0 to 100.0
+/// Callback notification period is 100 ms'
+/// @param soundLevels Remote sound level hash map, key is the streamID, value is the sound level value of the corresponding streamID, value ranging from 0.0 to 100.0
 - (void)onRemoteSoundLevelUpdate:(NSDictionary<NSString *, NSNumber *> *)soundLevels;
 
 /// Captured audio spectrum update callback
 ///
+/// Callback notification period is 100 ms'
 /// @param audioSpectrum Locally captured audio spectrum value list. Spectrum value range is [0-2^30]
 - (void)onCapturedAudioSpectrumUpdate:(NSArray<NSNumber *> *)audioSpectrum;
 
 /// Remote audio spectrum update callback
 ///
-/// @param audioSpectrums Remote audio spectrum hashmap, key is the streamID, value is the audio spectrum list of the corresponding streamID. Spectrum value range is [0-2^30]
+/// Callback notification period is 100 ms'
+/// @param audioSpectrums Remote audio spectrum hash map, key is the streamID, value is the audio spectrum list of the corresponding streamID. Spectrum value range is [0-2^30]
 - (void)onRemoteAudioSpectrumUpdate:(NSDictionary<NSString *, NSArray<NSNumber *> *> *)audioSpectrums;
 
 /// Device exception notification

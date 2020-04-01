@@ -87,15 +87,15 @@
 
 #pragma mark Publish
 
-- (void)startPublishing:(NSString *)streamID {
-    [self.engine startPublishing:streamID];
+- (void)startPublishingStream:(NSString *)streamID {
+    [self.engine startPublishingStream:streamID];
     ZGLogInfo(@" 📤 Start publishing stream. streamID: %@", streamID);
     [self.dataSource onActionLog:[NSString stringWithFormat:@" 📤 Start publishing stream. streamID: %@", streamID]];
 }
 
 
-- (void)stopPublishing {
-    [self.engine stopPublishing];
+- (void)stopPublishingStream {
+    [self.engine stopPublishingStream];
     ZGLogInfo(@" 📤 Stop publishing stream");
     [self.dataSource onActionLog:@" 📤 Stop publishing stream"];
 }
@@ -158,8 +158,8 @@
 }
 
 
-- (void)addPublishCDNURL:(NSString *)targetURL streamID:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCDNURLCallback)callback {
-    [self.engine addPublishCDNURL:targetURL streamID:streamID callback:^(int errorCode) {
+- (void)addPublishCdnUrl:(NSString *)targetURL streamID:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCdnUrlCallback)callback {
+    [self.engine addPublishCdnUrl:targetURL streamID:streamID callback:^(int errorCode) {
         if (callback) {
             callback(errorCode);
         }
@@ -169,8 +169,8 @@
 }
 
 
-- (void)removePublishCDNURL:(NSString *)targetURL streamID:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCDNURLCallback)callback {
-    [self.engine removePublishCDNURL:targetURL streamID:streamID callback:^(int errorCode) {
+- (void)removePublishCdnUrl:(NSString *)targetURL streamID:(NSString *)streamID callback:(nullable ZegoPublisherUpdateCdnUrlCallback)callback {
+    [self.engine removePublishCdnUrl:targetURL streamID:streamID callback:^(int errorCode) {
         if (callback) {
             callback(errorCode);
         }
@@ -308,10 +308,10 @@
 }
 
 
-- (void)muteAudioOutput:(BOOL)mute {
-    [self.engine muteAudioOutput:mute];
-    ZGLogInfo(@" 🔧 Mute audio output: %@", mute ? @"YES" : @"NO");
-    [self.dataSource onActionLog:[NSString stringWithFormat:@" 🔧 Mute audio output: %@", mute ? @"YES" : @"NO"]];
+- (void)muteSpeaker:(BOOL)mute {
+    [self.engine muteSpeaker:mute];
+    ZGLogInfo(@" 🔧 Mute speaker: %@", mute ? @"YES" : @"NO");
+    [self.dataSource onActionLog:[NSString stringWithFormat:@" 🔧 Mute speaker: %@", mute ? @"YES" : @"NO"]];
 }
 
 
@@ -513,7 +513,7 @@
     ZGLogInfo(@" 🚩 🧬 Mixer Relay CDN State Update Callback: taskID: %@", taskID);
     for (int idx = 0; idx < infoList.count; idx ++) {
         ZegoStreamRelayCDNInfo *info = infoList[idx];
-        ZGLogInfo(@" 🚩 🧬 --- %d: state: %lu, URL: %@, reason: %lu", idx, (unsigned long)info.state, info.URL, (unsigned long)info.updateReason);
+        ZGLogInfo(@" 🚩 🧬 --- %d: state: %lu, URL: %@, reason: %lu", idx, (unsigned long)info.state, info.url, (unsigned long)info.updateReason);
     }
 }
 

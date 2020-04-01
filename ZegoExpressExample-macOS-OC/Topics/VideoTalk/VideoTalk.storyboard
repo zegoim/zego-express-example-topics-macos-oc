@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="LVr-Wh-x77">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="LVr-Wh-x77">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -93,13 +93,13 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dXn-sr-47p">
-                                        <rect key="frame" x="273" y="16" width="99" height="18"/>
-                                        <buttonCell key="cell" type="check" title="AudioOutput" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="cSG-1K-gUE">
+                                        <rect key="frame" x="300" y="16" width="72" height="18"/>
+                                        <buttonCell key="cell" type="check" title="Speaker" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="cSG-1K-gUE">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="onToggleAudioOutputCheckBox:" target="LVr-Wh-x77" id="QP9-wN-EhD"/>
+                                            <action selector="onToggleSpeakerCheckBox:" target="LVr-Wh-x77" id="QP9-wN-EhD"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -132,12 +132,12 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="audioOutputCheckBox" destination="dXn-sr-47p" id="fxW-Rs-T4p"/>
                         <outlet property="cameraCheckBox" destination="uzy-AY-RjQ" id="9bj-aD-wHw"/>
                         <outlet property="containerView" destination="lPw-Gd-xpT" id="aOM-UQ-i5D"/>
                         <outlet property="microphoneCheckBox" destination="j2B-wt-mww" id="hOz-s3-q9Z"/>
                         <outlet property="roomIDLabel" destination="G0Z-kA-mhJ" id="bpL-47-R6Z"/>
                         <outlet property="roomStateLabel" destination="jvE-CY-LaG" id="RRN-om-nY0"/>
+                        <outlet property="speakerCheckBox" destination="dXn-sr-47p" id="fxW-Rs-T4p"/>
                     </connections>
                 </viewController>
                 <customObject id="7Xs-Qf-skd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

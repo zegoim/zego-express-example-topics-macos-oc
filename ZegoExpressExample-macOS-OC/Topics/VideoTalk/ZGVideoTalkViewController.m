@@ -55,9 +55,9 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
 @property (weak) IBOutlet NSButton *microphoneCheckBox;
 @property (assign) BOOL muteMicrophone;
 
-/// Whether to enable audio output
-@property (assign) BOOL muteAudioOutput;
-@property (weak) IBOutlet NSButton *audioOutputCheckBox;
+/// Whether to enable speaker
+@property (assign) BOOL muteSpeaker;
+@property (weak) IBOutlet NSButton *speakerCheckBox;
 
 @end
 
@@ -76,7 +76,7 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
     
     self.enableCamera = YES;
     self.muteMicrophone = NO;
-    self.muteAudioOutput = YES;
+    self.muteSpeaker = YES;
     
     [self setupUI];
     
@@ -90,7 +90,7 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
     
     self.cameraCheckBox.state = _enableCamera ? NSControlStateValueOn : NSControlStateValueOff;
     self.microphoneCheckBox.state = !_muteMicrophone ? NSControlStateValueOn : NSControlStateValueOff;
-    self.audioOutputCheckBox.state = _muteAudioOutput ? NSControlStateValueOn : NSControlStateValueOff;
+    self.speakerCheckBox.state = _muteSpeaker ? NSControlStateValueOn : NSControlStateValueOff;
     
     self.roomIDLabel.stringValue = [NSString stringWithFormat:@"RoomID: %@", _roomID];
     
@@ -126,7 +126,7 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
     
     // Local user start publishing
     ZGLogInfo(@" 📤 Start publishing stream, streamID: %@", _localStreamID);
-    [self.engine startPublishing:_localStreamID];
+    [self.engine startPublishingStream:_localStreamID];
 }
 
 - (void)exitRoom {
@@ -155,9 +155,9 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
     [self.engine muteMicrophone:_muteMicrophone];
 }
 
-- (IBAction)onToggleAudioOutputCheckBox:(NSButton *)sender {
-    _muteAudioOutput = sender.state == NSControlStateValueOn ? NO : YES;
-    [self.engine muteAudioOutput:_muteAudioOutput];
+- (IBAction)onToggleSpeakerCheckBox:(NSButton *)sender {
+    _muteSpeaker = sender.state == NSControlStateValueOn ? NO : YES;
+    [self.engine muteSpeaker:_muteSpeaker];
 }
 
 

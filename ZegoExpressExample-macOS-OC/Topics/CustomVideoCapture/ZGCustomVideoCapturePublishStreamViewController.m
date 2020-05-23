@@ -220,7 +220,7 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
 - (void)captureDevice:(nonnull id<ZGCaptureDevice>)device didCapturedData:(nonnull CVPixelBufferRef)data presentationTimeStamp:(CMTime)timeStamp {
     
     // Send pixel buffer to ZEGO SDK
-    [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:data timeStamp:timeStamp];
+    [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:data timestamp:timeStamp];
     
     // When custom video capture is enabled, developers need to render the preview by themselves
     [self renderWithCVPixelBuffer:data];

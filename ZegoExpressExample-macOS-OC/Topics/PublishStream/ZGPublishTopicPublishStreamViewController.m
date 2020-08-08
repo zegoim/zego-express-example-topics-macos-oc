@@ -56,8 +56,6 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 @property (assign) ZegoRoomState roomState;
 @property (assign) ZegoPublisherState publisherState;
 
-@property (strong) ZegoExpressEngine *engine;
-
 @end
 
 @implementation ZGPublishTopicPublishStreamViewController
@@ -98,29 +96,29 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     
     [self appendLog:@" 🚀 Create ZegoExpressEngine"];
 
-    self.engine = [ZegoExpressEngine createEngineWithAppID:(unsigned int)appConfig.appID appSign:appConfig.appSign isTestEnv:appConfig.isTestEnv scenario:appConfig.scenario eventHandler:self];
+    [ZegoExpressEngine createEngineWithAppID:(unsigned int)appConfig.appID appSign:appConfig.appSign isTestEnv:appConfig.isTestEnv scenario:appConfig.scenario eventHandler:self];
     
     // Setup
-    [self.engine muteMicrophone:NO];
-    [self.engine muteSpeaker:NO];
-    [self.engine enableCamera:YES];
-    [self.engine enableHardwareEncoder:NO];
+    [[ZegoExpressEngine sharedEngine] muteMicrophone:NO];
+    [[ZegoExpressEngine sharedEngine] muteSpeaker:NO];
+    [[ZegoExpressEngine sharedEngine] enableCamera:YES];
+    [[ZegoExpressEngine sharedEngine] enableHardwareEncoder:NO];
     
     self.videoConfig = [ZegoVideoConfig configWithPreset:ZegoVideoConfigPreset1080P];
     self.videoConfig.fps = 30;
-    [self.engine setVideoConfig:self.videoConfig];
+    [[ZegoExpressEngine sharedEngine] setVideoConfig:self.videoConfig];
     
     self.previewViewMode = ZegoViewModeAspectFit;
     
     self.videoMirrorMode = ZegoVideoMirrorModeOnlyPreviewMirror;
-    [self.engine setVideoMirrorMode:self.videoMirrorMode];
+    [[ZegoExpressEngine sharedEngine] setVideoMirrorMode:self.videoMirrorMode];
     
     // Start preview
     self.previewCanvas = [ZegoCanvas canvasWithView:self.previewView];
     self.previewCanvas.viewMode = self.previewViewMode;
     
     [self appendLog:@" 🔌 Start preview"];
-    [self.engine startPreview:self.previewCanvas];
+    [[ZegoExpressEngine sharedEngine] startPreview:self.previewCanvas];
 }
 
 #pragma mark - Start and Stop
@@ -143,11 +141,11 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     
     // Login room
     [self appendLog:[NSString stringWithFormat:@" 🚪 Start login room, roomID: %@", self.roomID]];
-    [self.engine loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName]];
+    [[ZegoExpressEngine sharedEngine] loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName]];
     
     // Start publishing
     [self appendLog:[NSString stringWithFormat:@" 📤 Start publishing stream, streamID: %@", self.streamID]];
-    [self.engine startPublishingStream:self.streamID];
+    [[ZegoExpressEngine sharedEngine] startPublishingStream:self.streamID];
 }
 
 - (IBAction)stopButtonClick:(NSButton *)sender {
@@ -159,11 +157,11 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     
     // Stop publishing
     [self appendLog:@" 📤 Stop publishing stream"];
-    [self.engine stopPublishingStream];
+    [[ZegoExpressEngine sharedEngine] stopPublishingStream];
     
     // Logout room
     [self appendLog:@" 🚪 Logout room"];
-    [self.engine logoutRoom:self.roomID];
+    [[ZegoExpressEngine sharedEngine] logoutRoom:self.roomID];
     
     self.publishResolutionLabel.stringValue = @"Resolution: ";
     self.publishQualityLabel.stringValue = @"Quality: ";
@@ -173,18 +171,18 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 
 - (void)viewDidDisappear {
     [self appendLog:@" 🔌 Stop preview"];
-    [self.engine stopPreview];
+    [[ZegoExpressEngine sharedEngine] stopPreview];
     
     // Stop publishing before exiting
     if (self.publisherState != ZegoPublisherStateNoPublish) {
         [self appendLog:@" 📤 Stop publishing stream"];
-        [self.engine stopPublishingStream];
+        [[ZegoExpressEngine sharedEngine] stopPublishingStream];
     }
     
     // Logout room before exiting
     if (self.roomState != ZegoRoomStateDisconnected) {
         [self appendLog:@" 🚪 Logout room"];
-        [self.engine logoutRoom:self.roomID];
+        [[ZegoExpressEngine sharedEngine] logoutRoom:self.roomID];
     }
     
     // Can destroy the engine when you don't need audio and video calls
@@ -197,19 +195,19 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 - (IBAction)microphoneCheckBoxClick:(NSButton *)sender {
     [self appendLog:[NSString stringWithFormat:@" %@ microphone", sender.state == NSControlStateValueOn ? @" 🎙 Enable" : @" 🙊 Mute"]];
     
-    [self.engine muteMicrophone:sender.state == NSControlStateValueOn ? NO : YES];
+    [[ZegoExpressEngine sharedEngine] muteMicrophone:sender.state == NSControlStateValueOn ? NO : YES];
 }
 
 - (IBAction)speakerCheckBoxClick:(NSButton *)sender {
     [self appendLog:[NSString stringWithFormat:@" %@ speaker", sender.state == NSControlStateValueOn ? @" 🔊 Enable" : @" 🔇 Mute"]];
     
-    [self.engine muteSpeaker:sender.state == NSControlStateValueOn ? NO : YES];
+    [[ZegoExpressEngine sharedEngine] muteSpeaker:sender.state == NSControlStateValueOn ? NO : YES];
 }
 
 - (IBAction)cameraCheckBoxClick:(NSButton *)sender {
     [self appendLog:[NSString stringWithFormat:@" %@ camera", sender.state == NSControlStateValueOn ? @" 📸 Enable" : @" 📷 Disable"]];
     
-    [self.engine enableCamera:sender.state == NSControlStateValueOn ? YES : NO];
+    [[ZegoExpressEngine sharedEngine] enableCamera:sender.state == NSControlStateValueOn ? YES : NO];
 }
 
 - (IBAction)hardwareEncoderCheckBoxClick:(NSButton *)sender {
@@ -219,7 +217,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     }
     
     [self appendLog:[NSString stringWithFormat:@" %@ hardware encoder", sender.state == NSControlStateValueOn ? @" ⚙️ Enable" : @" ⚙️ Disable"]];
-    [self.engine enableHardwareEncoder:sender.state == NSControlStateValueOn ? YES : NO];
+    [[ZegoExpressEngine sharedEngine] enableHardwareEncoder:sender.state == NSControlStateValueOn ? YES : NO];
 }
 
 - (IBAction)resolutionPopUpButtonAction:(NSPopUpButton *)sender {
@@ -250,7 +248,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     self.videoConfig.encodeResolution = resolution;
     
     [self appendLog:[NSString stringWithFormat:@" 🖼 Resolution changed to: %d x %d", (int)resolution.width, (int)resolution.height]];
-    [self.engine setVideoConfig:self.videoConfig];
+    [[ZegoExpressEngine sharedEngine] setVideoConfig:self.videoConfig];
 }
 
 - (IBAction)fpsPopUpButtonAction:(NSPopUpButton *)sender {
@@ -259,7 +257,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     
     [self appendLog:[NSString stringWithFormat:@" 📽 FPS changed to: %d", fps]];
     
-    [self.engine setVideoConfig:self.videoConfig];
+    [[ZegoExpressEngine sharedEngine] setVideoConfig:self.videoConfig];
 }
 
 - (IBAction)bitratePopUpButtonAction:(NSPopUpButton *)sender {
@@ -267,7 +265,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     self.videoConfig.bitrate = bitrate;
     
     [self appendLog:[NSString stringWithFormat:@" 🎛 Bitrate changed to: %d", bitrate]];
-    [self.engine setVideoConfig:self.videoConfig];
+    [[ZegoExpressEngine sharedEngine] setVideoConfig:self.videoConfig];
 }
 
 - (IBAction)viewModePopUpButtonAction:(NSPopUpButton *)sender {
@@ -276,7 +274,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     [self appendLog:[NSString stringWithFormat:@" 🖼 View mode changed to: %@", sender.menu.itemArray[sender.indexOfSelectedItem].title]];
     
     self.previewCanvas.viewMode = self.previewViewMode;
-    [self.engine startPreview:self.previewCanvas];
+    [[ZegoExpressEngine sharedEngine] startPreview:self.previewCanvas];
 }
 
 - (IBAction)mirrorModePopUpButtonAction:(NSPopUpButton *)sender {
@@ -284,7 +282,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     
     [self appendLog:[NSString stringWithFormat:@" 🤳 Mirror mode changed to: %@", sender.menu.itemArray[sender.indexOfSelectedItem].title]];
     
-    [self.engine setVideoMirrorMode:self.videoMirrorMode];
+    [[ZegoExpressEngine sharedEngine] setVideoMirrorMode:self.videoMirrorMode];
 }
 
 - (IBAction)audioConfigPopUpButtonAction:(NSPopUpButton *)sender {
@@ -292,7 +290,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     
     [self appendLog:[NSString stringWithFormat:@" 🔊 Audio config change to: %@", sender.menu.itemArray[sender.indexOfSelectedItem].title]];
     
-    [self.engine setAudioConfig:[ZegoAudioConfig configWithPreset:self.audioConfigPreset]];
+    [[ZegoExpressEngine sharedEngine] setAudioConfig:[ZegoAudioConfig configWithPreset:self.audioConfigPreset]];
 }
 
 - (IBAction)setStreamExtraInfoButtonClick:(NSButton *)sender {
@@ -300,7 +298,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     [self appendLog:[NSString stringWithFormat:@" 💬 Set stream extra info: %@", self.streamExtraInfo]];
     
     __weak typeof(self) weakSelf = self;
-    [self.engine setStreamExtraInfo:self.streamExtraInfo callback:^(int errorCode) {
+    [[ZegoExpressEngine sharedEngine] setStreamExtraInfo:self.streamExtraInfo callback:^(int errorCode) {
         __strong typeof(self) strongSelf = weakSelf;
         [strongSelf appendLog:[NSString stringWithFormat:@" 🚩 💬 Set stream extra info result: %d", errorCode]];
     }];
@@ -320,7 +318,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
             [self appendLog:@" 🚩 🚪 Logout room"];
             
             // After logout room, the preview will stop. You need to re-start preview.
-            [self.engine startPreview:self.previewCanvas];
+            [[ZegoExpressEngine sharedEngine] startPreview:self.previewCanvas];
         }
     }
     self.roomState = state;

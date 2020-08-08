@@ -44,9 +44,6 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
 /// Capture CVPixelBuffer data format, 0: BGRA32, 1: NV12(yuv420sp)
 @property (nonatomic, assign) NSUInteger captureDataFormat;
 
-
-@property (strong) ZegoExpressEngine *engine;
-
 @end
 
 @implementation ZGCustomVideoCapturePublishStreamViewController
@@ -73,27 +70,29 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
 }
 
 - (void)createEngine {
-    // Set capture config
-    ZegoCustomVideoCaptureConfig *captureConfig = [[ZegoCustomVideoCaptureConfig alloc] init];
-    captureConfig.bufferType = ZegoVideoBufferTypeCVPixelBuffer;
-    
-    ZegoEngineConfig *engineConfig = [[ZegoEngineConfig alloc] init];
-    engineConfig.customVideoCaptureMainConfig = captureConfig;
-    
-    // Set engine config, must be called before create engine
-    [ZegoExpressEngine setEngineConfig:engineConfig];
     
     ZGAppGlobalConfig *appConfig = [[ZGAppGlobalConfigManager sharedManager] globalConfig];
 
     [self appendLog:@" 🚀 Create ZegoExpressEngine"];
 
-    self.engine = [ZegoExpressEngine createEngineWithAppID:(unsigned int)appConfig.appID appSign:appConfig.appSign isTestEnv:appConfig.isTestEnv scenario:appConfig.scenario eventHandler:self];
+    [ZegoExpressEngine createEngineWithAppID:(unsigned int)appConfig.appID appSign:appConfig.appSign isTestEnv:appConfig.isTestEnv scenario:appConfig.scenario eventHandler:self];
     
     // Set custom video capture handler
     [[ZegoExpressEngine sharedEngine] setCustomVideoCaptureHandler:self];
-    
+
+    // Set custom video capture config
+    ZegoCustomVideoCaptureConfig *captureConfig = [[ZegoCustomVideoCaptureConfig alloc] init];
+    captureConfig.bufferType = ZegoVideoBufferTypeCVPixelBuffer;
+
+    // Enable custom video capture function
+    [[ZegoExpressEngine sharedEngine] enableCustomVideoCapture:YES config:captureConfig];
+
+    // Set video config
     ZegoVideoConfig *videoConfig = [ZegoVideoConfig configWithPreset:ZegoVideoConfigPreset1080P];
     [[ZegoExpressEngine sharedEngine] setVideoConfig:videoConfig];
+
+    // Do not mirror
+    [[ZegoExpressEngine sharedEngine] setVideoMirrorMode:ZegoVideoMirrorModeNoMirror];
 }
 
 #pragma mark - Start and Stop
@@ -119,14 +118,16 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
     
     // Login room
     [self appendLog:[NSString stringWithFormat:@" 🚪 Start login room, roomID: %@", self.roomID]];
-    [self.engine loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName]];
+    [[ZegoExpressEngine sharedEngine] loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName]];
     
-    // When custom video capture is enabled, developers need to render the preview by themselves
-//    [self.engine startPreview:self.previewCanvas];
+    // The engine supports rendering the preview when the capture type is CVPixelBuffer.
+    // Not supported when the capture type is EncodedData.
+    [self appendLog:@" 🔌 Start preview"];
+    [[ZegoExpressEngine sharedEngine] startPreview:[ZegoCanvas canvasWithView:self.previewView]];
     
     // Start publishing
     [self appendLog:[NSString stringWithFormat:@" 📤 Start publishing stream, streamID: %@", self.streamID]];
-    [self.engine startPublishingStream:self.streamID];
+    [[ZegoExpressEngine sharedEngine] startPublishingStream:self.streamID];
 }
 
 - (IBAction)stopButtonClick:(NSButton *)sender {
@@ -139,11 +140,11 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
     
     // Stop publishing
     [self appendLog:@" 📤 Stop publishing stream"];
-    [self.engine stopPublishingStream];
+    [[ZegoExpressEngine sharedEngine] stopPublishingStream];
     
     // Logout room
     [self appendLog:@" 🚪 Logout room"];
-    [self.engine logoutRoom:self.roomID];
+    [[ZegoExpressEngine sharedEngine] logoutRoom:self.roomID];
 }
 
 #pragma mark - Exit
@@ -160,9 +161,6 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
     
     // After destroying the engine, you will not receive the `-onStop:` callback, you need to stop the custom video caputre manually.
     [self.captureDevice stopCapture];
-    
-    // In order not to affect other example topics, restore the default engine configuration.
-    [ZegoExpressEngine setEngineConfig:[[ZegoEngineConfig alloc] init]];
 }
 
 #pragma mark - Actions
@@ -221,22 +219,6 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
     
     // Send pixel buffer to ZEGO SDK
     [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:data timestamp:timeStamp];
-    
-    // When custom video capture is enabled, developers need to render the preview by themselves
-    [self renderWithCVPixelBuffer:data];
-}
-
-#pragma mark - Render Preview
-
-- (void)renderWithCVPixelBuffer:(CVPixelBufferRef)buffer {
-    CIImage *image = [CIImage imageWithCVPixelBuffer:buffer];
-    NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:image];
-    NSImage *nsImage = [[NSImage alloc] initWithSize:rep.size];
-    [nsImage addRepresentation:rep];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.previewView.image = nsImage;
-    });
 }
 
 #pragma mark - Helper Methods

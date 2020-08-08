@@ -47,9 +47,6 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 @property (assign) ZegoRoomState roomState;
 @property (assign) ZegoPlayerState playerState;
 
-@property (strong) ZegoExpressEngine *engine;
-
-
 @end
 
 @implementation ZGPlayTopicPlayStreamViewController
@@ -95,11 +92,11 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     
     [self appendLog:@" 🚀 Create ZegoExpressEngine"];
 
-    self.engine = [ZegoExpressEngine createEngineWithAppID:(unsigned int)appConfig.appID appSign:appConfig.appSign isTestEnv:appConfig.isTestEnv scenario:appConfig.scenario eventHandler:self];
+    [ZegoExpressEngine createEngineWithAppID:(unsigned int)appConfig.appID appSign:appConfig.appSign isTestEnv:appConfig.isTestEnv scenario:appConfig.scenario eventHandler:self];
     
     // Setup
-    [self.engine muteSpeaker:NO];
-    [self.engine enableHardwareDecoder:NO];
+    [[ZegoExpressEngine sharedEngine] muteSpeaker:NO];
+    [[ZegoExpressEngine sharedEngine] enableHardwareDecoder:NO];
     
     self.playViewMode = ZegoViewModeAspectFit;
     self.playCanvas = [ZegoCanvas canvasWithView:self.playView];
@@ -126,11 +123,11 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     
     // Login room
     [self appendLog:[NSString stringWithFormat:@" 🚪 Start login room, roomID: %@", self.roomID]];
-    [self.engine loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName]];
+    [[ZegoExpressEngine sharedEngine] loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName]];
     
     // Start publishing
     [self appendLog:@" 📥 Strat playing stream"];
-    [self.engine startPlayingStream:self.streamID canvas:self.playCanvas];
+    [[ZegoExpressEngine sharedEngine] startPlayingStream:self.streamID canvas:self.playCanvas];
 }
 
 - (IBAction)stopButtonClick:(NSButton *)sender {
@@ -142,11 +139,11 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     
     // Stop publishing
     [self appendLog:@" 📥 Stop playing stream"];
-    [self.engine stopPlayingStream:self.streamID];
+    [[ZegoExpressEngine sharedEngine] stopPlayingStream:self.streamID];
     
     // Logout room
     [self appendLog:@" 🚪 Logout room"];
-    [self.engine logoutRoom:self.roomID];
+    [[ZegoExpressEngine sharedEngine] logoutRoom:self.roomID];
     
     self.playResolutionLabel.stringValue = @"Resolution: ";
     self.playQualityLabel.stringValue = @"Quality: ";
@@ -159,13 +156,13 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     // Stop playing before exiting
     if (self.playerState != ZegoPlayerStateNoPlay) {
         [self appendLog:@" 📥 Stop playing stream"];
-        [self.engine stopPlayingStream:self.streamID];
+        [[ZegoExpressEngine sharedEngine] stopPlayingStream:self.streamID];
     }
     
     // Logout room before exiting
     if (self.roomState != ZegoRoomStateDisconnected) {
         [self appendLog:@" 🚪 Logout room"];
-        [self.engine logoutRoom:self.roomID];
+        [[ZegoExpressEngine sharedEngine] logoutRoom:self.roomID];
     }
     
     // Can destroy the engine when you don't need audio and video calls
@@ -178,7 +175,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 - (IBAction)speakerCheckBoxClick:(NSButton *)sender {
     [self appendLog:[NSString stringWithFormat:@" %@ speaker", sender.state == NSControlStateValueOn ? @" 🔊 Enable" : @" 🔇 Mute"]];
     
-    [self.engine muteSpeaker:sender.state == NSControlStateValueOn ? NO : YES];
+    [[ZegoExpressEngine sharedEngine] muteSpeaker:sender.state == NSControlStateValueOn ? NO : YES];
 }
 
 - (IBAction)hardwareDecoderCheckBoxClick:(NSButton *)sender {
@@ -188,7 +185,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     }
     
     [self appendLog:[NSString stringWithFormat:@" %@ hardware decoder", sender.state == NSControlStateValueOn ? @" ⚙️ Enable" : @" ⚙️ Disable"]];
-    [self.engine enableHardwareDecoder:sender.state == NSControlStateValueOn ? YES : NO];
+    [[ZegoExpressEngine sharedEngine] enableHardwareDecoder:sender.state == NSControlStateValueOn ? YES : NO];
 }
 
 - (IBAction)playVolumeSliderValueChanged:(NSSlider *)sender {
@@ -198,7 +195,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     }
     
     [self appendLog:[NSString stringWithFormat:@" 🔊 Stream volume changed to: %d", sender.intValue]];
-    [self.engine setPlayVolume:sender.intValue streamID:self.streamID];
+    [[ZegoExpressEngine sharedEngine] setPlayVolume:sender.intValue streamID:self.streamID];
 }
 
 - (IBAction)viewModePopUpButtonAction:(NSPopUpButton *)sender {
@@ -222,7 +219,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     
     [self appendLog:[NSString stringWithFormat:@" 🖼 View mode changed to: %@", playViewModeString]];
     self.playCanvas.viewMode = self.playViewMode;
-    [self.engine startPlayingStream:self.streamID canvas:self.playCanvas];
+    [[ZegoExpressEngine sharedEngine] startPlayingStream:self.streamID canvas:self.playCanvas];
 }
 
 #pragma mark - ZegoEventHandler Room Event

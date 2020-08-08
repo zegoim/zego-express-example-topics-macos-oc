@@ -3,7 +3,7 @@
 //  ZegoExpressExample-macOS-OC
 //
 //  Created by Randy Qiu on 2018/9/27.
-//  Copyright © 2018年 Zego. All rights reserved.
+//  Copyright © 2018 Zego. All rights reserved.
 //
 
 #import "AppDelegate.h"

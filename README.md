@@ -8,9 +8,9 @@ Zego Express Example Topics for macOS developer.
 
 The SDK `ZegoExpressEngine.framework` required to run the Demo project is missing from this Repository, and needs to be downloaded and placed in the `Libs` folder of the Demo project
 
-> Run Demo directly, if the pre-compilation script detects that there is no SDK Framework under `Libs`, it will automatically download the **English version** SDK. You can also download it yourself and put it in the `Libs` folder.
+> Run Demo directly, if the pre-compilation script detects that there is no SDK Framework under `Libs`, it will automatically download the SDK. You can also download it yourself and put it in the `Libs` folder.
 
-[https://storage.zego.im/express/video/mac-objc/en/zego-express-video-mac-objc-en.zip](https://storage.zego.im/express/video/mac-objc/en/zego-express-video-mac-objc-en.zip)
+[https://storage.zego.im/express/video/mac-objc/zego-express-video-mac-objc.zip](https://storage.zego.im/express/video/mac-objc/zego-express-video-mac-objc.zip)
 
 > Please unzip and put the `ZegoExpressEngine.framework` under `Libs`
 

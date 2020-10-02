@@ -55,23 +55,8 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
 #ifdef _Module_MediaPlayer
     [topicList addObject:_Module_MediaPlayer];
 #endif
-#ifdef _Module_MediaSideInfo
-    [topicList addObject:_Module_MediaSideInfo];
-#endif
-#ifdef _Module_ScalableVideoCoding
-    [topicList addObject:_Module_ScalableVideoCoding];
-#endif
-#ifdef _Module_MediaRecord
-    [topicList addObject:_Module_MediaRecord];
-#endif
 #ifdef _Module_CustomVideoCapture
     [topicList addObject:_Module_CustomVideoCapture];
-#endif
-#ifdef _Module_ExternalVideoRender
-    [topicList addObject:_Module_ExternalVideoRender];
-#endif
-#ifdef _Module_ExternalVideoFilter
-    [topicList addObject:_Module_ExternalVideoFilter];
 #endif
 #ifdef _Module_Test
     [topicList addObject:_Module_Test];
@@ -151,42 +136,10 @@ NSDictionary<NSString*, NSString*>* g_Topic2NibName;
         vc = [[ZGMediaPlayerViewController alloc] initWithNibName:@"ZGMediaPlayerViewController" bundle:nil];
     }
 #endif
-    
-#ifdef _Module_MediaSideInfo
-    if ([topic isEqualToString:_Module_MediaSideInfo]) {
-        vc = [[ZGMediaSideInfoViewController alloc] initWithNibName:@"ZGMediaSideInfoViewController" bundle:nil];
-    }
-#endif
-    
-#ifdef _Module_ScalableVideoCoding
-    if ([topic isEqualToString:_Module_ScalableVideoCoding]) {
-        vc = [[NSStoryboard storyboardWithName:@"SVC" bundle:nil] instantiateInitialController];
-    };
-#endif
-    
-#ifdef _Module_MediaRecord
-    if ([topic isEqualToString:_Module_MediaRecord]) {
-        vc = [[ZegoMediaRecordViewController alloc] initWithNibName:@"ZegoMediaRecordViewController" bundle:nil];
-    };
-#endif
-    
+            
 #ifdef _Module_CustomVideoCapture
     if ([topic isEqualToString:_Module_CustomVideoCapture]) {
         NSStoryboard *sb = [NSStoryboard storyboardWithName:@"CustomVideoCapture" bundle:nil];
-        vc = [sb instantiateInitialController];
-    };
-#endif
-    
-#ifdef _Module_ExternalVideoRender
-    if ([topic isEqualToString:_Module_ExternalVideoRender]) {
-        NSStoryboard *sb = [NSStoryboard storyboardWithName:@"ZGExternalVideoRender" bundle:nil];
-        vc = [sb instantiateInitialController];
-    };
-#endif
-    
-#ifdef _Module_ExternalVideoFilter
-    if ([topic isEqualToString:_Module_ExternalVideoFilter]) {
-        NSStoryboard *sb = [NSStoryboard storyboardWithName:@"ZGExternalVideoFilter" bundle:nil];
         vc = [sb instantiateInitialController];
     };
 #endif

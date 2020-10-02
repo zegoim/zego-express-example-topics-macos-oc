@@ -48,6 +48,7 @@
 		86DC20BB23FBCFEB00984B16 /* VideoTalk.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86DC20BA23FBCFEB00984B16 /* VideoTalk.storyboard */; };
 		86DC20BE23FBD00900984B16 /* ZGVideoTalkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DC20BD23FBD00900984B16 /* ZGVideoTalkViewController.m */; };
 		86DC20C123FBD12600984B16 /* ZGVideoTalkViewObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DC20C023FBD12600984B16 /* ZGVideoTalkViewObject.m */; };
+		CD90EC9025277DE0009A2E39 /* SampleCode.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CD90EC8F25277DE0009A2E39 /* SampleCode.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -142,6 +143,7 @@
 		86DC20BD23FBD00900984B16 /* ZGVideoTalkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGVideoTalkViewController.m; sourceTree = "<group>"; };
 		86DC20BF23FBD12600984B16 /* ZGVideoTalkViewObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGVideoTalkViewObject.h; sourceTree = "<group>"; };
 		86DC20C023FBD12600984B16 /* ZGVideoTalkViewObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGVideoTalkViewObject.m; sourceTree = "<group>"; };
+		CD90EC8F25277DE0009A2E39 /* SampleCode.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SampleCode.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 				8608C4B1236331D500CE367B /* ZGTopicsTableViewController.m */,
 				8608C3322362EEBD00CE367B /* Info.plist */,
 				8608C3332362EEBD00CE367B /* main.m */,
+				CD90EC8F25277DE0009A2E39 /* SampleCode.xcconfig */,
 				8608C39F23631CE900CE367B /* ZegoExpressExample-macOS-OC.entitlements */,
 			);
 			path = "ZegoExpressExample-macOS-OC";
@@ -409,6 +412,7 @@
 				8608C4AF2363318E00CE367B /* MainMenu.xib in Resources */,
 				86DC208F23FA85A000984B16 /* QuickStart.storyboard in Resources */,
 				86DC20BB23FBCFEB00984B16 /* VideoTalk.storyboard in Resources */,
+				CD90EC9025277DE0009A2E39 /* SampleCode.xcconfig in Resources */,
 				86B6BED523FE255F008DFDE3 /* PlayStream.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,6 +484,7 @@
 /* Begin XCBuildConfiguration section */
 		8608C3362362EEBD00CE367B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CD90EC8F25277DE0009A2E39 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -538,6 +543,7 @@
 		};
 		8608C3372362EEBD00CE367B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CD90EC8F25277DE0009A2E39 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -589,14 +595,15 @@
 		};
 		8608C3392362EEBD00CE367B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CD90EC8F25277DE0009A2E39 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "ZegoExpressExample-macOS-OC/ZegoExpressExample-macOS-OC.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 200808;
-				DEVELOPMENT_TEAM = B82BHJ5H89;
+				CURRENT_PROJECT_VERSION = 201002;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -609,22 +616,23 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 1.12.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExample-macOS-OC";
+				MARKETING_VERSION = 1.16.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExample-macOS-OC.${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		8608C33A2362EEBD00CE367B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CD90EC8F25277DE0009A2E39 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "ZegoExpressExample-macOS-OC/ZegoExpressExample-macOS-OC.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 200808;
-				DEVELOPMENT_TEAM = B82BHJ5H89;
+				CURRENT_PROJECT_VERSION = 201002;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -637,8 +645,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 1.12.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExample-macOS-OC";
+				MARKETING_VERSION = 1.16.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExample-macOS-OC.${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

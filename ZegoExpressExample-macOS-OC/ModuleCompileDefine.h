@@ -5,18 +5,12 @@
 #define _Module_Publish @"PublishStream"
 #define _Module_Play @"PlayStream"
 #define _Module_VideoTalk @"VideoTalk"
-//#define _Module_JoinLive @"JoinLive"
 //#define _Module_RoomMessage @"RoomMessage"
 //#define _Module_Mixer @"Mixer"
-//#define _Module_AudioAux @"Aux"
 //#define _Module_SoundLevel @"SoundLevel"
 //#define _Module_MediaPlayer @"MediaPlayer"
-//#define _Module_MediaSideInfo @"MediaSideInfo"
-//#define _Module_ScalableVideoCoding @"SVC"
-//#define _Module_MediaRecord @"MediaRecode"
 #define _Module_CustomVideoCapture @"CustomVideoCapture"
 //#define _Module_CustomVideoRender @"CustomVideoRender"
-//#define _Module_AudioProcessing @"AudioProcessing"
 #define _Module_Test @"API Test"
 
 #endif

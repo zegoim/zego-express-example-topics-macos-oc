@@ -597,12 +597,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CD90EC8F25277DE0009A2E39 /* SampleCode.xcconfig */;
 			buildSettings = {
+				ARCHS = x86_64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "ZegoExpressExample-macOS-OC/ZegoExpressExample-macOS-OC.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 201002;
+				CURRENT_PROJECT_VERSION = 201201;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -616,7 +617,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 1.16.0;
+				MARKETING_VERSION = 1.18.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExample-macOS-OC.${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -626,12 +627,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CD90EC8F25277DE0009A2E39 /* SampleCode.xcconfig */;
 			buildSettings = {
+				ARCHS = x86_64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "ZegoExpressExample-macOS-OC/ZegoExpressExample-macOS-OC.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 201002;
+				CURRENT_PROJECT_VERSION = 201201;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -645,7 +647,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 1.16.0;
+				MARKETING_VERSION = 1.18.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExample-macOS-OC.${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

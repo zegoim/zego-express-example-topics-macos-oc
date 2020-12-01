@@ -239,7 +239,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     self.roomState = state;
 }
 
-- (void)onRoomStreamUpdate:(ZegoUpdateType)updateType streamList:(NSArray<ZegoStream *> *)streamList roomID:(NSString *)roomID {
+- (void)onRoomStreamUpdate:(ZegoUpdateType)updateType streamList:(NSArray<ZegoStream *> *)streamList extendedData:(NSDictionary *)extendedData roomID:(NSString *)roomID {
     for (ZegoStream *stream in streamList) {
         if ([stream.streamID isEqualToString:self.streamID]) {
             self.playStreamExtraInfoLabel.stringValue = [NSString stringWithFormat:@"Stream Extra Info: %@", stream.extraInfo];

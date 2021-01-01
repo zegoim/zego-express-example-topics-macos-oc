@@ -63,9 +63,16 @@ NSString* const ZGTestTopicKey_BeautifyFeature = @"kBeautifyFeature";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+- (void)viewDidAppear {
     self.manager = [[ZGTestTopicManager alloc] init];
     [self.manager setZGTestDataSource:self];
     [self setupUI];
+}
+
+- (void)viewWillDisappear {
+    [self.manager destroyEngine];
 }
 
 - (void)setupUI {

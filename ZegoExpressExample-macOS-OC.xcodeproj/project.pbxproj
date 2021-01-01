@@ -48,7 +48,6 @@
 		86DC20BB23FBCFEB00984B16 /* VideoTalk.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86DC20BA23FBCFEB00984B16 /* VideoTalk.storyboard */; };
 		86DC20BE23FBD00900984B16 /* ZGVideoTalkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DC20BD23FBD00900984B16 /* ZGVideoTalkViewController.m */; };
 		86DC20C123FBD12600984B16 /* ZGVideoTalkViewObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DC20C023FBD12600984B16 /* ZGVideoTalkViewObject.m */; };
-		CD90EC9025277DE0009A2E39 /* SampleCode.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CD90EC8F25277DE0009A2E39 /* SampleCode.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -412,7 +411,6 @@
 				8608C4AF2363318E00CE367B /* MainMenu.xib in Resources */,
 				86DC208F23FA85A000984B16 /* QuickStart.storyboard in Resources */,
 				86DC20BB23FBCFEB00984B16 /* VideoTalk.storyboard in Resources */,
-				CD90EC9025277DE0009A2E39 /* SampleCode.xcconfig in Resources */,
 				86B6BED523FE255F008DFDE3 /* PlayStream.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -436,7 +434,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ! -e \"Libs/ZegoExpressEngine.framework\" ]; then\n\n    cd $SRCROOT\n    echo \"[*] cd into: \"`pwd`\n\n    URL=\"https://storage.zego.im/express/video/mac-objc/zego-express-video-mac-objc.zip\"\n\n    if [ ! -d \"Libs/__sdk_download_tmp__\" ]; then\n        mkdir Libs/__sdk_download_tmp__\n    fi\n\n    echo \"[*] Downloading SDK from: $URL\"\n    curl \"$URL\" --output Libs/__sdk_download_tmp__/zego-express-video-mac-objc.zip\n\n    cd Libs/__sdk_download_tmp__\n    echo \"[*] cd into: \"`pwd`\n\n    echo \"[*] Unzip zego-express-video-mac-objc.zip\"\n    unzip -o zego-express-video-mac-objc.zip\n\n    for element in `ls`; do\n        dir=$element\n        if [ -d $dir ]; then\n            cd $dir\n            echo \"[*] cd into: \"`pwd`\n            break\n        fi\n    done\n    \n    echo \"[*] Move ZegoExpressEngine.framework from: \"`pwd`\" to: $SRCROOT/Libs\"\n    mv ZegoExpressEngine.framework $SRCROOT/Libs\n\n    echo \"[*] Remove folder: $SRCROOT/Libs/__sdk_download_tmp__\"\n    rm -rf $SRCROOT/Libs/__sdk_download_tmp__\nfi\n";
+			shellScript = "# Download ZegoExpressEngine\nif [ ! -e \"Libs/ZegoExpressEngine.framework\" ]; then\n\n    cd $SRCROOT\n    echo \"[*] cd into: \"`pwd`\n\n    URL=\"https://storage.zego.im/express/video/mac-objc/zego-express-video-mac-objc.zip\"\n\n    if [ ! -d \"Libs/__sdk_download_tmp__\" ]; then\n        mkdir Libs/__sdk_download_tmp__\n    fi\n\n    echo \"[*] Downloading SDK from: $URL\"\n    curl \"$URL\" --output Libs/__sdk_download_tmp__/zego-express-video-mac-objc.zip\n\n    cd Libs/__sdk_download_tmp__\n    echo \"[*] cd into: \"`pwd`\n\n    echo \"[*] Unzip zego-express-video-mac-objc.zip\"\n    unzip -o zego-express-video-mac-objc.zip\n\n    for element in `ls`; do\n        dir=$element\n        if [ -d $dir ]; then\n            cd $dir\n            echo \"[*] cd into: \"`pwd`\n            break\n        fi\n    done\n    \n    echo \"[*] Move ZegoExpressEngine.framework from: \"`pwd`\" to: $SRCROOT/Libs\"\n    mv ZegoExpressEngine.framework $SRCROOT/Libs\n\n    echo \"[*] Remove folder: $SRCROOT/Libs/__sdk_download_tmp__\"\n    rm -rf $SRCROOT/Libs/__sdk_download_tmp__\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -603,7 +601,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 201201;
+				CURRENT_PROJECT_VERSION = 201231;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -617,7 +615,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 1.18.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExample-macOS-OC.${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -633,7 +631,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 201201;
+				CURRENT_PROJECT_VERSION = 201231;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -647,7 +645,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 1.18.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExample-macOS-OC.${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

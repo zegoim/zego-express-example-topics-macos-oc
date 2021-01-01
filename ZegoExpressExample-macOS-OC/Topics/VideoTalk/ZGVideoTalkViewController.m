@@ -75,11 +75,13 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
     self.enableCamera = YES;
     self.muteMicrophone = NO;
     self.muteSpeaker = YES;
-    
+}
+
+- (void)viewDidAppear {
     [self setupUI];
-    
+
     [self createEngine];
-    
+
     [self joinTalkRoom];
 }
 
@@ -138,7 +140,7 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 10.f;
 }
 
 /// Exit room when VC disappear
-- (void)viewDidDisappear {
+- (void)viewWillDisappear {
     [self exitRoom];
     [super viewDidDisappear];
 }

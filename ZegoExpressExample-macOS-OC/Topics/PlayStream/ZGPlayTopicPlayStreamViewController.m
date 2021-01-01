@@ -36,6 +36,8 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 @property (weak) IBOutlet NSButton *speakerCheckBox;
 @property (weak) IBOutlet NSButton *hardwareDecoderCheckBox;
 @property (weak) IBOutlet NSPopUpButton *viewModePopUpButton;
+@property (weak) IBOutlet NSPopUpButton *streamResourceModePopUpButton;
+@property (weak) IBOutlet NSPopUpButton *videoLayerPopUpButton;
 
 @property (copy) NSString *roomID;
 @property (copy) NSString *streamID;
@@ -43,6 +45,8 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 @property (strong) ZegoVideoConfig *videoConfig;
 
 @property (assign) ZegoViewMode playViewMode;
+@property (assign) ZegoPlayerVideoLayer videoLayer;
+@property (assign) ZegoStreamResourceMode resourceMode;
 
 @property (assign) ZegoRoomState roomState;
 @property (assign) ZegoPlayerState playerState;
@@ -55,6 +59,10 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.resourceMode = ZegoStreamResourceModeDefault;
+}
+
+- (void)viewDidAppear {
     [self setupUI];
     [self createEngine];
 }
@@ -106,14 +114,15 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 #pragma mark - Start and Stop
 
 - (IBAction)startButtonClick:(NSButton *)sender {
+    
+    self.roomID = self.roomIDTextField.stringValue;
+    self.streamID = self.streamIDTextField.stringValue;
+
     self.roomIDTextField.enabled = NO;
     self.streamIDTextField.enabled = NO;
     self.hardwareDecoderCheckBox.enabled = NO;
     self.startButton.enabled = NO;
     self.stopButton.enabled = YES;
-    
-    self.roomID = self.roomIDTextField.stringValue;
-    self.streamID = self.streamIDTextField.stringValue;
     
     [self saveValue:self.roomID forKey:ZGPlayTopicPlayStreamKeyRoomID];
     [self saveValue:self.streamID forKey:ZGPlayTopicPlayStreamKeyStreamID];
@@ -125,9 +134,12 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     [self appendLog:[NSString stringWithFormat:@" 🚪 Start login room, roomID: %@", self.roomID]];
     [[ZegoExpressEngine sharedEngine] loginRoom:self.roomID user:[ZegoUser userWithUserID:userID userName:userName]];
     
-    // Start publishing
+    // Start playing stream
+    ZegoPlayerConfig *playerConfig = [[ZegoPlayerConfig alloc] init];
+    playerConfig.resourceMode = self.resourceMode;
+
+    [[ZegoExpressEngine sharedEngine] startPlayingStream:self.streamID canvas:self.playCanvas config:playerConfig];
     [self appendLog:@" 📥 Strat playing stream"];
-    [[ZegoExpressEngine sharedEngine] startPlayingStream:self.streamID canvas:self.playCanvas];
 }
 
 - (IBAction)stopButtonClick:(NSButton *)sender {
@@ -152,7 +164,7 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
 
 #pragma mark - Exit
 
-- (void)viewDidDisappear {
+- (void)viewWillDisappear {
     // Stop playing before exiting
     if (self.playerState != ZegoPlayerStateNoPlay) {
         [self appendLog:@" 📥 Stop playing stream"];
@@ -220,6 +232,15 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     [self appendLog:[NSString stringWithFormat:@" 🖼 View mode changed to: %@", playViewModeString]];
     self.playCanvas.viewMode = self.playViewMode;
     [[ZegoExpressEngine sharedEngine] startPlayingStream:self.streamID canvas:self.playCanvas];
+}
+
+- (IBAction)streamResourceModePopUpButtonAction:(NSPopUpButton *)sender {
+    self.resourceMode = sender.indexOfSelectedItem;
+
+    [self appendLog:[NSString stringWithFormat:@"🏞 Pre-set stream resource mode: %@, will be valid in next time startPlayingStream", sender.itemArray[sender.indexOfSelectedItem].title]];
+}
+
+- (IBAction)videoLayerPopUpButtonAction:(NSPopUpButton *)sender {
 }
 
 #pragma mark - ZegoEventHandler Room Event
@@ -307,7 +328,12 @@ NSString* const ZGPlayTopicPlayStreamKeyStreamID = @"kStreamID";
     NSMutableString *text = [NSMutableString string];
     [text appendFormat:@"FPS: %d fps\n", (int)quality.videoRecvFPS];
     [text appendFormat:@"Bitrate: %.2f kb/s \n", quality.videoKBPS];
+    [text appendFormat:@"P2P Delay: %d ms \n", quality.peerToPeerDelay];
+    [text appendFormat:@"RTT: %d ms \n", quality.rtt];
+    [text appendFormat:@"Delay: %d ms \n", quality.delay];
+    [text appendFormat:@"avTimestampDiff: %d ms \n", quality.avTimestampDiff];
     [text appendFormat:@"HardwareDecode: %@ \n", quality.isHardwareDecode ? @"✅" : @"❎"];
+    [text appendFormat:@"VideoCodecID: %d \n", (int)quality.videoCodecID];
     [text appendFormat:@"NetworkQuality: %@", networkQuality];
     self.playQualityLabel.stringValue = [text copy];
 }

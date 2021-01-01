@@ -50,6 +50,9 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+- (void)viewDidAppear {
     [self setupUI];
     [self createEngine];
 }
@@ -98,17 +101,18 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
 #pragma mark - Start and Stop
 
 - (IBAction)startButtonClick:(NSButton *)sender {
+    
+    self.captureDevice = nil;
+    
+    self.roomID = self.roomIDTextField.stringValue;
+    self.streamID = self.streamIDTextField.stringValue;
+
     self.roomIDTextField.enabled = NO;
     self.streamIDTextField.enabled = NO;
     self.captureSourcePopUpButton.enabled = NO;
     self.dataFormatPopUpButton.enabled = NO;
     self.startButton.enabled = NO;
     self.stopButton.enabled = YES;
-    
-    self.captureDevice = nil;
-    
-    self.roomID = self.roomIDTextField.stringValue;
-    self.streamID = self.streamIDTextField.stringValue;
     
     [self saveValue:self.roomID forKey:ZGCustomVideoCapturePublishStreamKeyRoomID];
     [self saveValue:self.streamID forKey:ZGCustomVideoCapturePublishStreamKeyStreamID];
@@ -149,7 +153,7 @@ NSString* const ZGCustomVideoCapturePublishStreamKeyStreamID = @"kStreamID";
 
 #pragma mark - Exit
 
-- (void)dealloc {
+- (void)viewWillDisappear {
     ZGLogInfo(@" 🏳️ Destroy ZegoExpressEngine");
     [ZegoExpressEngine destroyEngine:^{
         // This callback is only used to notify the completion of the release of internal resources of the engine.

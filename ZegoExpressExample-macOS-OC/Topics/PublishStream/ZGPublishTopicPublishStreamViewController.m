@@ -35,9 +35,11 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 @property (weak) IBOutlet NSPopUpButton *resolutionPopUpButton;
 @property (weak) IBOutlet NSPopUpButton *fpsPopUpButton;
 @property (weak) IBOutlet NSPopUpButton *BitratePopUpButton;
+@property (weak) IBOutlet NSPopUpButton *videoCodecIdPopUpButton;
 @property (weak) IBOutlet NSPopUpButton *viewModePopUpButton;
 @property (weak) IBOutlet NSPopUpButton *mirrorModePopUpButton;
 @property (weak) IBOutlet NSPopUpButton *audioConfigPopUpButton;
+@property (weak) IBOutlet NSPopUpButton *audioCodecIdPopUpButton;
 @property (weak) IBOutlet NSTextField *streamExtraInfoTextField;
 @property (weak) IBOutlet NSButton *setStreamExtraInfoButton;
 
@@ -64,6 +66,9 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+- (void)viewDidAppear {
     [self setupUI];
     [self createEngine];
 }
@@ -124,14 +129,17 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 #pragma mark - Start and Stop
 
 - (IBAction)startButtonClick:(NSButton *)sender {
-    self.roomIDTextField.enabled = NO;
-    self.streamIDTextField.enabled = NO;
-    self.hardwareEncoderCheckBox.enabled = NO;
-    self.startButton.enabled = NO;
-    self.stopButton.enabled = YES;
     
     self.roomID = self.roomIDTextField.stringValue;
     self.streamID = self.streamIDTextField.stringValue;
+
+    self.roomIDTextField.enabled = NO;
+    self.streamIDTextField.enabled = NO;
+    self.hardwareEncoderCheckBox.enabled = NO;
+    self.videoCodecIdPopUpButton.enabled = NO;
+    self.audioCodecIdPopUpButton.enabled = NO;
+    self.startButton.enabled = NO;
+    self.stopButton.enabled = YES;
     
     [self saveValue:self.roomID forKey:ZGPublishTopicPublishStreamKeyRoomID];
     [self saveValue:self.streamID forKey:ZGPublishTopicPublishStreamKeyStreamID];
@@ -152,6 +160,8 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     self.roomIDTextField.enabled = YES;
     self.streamIDTextField.enabled = YES;
     self.hardwareEncoderCheckBox.enabled = YES;
+    self.videoCodecIdPopUpButton.enabled = YES;
+    self.audioCodecIdPopUpButton.enabled = YES;
     self.startButton.enabled = YES;
     self.stopButton.enabled = NO;
     
@@ -169,7 +179,7 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 
 #pragma mark - Exit
 
-- (void)viewDidDisappear {
+- (void)viewWillDisappear {
     [self appendLog:@" 🔌 Stop preview"];
     [[ZegoExpressEngine sharedEngine] stopPreview];
     
@@ -268,6 +278,15 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     [[ZegoExpressEngine sharedEngine] setVideoConfig:self.videoConfig];
 }
 
+- (IBAction)videoCodecIdPopUpButtonAction:(NSPopUpButton *)sender {
+    ZegoVideoCodecID codecID = (ZegoVideoCodecID)sender.indexOfSelectedItem;
+
+    [self appendLog:[NSString stringWithFormat:@" 🛠 Video codec ID changed to: %@", sender.menu.itemArray[sender.indexOfSelectedItem].title]];
+
+    self.videoConfig.codecID = codecID;
+    [[ZegoExpressEngine sharedEngine] setVideoConfig:self.videoConfig];
+}
+
 - (IBAction)viewModePopUpButtonAction:(NSPopUpButton *)sender {
     self.previewViewMode = (ZegoViewMode)sender.indexOfSelectedItem;
     
@@ -288,9 +307,23 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
 - (IBAction)audioConfigPopUpButtonAction:(NSPopUpButton *)sender {
     self.audioConfigPreset = (ZegoAudioConfigPreset)sender.indexOfSelectedItem;
     
-    [self appendLog:[NSString stringWithFormat:@" 🔊 Audio config change to: %@", sender.menu.itemArray[sender.indexOfSelectedItem].title]];
+    [self appendLog:[NSString stringWithFormat:@" 🔊 Audio config change to: %@ (Bitrate will take effect immediately, but channel and codecID will take effect next time startPublishingStream)", sender.menu.itemArray[sender.indexOfSelectedItem].title]];
     
     [[ZegoExpressEngine sharedEngine] setAudioConfig:[ZegoAudioConfig configWithPreset:self.audioConfigPreset]];
+
+    // Update AudioCodecID UI
+    ZegoAudioCodecID codecID = [[ZegoExpressEngine sharedEngine] getAudioConfig].codecID;
+    NSMenuItem *item = self.audioCodecIdPopUpButton.itemArray[(int)codecID];
+    [self.audioCodecIdPopUpButton selectItem:item];
+}
+
+- (IBAction)audioCodecIdPopUpButtonAction:(NSPopUpButton *)sender {
+    ZegoAudioConfig *config = [[ZegoExpressEngine sharedEngine] getAudioConfig];
+
+    [self appendLog:[NSString stringWithFormat:@" 🛠 Audio codec ID change to: %@", sender.menu.itemArray[sender.indexOfSelectedItem].title]];
+
+    config.codecID = (ZegoAudioCodecID)sender.indexOfSelectedItem;
+    [[ZegoExpressEngine sharedEngine] setAudioConfig:config];
 }
 
 - (IBAction)setStreamExtraInfoButtonClick:(NSButton *)sender {
@@ -365,7 +398,9 @@ NSString* const ZGPublishTopicPublishStreamKeyStreamID = @"kStreamID";
     NSMutableString *text = [NSMutableString string];
     [text appendFormat:@"FPS: %d fps \n", (int)quality.videoSendFPS];
     [text appendFormat:@"Bitrate: %.2f kb/s \n", quality.videoKBPS];
+    [text appendFormat:@"RTT: %d ms \n", quality.rtt];
     [text appendFormat:@"HardwareEncode: %@ \n", quality.isHardwareEncode ? @"✅" : @"❎"];
+    [text appendFormat:@"VideoCodecID: %d \n", (int)quality.videoCodecID];
     [text appendFormat:@"NetworkQuality: %@", networkQuality];
     self.publishQualityLabel.stringValue = [text copy];
 }
